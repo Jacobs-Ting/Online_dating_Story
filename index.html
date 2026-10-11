@@ -1,0 +1,1624 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d0b0c">
+<title>深淵燈火｜互動式網頁小說</title>
+<meta name="description" content="兩個《暗黑破壞神：永生不朽》玩家同屬氏族「深淵燈火」，遊戲裡的性別都與現實相反。你站在上帝視角，看他們一步步靠近真相。互動式網頁小說，第一至四章。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="深淵燈火｜互動式網頁小說">
+<meta property="og:description" content="竹科工程師扮成女死靈法師，獵頭顧問扮成男野蠻人。他們每週一、四一起打骨夾，卻不知道對方是誰。">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b090a'/%3E%3Cpath d='M32 6 58 32 32 58 6 32Z' fill='none' stroke='%23c8a35a' stroke-width='3'/%3E%3Cpath d='M32 18c5 7 8 11 8 16a8 8 0 0 1-16 0c0-5 3-9 8-16Z' fill='%23d0605a'/%3E%3C/svg%3E">
+<style>
+:root{
+  --paper:#f3ecdf;--paper-2:#e9dfcd;--ink:#2b231d;--ink-soft:#6f5f50;--rust:#8a3a2c;
+  --night:#0b090a;--panel:#151113;--panel-2:#1e181b;--line:rgba(200,163,90,.22);
+  --gold:#c8a35a;--gold-hi:#e3c785;--crimson:#9e2f35;--crimson-hi:#d0605a;--bone:#ebe3d6;--ash:#8f8579;
+  --ch-clan:#d1ac5f;--ch-party:#d76a62;--ch-dm:#b996d8;--ch-notice:#e6c77a;
+  --serif:"Noto Serif TC","Source Han Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--night);overscroll-behavior:none}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+.app{height:100dvh;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .6s,color .6s}
+.app.mode-reality{background:var(--paper);color:var(--ink)}
+.app.mode-reality::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.app.mode-game,.app.mode-dm{color:var(--bone);background:radial-gradient(120% 60% at 50% -10%,#3a1519 0,#160f11 45%,var(--night) 80%)}
+.app.mode-dm{background:radial-gradient(120% 60% at 50% -10%,#2a1a2e 0,#130f14 45%,var(--night) 80%)}
+
+/* header */
+.top{flex:none;position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));border-bottom:1px solid rgba(80,60,40,.15)}
+.mode-game .top,.mode-dm .top{border-color:var(--line);background:rgba(8,6,7,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.pov{display:flex;align-items:center;gap:11px;min-width:0}
+.avatar{position:relative;width:40px;height:40px;flex:none;display:grid;place-items:center}
+.avatar svg{position:absolute;inset:0}
+.avatar span{position:relative;font-family:var(--serif);font-weight:700;font-size:16px;color:var(--rust)}
+.mode-game .avatar span,.mode-dm .avatar span{color:var(--gold-hi)}
+.pov-text{min-width:0}
+.pov-label{font-size:10px;letter-spacing:.2em;opacity:.55}
+.pov-name{font-family:var(--serif);font-size:16px;font-weight:700;letter-spacing:.12em;line-height:1.3}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+.tag{font-size:10.5px;line-height:1;padding:4px 7px;border-radius:20px;white-space:nowrap;border:1px solid currentColor;opacity:.75}
+.tag.gid{border-color:var(--crimson);color:var(--crimson)}
+.mode-game .tag.gid,.mode-dm .tag.gid{border-color:var(--gold);color:var(--gold-hi)}
+.mode-chip{flex:none;font-size:10.5px;letter-spacing:.18em;padding:7px 10px;border-radius:20px;border:1px solid currentColor;opacity:.7;white-space:nowrap}
+
+/* scene */
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;z-index:2;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;cursor:pointer}
+.stage{max-width:680px;margin:0 auto;padding:26px 16px 40px;min-height:100%;display:flex;flex-direction:column;justify-content:flex-end}
+.mode-game .stage,.mode-dm .stage{padding-top:18px}
+.mode-reality .stage{justify-content:flex-start}
+.block{animation:rise .45s both}
+.static .block,.static .block *{animation:none!important}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
+
+/* reality narration */
+.narr{font-family:var(--serif);font-size:clamp(17.5px,4.6vw,20.5px);line-height:2;letter-spacing:.04em;margin:0 0 22px;transition:opacity .5s}
+.narr p{margin:0 0 .9em}.narr p:last-child{margin-bottom:0}
+.mode-reality .narr.past{opacity:.42}
+.mode-game .narr,.mode-dm .narr{font-size:clamp(15.5px,4.2vw,17.5px);line-height:1.95;color:#d9cfc1;padding:14px 16px;margin:14px 0;border-left:2px solid rgba(200,163,90,.45);background:linear-gradient(90deg,rgba(200,163,90,.07),transparent 80%)}
+.mode-game .narr.past,.mode-dm .narr.past{opacity:.6}
+.title-card{text-align:center;padding:12vh 0 8vh}
+.title-card .no{font-size:11px;letter-spacing:.5em;color:var(--rust);margin-bottom:18px}
+.title-card h1{font-family:var(--serif);font-size:clamp(30px,9vw,44px);letter-spacing:.2em;font-weight:700;margin:0 0 18px}
+.title-card .rule{width:56px;height:1px;background:currentColor;opacity:.35;margin:0 auto 18px}
+.title-card .date{font-size:12.5px;letter-spacing:.2em;color:var(--ink-soft)}
+.title-card:not(:last-child) .start-hint{display:none}
+.title-card .start-hint{margin-top:44px;font-size:12px;letter-spacing:.2em;color:var(--ink-soft);animation:breathe 2.4s infinite}
+@keyframes breathe{50%{opacity:.35}}
+
+/* scene heading after switch */
+.scene-head{display:flex;align-items:center;gap:12px;margin:6px 0 22px;font-size:11.5px;letter-spacing:.24em;color:var(--ink-soft)}
+.scene-head::before,.scene-head::after{content:"";flex:1;height:1px;background:currentColor;opacity:.3}
+.mode-game .scene-head,.mode-dm .scene-head{color:var(--gold)}
+.win-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;margin-bottom:12px;border:1px solid var(--line);border-radius:10px;background:rgba(10,8,9,.7);font-size:11.5px;color:var(--ash)}
+.win-bar b{color:var(--gold-hi);font-weight:600;letter-spacing:.08em}
+.legend{display:flex;gap:9px}
+.legend i{font-style:normal;display:inline-flex;align-items:center;gap:4px}
+.legend i::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--c)}
+.dot-online{width:7px;height:7px;border-radius:50%;background:#6fbf73;box-shadow:0 0 6px #6fbf73;display:inline-block;margin-right:6px}
+
+/* game chat */
+.msg{font-size:15px;line-height:1.6;padding:8px 12px;margin:3px 0;border-radius:6px;background:rgba(255,255,255,.025);border-left:2px solid var(--c);animation:pop .3s both;word-break:break-word}
+.msg .ch{color:var(--c);font-size:12px;margin-right:6px;letter-spacing:.04em}
+.msg .who{font-weight:700;margin-right:8px;color:#f3eadc}
+.msg.self .who{color:var(--gold-hi)}
+.msg.notice{background:rgba(230,199,122,.08);padding:11px 12px}
+.msg.typing-line{opacity:.65;font-size:12.5px;border-left-style:dashed}
+.c-clan{--c:var(--ch-clan)}.c-party{--c:var(--ch-party)}.c-dm{--c:var(--ch-dm)}.c-notice{--c:var(--ch-notice)}
+.dots{display:inline-flex;gap:3px;margin-left:6px;vertical-align:middle}
+.dots i{width:4px;height:4px;border-radius:50%;background:currentColor;animation:blink 1.1s infinite}
+.dots i:nth-child(2){animation-delay:.18s}.dots i:nth-child(3){animation-delay:.36s}
+@keyframes blink{0%,70%,100%{opacity:.25;transform:none}35%{opacity:1;transform:translateY(-2px)}}
+
+/* dm bubbles */
+.row{display:flex;flex-direction:column;align-items:flex-start;margin:7px 0;animation:pop .3s both}
+.row.me{align-items:flex-end}
+.row .name{font-size:10.5px;color:var(--ash);margin:0 6px 3px}
+.bubble{max-width:82%;padding:10px 14px;font-size:15.5px;line-height:1.55;border-radius:18px 18px 18px 5px;background:#26202a;border:1px solid rgba(255,255,255,.06);word-break:break-word}
+.row.me .bubble{border-radius:18px 18px 5px 18px;background:linear-gradient(160deg,#5a2430,#3f1a24);border-color:rgba(208,96,90,.3)}
+.bubble.typing{display:inline-flex;align-items:center;gap:6px;color:#b6aab9;font-size:13px;padding:10px 14px;transition:opacity .9s,filter .9s}
+.bubble.typing .dots{margin-left:0}
+.bubble.typing.dark{opacity:0;filter:blur(2px)}
+
+/* composer (drafts) */
+.composer{display:flex;align-items:center;gap:8px;margin:14px 0 6px;padding:10px 12px;border-radius:24px;background:#141015;border:1px solid rgba(185,150,216,.25);min-height:46px;animation:pop .3s both}
+.composer .field{flex:1;font-size:15px;color:#efe6f4;min-height:1.5em;word-break:break-word}
+.composer .field:empty::before{content:"輸入訊息……";color:#6d6372}
+.composer .caret{display:inline-block;width:1.5px;height:1.05em;background:#d9c4ec;vertical-align:-2px;margin-left:1px;animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.composer .send{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#2a2230;color:#7b6f80;flex:none;font-size:13px}
+.composer .who-tag{font-size:10px;color:var(--ash);letter-spacing:.1em;flex:none}
+
+/* god's-eye note */
+.note{display:flex;gap:9px;align-items:flex-start;margin:-6px 0 20px;padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.65;background:rgba(138,58,44,.08);border:1px dashed rgba(138,58,44,.35);color:#6b3a2c;animation:rise .5s .25s both}
+.note svg{flex:none;margin-top:2px}
+.mode-game .note,.mode-dm .note{margin:4px 0 14px;background:rgba(200,163,90,.07);border-color:rgba(200,163,90,.35);color:#d9c08a}
+.note b{font-weight:700;letter-spacing:.1em;margin-right:4px}
+
+/* choices */
+.choice-box{margin:10px 0 18px;animation:rise .45s both}
+.prompt{font-family:var(--serif);font-size:clamp(16.5px,4.4vw,19px);line-height:1.9;margin-bottom:16px}
+.prompt p{margin:0 0 .7em}
+.mode-game .prompt,.mode-dm .prompt{color:#e5dbcd}
+.opt-label{font-size:10.5px;letter-spacing:.3em;opacity:.55;margin-bottom:8px}
+.opts{display:grid;gap:9px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:15px 16px;min-height:54px;border-radius:12px;border:1px solid rgba(110,80,50,.3);background:rgba(255,255,255,.45);font-size:15.5px;line-height:1.45;transition:transform .15s,border-color .15s,background .15s,opacity .3s}
+.opt .k{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;border:1px solid currentColor;opacity:.5}
+.opt:hover,.opt:focus-visible{outline:none;border-color:var(--rust);background:rgba(255,255,255,.75);transform:translateY(-1px)}
+.mode-game .opt,.mode-dm .opt{background:var(--panel-2);border-color:rgba(158,47,53,.45);color:var(--bone)}
+.mode-game .opt:hover,.mode-dm .opt:hover,.mode-game .opt:focus-visible,.mode-dm .opt:focus-visible{border-color:var(--gold);background:#2a2023}
+.opts.done .opt{cursor:default;transform:none;pointer-events:none}
+.opts.done .opt:not(.picked){opacity:.3}
+.opts.done .opt.picked{border-color:var(--rust);background:rgba(138,58,44,.1)}
+.mode-game .opts.done .opt.picked,.mode-dm .opts.done .opt.picked{border-color:var(--gold);background:rgba(200,163,90,.12)}
+.feedback{margin-top:14px;padding-left:14px;border-left:2px solid var(--rust);font-family:var(--serif);font-style:italic;font-size:15.5px;line-height:1.8;color:var(--ink-soft);animation:rise .4s both}
+.mode-game .feedback,.mode-dm .feedback{border-color:var(--crimson-hi);color:#c9bba9}
+.deltas{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;padding-left:16px}
+.delta{font-family:var(--sans);font-style:normal;font-size:11px;padding:3px 8px;border-radius:20px;background:rgba(0,0,0,.06);animation:pop .35s both}
+.mode-game .delta,.mode-dm .delta{background:rgba(255,255,255,.07)}
+
+/* dual ending */
+.dual{display:grid;gap:12px;margin:10px 0 18px}
+@media(min-width:640px){.dual{grid-template-columns:1fr 1fr}}
+.pane{border:1px solid rgba(185,150,216,.2);border-radius:14px;padding:12px;background:rgba(14,10,15,.7);transition:filter 1.2s,opacity 1.2s}
+.pane-head{display:flex;justify-content:space-between;font-size:11px;color:var(--ash);letter-spacing:.08em;margin-bottom:10px}
+.pane-head b{color:var(--gold-hi);font-weight:600}
+.pane .composer{margin:10px 0 0}
+.dual.dark .pane{filter:saturate(.4) brightness(.75)}
+.ending-line{font-family:var(--serif);font-size:clamp(18px,5vw,22px);letter-spacing:.12em;text-align:center;line-height:2;margin:18px 0 8px;color:#e3d7c6;animation:rise 1.2s both}
+
+/* footer */
+.bar{flex:none;position:relative;z-index:6;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:8px 10px calc(8px + var(--safe-b));border-top:1px solid rgba(80,60,40,.14)}
+.mode-game .bar,.mode-dm .bar{border-color:var(--line);background:rgba(8,6,7,.7)}
+.progress{position:absolute;left:0;top:-1px;height:2px;background:var(--rust);transition:width .5s}
+.mode-game .progress,.mode-dm .progress{background:var(--crimson-hi)}
+.hint{text-align:center;font-size:11.5px;letter-spacing:.14em;opacity:.6;user-select:none;cursor:pointer;padding:10px 0;transition:opacity .3s}
+.hint.off{opacity:0;pointer-events:none}
+.ghost{border:0;background:transparent;font-size:11.5px;padding:10px 8px;opacity:.55;min-height:44px}
+.ghost:hover{opacity:1}
+.meter-btn{display:flex;align-items:center;gap:6px;border:1px solid rgba(110,80,50,.3);background:rgba(255,255,255,.4);border-radius:22px;padding:8px 12px;min-height:44px;font-size:12px;position:relative}
+.mode-game .meter-btn,.mode-dm .meter-btn{border-color:var(--line);background:var(--panel-2)}
+.meter-btn.pulse{animation:pulse .8s}
+@keyframes pulse{40%{transform:scale(1.08);box-shadow:0 0 0 6px rgba(200,163,90,.18)}}
+.meter-btn svg{display:block}
+.panel{position:absolute;right:10px;bottom:calc(100% + 10px);width:min(260px,calc(100vw - 20px));padding:14px 14px 10px;border-radius:14px;background:#151113;color:var(--bone);border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.45);transform-origin:bottom right;transition:opacity .2s,transform .2s}
+.panel.closed{opacity:0;transform:scale(.94) translateY(6px);pointer-events:none}
+.panel h3{margin:0 0 4px;font-size:11px;letter-spacing:.24em;color:var(--gold);font-weight:600}
+.m-row{display:grid;grid-template-columns:20px 1fr 26px;gap:9px;align-items:center;margin:11px 0}
+.m-row .lab{font-size:12.5px;display:flex;justify-content:space-between}
+.m-row .lab small{color:var(--ash);font-size:10.5px}
+.track{height:4px;border-radius:4px;background:#332b2e;margin-top:5px;overflow:hidden}
+.track i{display:block;height:100%;width:0;border-radius:4px;transition:width .6s}
+.v{text-align:right;font-variant-numeric:tabular-nums;font-size:14px;font-weight:600}
+.k-bond{--m:#c8a35a}.k-slip{--m:#d0605a}.k-clue{--m:#8fb3c4}
+.track i{background:var(--m)}
+.float{position:absolute;right:6px;bottom:100%;font-size:11.5px;font-weight:700;white-space:nowrap;color:var(--m);pointer-events:none;animation:floatUp 1.6s both}
+@keyframes floatUp{0%{opacity:0;transform:translateY(6px)}20%{opacity:1}100%{opacity:0;transform:translateY(-34px)}}
+
+/* veil (pov switch) */
+.veil{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:24px;text-align:center;opacity:0;pointer-events:none;transition:opacity .38s}
+.veil.show{opacity:1;pointer-events:auto}
+.veil.v-reality{background:var(--paper);color:var(--ink)}
+.veil.v-game,.veil.v-dm,.veil.v-both{background:radial-gradient(circle at 50% 30%,#2c1216,#0b090a 70%);color:var(--bone)}
+.veil .k{font-size:11px;letter-spacing:.4em;opacity:.6}
+.veil .nm{font-family:var(--serif);font-size:clamp(28px,8vw,38px);letter-spacing:.24em;font-weight:700;margin:16px 0 12px}
+.veil .tg{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.veil .tg span{font-size:11.5px;padding:5px 10px;border-radius:20px;border:1px solid currentColor;opacity:.75}
+.veil .sub{margin-top:26px;font-family:var(--serif);font-size:15px;letter-spacing:.14em;opacity:.8}
+
+/* end overlay + modal */
+.overlay{position:fixed;inset:0;z-index:60;display:none;overflow-y:auto;padding:24px 16px calc(24px + var(--safe-b));background:radial-gradient(circle at 50% 0%,#3a171c,#0b090a 62%);color:var(--bone)}
+.overlay.show{display:block;animation:fadeIn .8s both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.end-card{max-width:540px;margin:4vh auto 0;text-align:center}
+.end-card .k{font-size:11px;letter-spacing:.4em;color:var(--gold)}
+.end-card h2{font-family:var(--serif);font-size:clamp(26px,7vw,34px);letter-spacing:.2em;margin:12px 0 4px}
+.end-card .last{font-family:var(--serif);color:#cbbca9;line-height:1.9;margin:14px 0 22px}
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.score{padding:14px 6px 12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.score span{font-size:11.5px;color:var(--ash)}
+.score b{display:block;font-size:28px;margin:4px 0 8px;color:var(--m);font-variant-numeric:tabular-nums}
+.score .track{margin:0 8px}
+.hook{font-family:var(--serif);font-size:16.5px;line-height:1.9;color:#eadfcf;margin:24px 4px 6px}
+.hook2{font-size:13.5px;line-height:1.8;color:#b5a796;margin:0 4px}
+.recap{text-align:left;margin:24px 0 0;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.25)}
+.recap h4{margin:0 0 8px;font-size:11px;letter-spacing:.22em;color:var(--gold);font-weight:600}
+.recap ul{margin:0;padding:0;list-style:none}
+.recap li{font-size:13px;line-height:1.6;padding:6px 0;border-top:1px solid rgba(255,255,255,.05);display:flex;gap:10px}
+.recap li:first-child{border-top:0}
+.recap li span{color:var(--ash);flex:none;width:5.5em}
+.recap .saved{font-size:11.5px;color:#8fb3c4;margin-top:8px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0 10px}
+.btn{min-height:50px;border-radius:12px;border:1px solid #7a5a43;background:#211a1c;padding:12px;font-size:14.5px}
+.btn.primary{background:var(--crimson);border-color:#c0555b}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn small{display:block;font-size:10.5px;opacity:.75;margin-top:2px}
+.modal{position:fixed;inset:0;z-index:80;display:none;place-items:center;padding:20px;background:rgba(0,0,0,.55)}
+.modal.show{display:grid}
+.modal-card{width:min(360px,100%);padding:22px 18px 16px;border-radius:16px;background:#171214;color:var(--bone);border:1px solid var(--line);text-align:center}
+.modal-card p{line-height:1.7;font-size:14.5px;margin:0 0 18px;color:#d6cbbd}
+.c-voice{--c:var(--ch-voice)}
+:root{--ch-voice:#7fc7a0}
+.msg .t{float:right;font-size:10.5px;color:var(--ash);margin-left:8px;font-variant-numeric:tabular-nums;line-height:2.1}
+.card{border:1px solid var(--line);border-radius:12px;background:rgba(10,8,9,.78);padding:12px 14px;margin:12px 0}
+.card h5{margin:0 0 10px;font-size:11px;letter-spacing:.2em;color:var(--gold);font-weight:600}
+.roster{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.roster div{font-size:14px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.035);color:#f0e7da}
+.roster small{display:block;font-size:10.5px;color:var(--ash);margin-top:2px}
+.roster .hl{box-shadow:inset 0 0 0 1px rgba(200,163,90,.55);background:rgba(200,163,90,.08)}
+.card-foot{margin-top:9px;font-size:10.5px;color:var(--ash);text-align:right;letter-spacing:.1em}
+.vrow{display:flex;justify-content:space-between;align-items:center;padding:7px 4px;font-size:14px;border-top:1px solid rgba(255,255,255,.05)}
+.vrow:first-of-type{border-top:0}
+.vrow.lead span:first-child{color:var(--gold-hi)}
+.mic{width:26px;height:26px;border-radius:50%;display:grid;place-items:center}
+.mic.on{color:#6fbf73}.mic.off{color:#d0605a;background:rgba(208,96,90,.1)}
+.mic.lit{color:#b8ffc4;background:rgba(111,191,115,.22);animation:ring 1s infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(111,191,115,.55)}100%{box-shadow:0 0 0 9px rgba(111,191,115,0)}}
+.hud{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+.side .nm{font-size:11px;color:var(--ash);letter-spacing:.08em}
+.crys{height:6px;border-radius:6px;background:#2d2427;overflow:hidden;margin:6px 0 4px}
+.crys i{display:block;height:100%;border-radius:6px;transition:width .8s}
+.ours .crys i{background:linear-gradient(90deg,#a8843f,#e3c785)}
+.theirs{text-align:right}.theirs .crys i{margin-left:auto;background:linear-gradient(90deg,#d0605a,#9e2f35)}
+.cv{font-size:11.5px;color:#e5dbcd;font-variant-numeric:tabular-nums}
+.towers{font-size:11px;letter-spacing:3px;margin-top:3px;color:var(--gold)}.theirs .towers{color:var(--crimson-hi)}
+.clock{text-align:center;font-size:19px;font-weight:600;color:var(--gold-hi);font-variant-numeric:tabular-nums}
+.clock small{display:block;font-size:10px;font-weight:400;color:var(--ash);letter-spacing:.12em;margin-top:2px}
+.hud-cap{text-align:center;margin-top:10px;font-size:12px;letter-spacing:.2em;color:var(--gold)}
+.hud-card.win{border-color:rgba(227,199,133,.6);box-shadow:0 0 30px rgba(200,163,90,.15)}
+.hud-card.win .hud-cap{font-family:var(--serif);font-size:20px;letter-spacing:.5em;color:var(--gold-hi)}
+.carry{border:1px solid rgba(110,80,50,.28);border-radius:12px;padding:14px 16px;background:rgba(255,255,255,.42);margin:0 0 26px;font-size:13.5px}
+.carry h5{margin:0 0 8px;font-size:11px;letter-spacing:.22em;color:var(--rust);font-weight:600}
+.carry .vals{display:flex;gap:16px;margin:4px 0 10px;font-size:12.5px}
+.carry .vals b{font-size:17px;color:var(--m);filter:brightness(.8)}
+.carry ul{margin:0;padding:0;list-style:none}
+.carry li{display:flex;gap:10px;padding:5px 0;border-top:1px solid rgba(110,80,50,.12);line-height:1.6}
+.carry li span{flex:none;width:5.5em;color:var(--ink-soft)}
+.replay{position:relative;display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:#120e10;border:1px solid var(--line)}
+.replay b{display:block;font-size:13.5px;color:#f0e7da;font-weight:600}.replay small{font-size:11px;color:var(--ash)}
+.play{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--crimson);color:#fff;transition:box-shadow .4s,transform .4s}
+.replay .cursor{position:absolute;left:70%;top:70%;transition:left 1.6s cubic-bezier(.3,.7,.2,1),top 1.6s cubic-bezier(.3,.7,.2,1)}
+.dual.hover .replay .cursor{left:34px;top:30px}
+.dual.hover .play{box-shadow:0 0 0 6px rgba(208,96,90,.25);transform:scale(1.06)}
+.mode-reality .msg{background:rgba(0,0,0,.04);color:var(--ink)}
+.mode-reality .msg .who{color:var(--ink)}
+.mode-reality .msg.c-clan{--c:#9a7428}.mode-reality .msg.c-party{--c:#a8443d}
+.raid-top{display:flex;justify-content:space-between;align-items:baseline}
+.raid-top h5{margin:0}.raid-top span{font-size:12px;color:var(--gold-hi);font-variant-numeric:tabular-nums}
+.raid .track{margin:9px 0 6px;--m:var(--gold)}
+.raid ul{list-style:none;margin:0;padding:0}
+.raid li{display:flex;align-items:center;gap:10px;padding:7px 2px;font-size:14px;border-top:1px solid rgba(255,255,255,.05);color:#9d9387}
+.raid li:first-child{border-top:0}
+.raid li small{margin-left:auto;font-size:10.5px;color:var(--ash)}
+.raid .bi{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:10.5px;border:1px solid currentColor;flex:none}
+.raid li.done{color:#e5dbcd}.raid li.done .bi{background:var(--gold);border-color:var(--gold);color:#1a1214}
+.raid li.now{color:var(--gold-hi)}.raid li.now .bi{border-color:var(--crimson-hi);color:var(--crimson-hi);animation:ring 1.4s infinite}
+.raid-foot{display:flex;justify-content:space-between;gap:8px;margin-top:9px;font-size:12px;letter-spacing:.12em;color:var(--gold)}
+.raid-foot span{font-size:10.5px;letter-spacing:.04em;color:var(--ash)}
+.raid.win{border-color:rgba(227,199,133,.6);box-shadow:0 0 30px rgba(200,163,90,.15)}
+.cal{border-radius:12px;background:#120e10;border:1px solid var(--line);padding:10px 12px}
+.cal-day{font-size:11px;color:var(--ash);letter-spacing:.14em;margin-bottom:6px}
+.cal-row{display:flex;gap:12px;align-items:baseline;padding:8px 0;border-top:1px solid rgba(255,255,255,.05);animation:pop .5s both}
+.cal-row span{flex:none;width:3.4em;font-size:12px;color:var(--ash);font-variant-numeric:tabular-nums}
+.cal-row b{font-weight:500;font-size:14px;color:#ebe2d5}
+.cal-row.hl b{color:var(--gold-hi)}
+.dual.match .cal-row.hl{background:linear-gradient(90deg,rgba(200,163,90,.16),transparent);box-shadow:inset 2px 0 0 var(--gold);transition:background .8s}
+.event{position:relative;overflow:hidden;border-color:rgba(227,199,133,.5);background:linear-gradient(160deg,rgba(60,24,28,.85),rgba(12,9,10,.9))}
+.ev-mark{position:absolute;right:-6px;top:-18px;font-family:var(--serif);font-size:84px;font-weight:700;color:rgba(200,163,90,.08);letter-spacing:-.04em;pointer-events:none}
+.event h5{font-family:var(--serif);font-size:17px;letter-spacing:.14em;color:var(--gold-hi);margin-bottom:12px}
+.ev-row{display:flex;gap:12px;padding:8px 0;border-top:1px solid rgba(255,255,255,.06);font-size:14px}
+.ev-row span{flex:none;width:3em;color:var(--ash);font-size:12.5px}
+.ev-row b{font-weight:500;color:#efe5d6}
+.ev-btn{margin-top:12px;text-align:center;padding:11px;border-radius:10px;background:var(--crimson);color:#fff;font-size:14px;letter-spacing:.3em}
+.su-row{display:flex;justify-content:space-between;padding:8px 4px;border-top:1px solid rgba(255,255,255,.05);font-size:14px;animation:pop .45s both;transition:background .6s,opacity .6s}
+.su-row b{font-weight:500;font-size:12.5px;color:var(--ash)}
+.su-row.yes b{color:#8fd19a}
+.su-row.lead span{color:var(--gold-hi)}
+.signup.focus .su-row:not(.lead){opacity:.4}
+.signup.focus .su-row.lead{background:linear-gradient(90deg,rgba(200,163,90,.16),transparent);box-shadow:inset 2px 0 0 var(--gold)}
+.left-tools{display:flex}
+.toc-card{text-align:left}
+.toc-card h3{margin:0 0 12px;font-family:var(--serif);font-size:18px;letter-spacing:.2em;color:var(--gold-hi);text-align:center}
+.toc-card ul{list-style:none;margin:0 0 12px;padding:0}
+.toc-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:12px;margin:0 0 8px;border-radius:10px;border:1px solid rgba(200,163,90,.22);background:#1e181b;min-height:54px}
+.toc-item:disabled{opacity:.4;cursor:not-allowed}
+.toc-item .no{flex:none;font-size:11px;color:var(--gold);letter-spacing:.12em;width:3.6em}
+.toc-item b{font-family:var(--serif);font-weight:600;font-size:15.5px;letter-spacing:.08em;color:#efe5d6}
+.toc-item small{margin-left:auto;font-size:11px;color:var(--ash);white-space:nowrap}
+.toc-item.cur{border-color:var(--gold)}
+.toc-item.done small{color:#8fd19a}
+.toc-note{font-size:12px;line-height:1.7;color:var(--ash);margin:0 0 14px}
+@media(max-width:380px){.ghost{padding:10px 5px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="app mode-reality" id="app">
+  <header class="top">
+    <div class="pov">
+      <div class="avatar" aria-hidden="true">
+        <svg viewBox="0 0 40 40" width="40" height="40"><path d="M20 2 L38 20 L20 38 L2 20 Z" fill="none" stroke="currentColor" stroke-opacity=".45"/><path d="M20 7 L33 20 L20 33 L7 20 Z" fill="currentColor" fill-opacity=".06"/></svg>
+        <span id="povInitial">林</span>
+      </div>
+      <div class="pov-text">
+        <div class="pov-label">目前視角</div>
+        <div class="pov-name" id="povName">林致遠</div>
+        <div class="tags"><span class="tag" id="tagReal"></span><span class="tag gid" id="tagGid"></span></div>
+      </div>
+    </div>
+    <div class="mode-chip" id="modeChip">現實模式</div>
+  </header>
+
+  <main class="scroll" id="scroll" aria-live="polite"><div class="stage" id="stage"></div></main>
+
+  <footer class="bar" id="bar">
+    <div class="progress" id="progress"></div>
+    <div class="left-tools"><button class="ghost" id="tocBtn" type="button">目錄</button><button class="ghost" id="clearBtn" type="button">清除存檔</button></div>
+    <div class="hint" id="hint">點擊畫面或按空白鍵繼續</div>
+    <button class="meter-btn" id="meterBtn" type="button" aria-expanded="false" aria-controls="panel" aria-label="隱藏數值">
+      <svg width="15" height="15" viewBox="0 0 16 16" class="k-bond"><circle cx="5.5" cy="8" r="4" fill="none" stroke="#c8a35a" stroke-width="1.6"/><circle cx="10.5" cy="8" r="4" fill="none" stroke="#c8a35a" stroke-width="1.6"/></svg>
+      <svg width="15" height="15" viewBox="0 0 16 16"><path d="M8 1.5 6 6l3 2-2.5 6.5" fill="none" stroke="#d0605a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="15" height="15" viewBox="0 0 16 16"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8Z" fill="none" stroke="#8fb3c4" stroke-width="1.5"/><circle cx="8" cy="8" r="2" fill="#8fb3c4"/></svg>
+      <span id="floatHost"></span>
+    </button>
+    <div class="panel closed" id="panel" role="region" aria-label="隱藏數值">
+      <h3>隱藏數值</h3>
+      <div class="m-row k-bond"><svg width="18" height="18" viewBox="0 0 16 16"><circle cx="5.5" cy="8" r="4" fill="none" stroke="#c8a35a" stroke-width="1.5"/><circle cx="10.5" cy="8" r="4" fill="none" stroke="#c8a35a" stroke-width="1.5"/></svg><div><div class="lab">默契值<small>配合與信任</small></div><div class="track"><i id="barBond"></i></div></div><div class="v" id="valBond">0</div></div>
+      <div class="m-row k-slip"><svg width="18" height="18" viewBox="0 0 16 16"><path d="M8 1.5 6 6l3 2-2.5 6.5" fill="none" stroke="#d0605a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div><div class="lab">破綻值<small>對方起疑的可能</small></div><div class="track"><i id="barSlip"></i></div></div><div class="v" id="valSlip">0</div></div>
+      <div class="m-row k-clue"><svg width="18" height="18" viewBox="0 0 16 16"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8Z" fill="none" stroke="#8fb3c4" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="#8fb3c4"/></svg><div><div class="lab">現實線索值<small>你看穿了多少</small></div><div class="track"><i id="barClue"></i></div></div><div class="v" id="valClue">0</div></div>
+    </div>
+  </footer>
+</div>
+
+<div class="veil" id="veil"><div><div class="k">視角切換</div><div class="nm" id="veilName"></div><div class="tg" id="veilTags"></div><div class="sub" id="veilSub"></div></div></div>
+
+<section class="overlay" id="endOverlay" aria-label="本章總結">
+  <div class="end-card">
+    <div class="k" id="endNo">第一章　完</div>
+    <h2 id="endTitle">九點整，上線</h2>
+    <p class="last" id="endLast"></p>
+    <div class="scores">
+      <div class="score k-bond"><span>默契值</span><b id="sBond">0</b><div class="track"><i id="sBarBond"></i></div></div>
+      <div class="score k-slip"><span>破綻值</span><b id="sSlip">0</b><div class="track"><i id="sBarSlip"></i></div></div>
+      <div class="score k-clue"><span>現實線索</span><b id="sClue">0</b><div class="track"><i id="sBarClue"></i></div></div>
+    </div>
+    <p class="hook" id="hook"></p>
+    <p class="hook2" id="hook2"></p>
+    <div class="recap"><h4 id="recapTitle">帶入下一章的狀態</h4><ul id="recapList"></ul><div class="saved" id="savedNote"></div></div>
+    <div class="actions">
+      <button class="btn" id="replayBtn" type="button">重玩本章</button>
+      <button class="btn primary" id="nextBtn" type="button" disabled>第二章<small>即將推出</small></button>
+    </div>
+    <button class="ghost" id="prevBtn" type="button" style="color:#b5a796" hidden></button>
+    <button class="ghost" id="tocBtn2" type="button" style="color:#b5a796">目錄</button>
+    <button class="ghost" id="clearBtn2" type="button" style="color:#b5a796">清除存檔</button>
+  </div>
+</section>
+
+<div class="modal" id="toc" role="dialog" aria-modal="true" aria-labelledby="tocTitle">
+  <div class="modal-card toc-card"><h3 id="tocTitle">目錄</h3><ul id="tocList"></ul><p class="toc-note">完成上一章，才會解鎖下一章：你的選擇與數值會一路帶下去。</p>
+  <button class="btn" id="tocClose" type="button" style="width:100%">關閉</button></div>
+</div>
+<noscript><p style="position:fixed;inset:0;display:grid;place-items:center;background:#0b090a;color:#ebe3d6;margin:0;padding:24px;text-align:center;font-family:sans-serif">這是一部互動小說，需要開啟 JavaScript 才能閱讀。</p></noscript>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalText">
+  <div class="modal-card"><p id="modalText">確定清除進度、數值與帶入第二章的紀錄，從第一章開頭重新開始？</p>
+  <div class="actions" style="margin:0"><button class="btn" id="modalNo" type="button">取消</button><button class="btn primary" id="modalYes" type="button">清除</button></div></div>
+</div>
+
+<!--
+  ===== 劇情資料（與程式邏輯分離）=====
+  每章一個 <script type="application/json">，id 為 chapter-<n>，並在下方 CHAPTER_IDS 登記。
+  節點欄位：
+    id        唯一字串
+    type      narration | chat | dm | choice | switch | chapterEnd
+    speaker   說話者（narration 填「旁白」或視角人物；chat / dm 填遊戲 ID）
+    channel   現實 | 氏族 | 隊伍 | 公告 | 私訊
+    text      內文；以空行 \n\n 分段
+    choices   [{ text, feedback, effects:{bond,slip,clue}, next, recap, draft?, erase? }]
+  選用欄位：
+    next      指定下一個節點（省略則接陣列中的下一個）
+    pov/mode  switch 專用：yuan | qing | both；reality | game | dm
+    effects   非選擇節點也可加數值（進入節點時套用一次）
+    note      「上帝視角」提示，只有讀者看得到
+    alt       依條件替換文字／提示：[{ when:{ c1:2 }, text, note }]；跨章 { "ch1.c1":2 }；數值 { "var:bond":{gte:10} }
+    typing    dm 節點設 true 時，只顯示「正在輸入中」
+    pause     chat / dm 節點設 true 時，不自動接續下一則訊息
+    style     narration 樣式："title" 章名卡｜"carry" 上一章狀態卡｜"roster" 出戰名單（roster:[{name,role}]）
+              ｜"voice" 語音頻道（voice:{members,off,lit}）｜"hud" 戰況（hud:{time,ours,theirs,win}）
+    time      chat 訊息時間戳
+    recapLabel choice 節點在章末回顧中的標籤
+  章節欄位：meterMax、endLine、nextTeaser、hooks:{lead:[{when,text}],value:[…]}、drafts、carryFrom
+  chapterEnd 可設 scene："dualTyping"（雙輸入框）｜"replay"（回放）｜"calendar"（雙行事曆，calendar:{date,yuan:[{time,text,when,hl}],qing:[…]}）
+  narration 另有 "event" 活動公告卡（event:[{k,v}]）；chapterEnd 另有 "signup" 報名名單（signup:{title,rows:[{name,status,when}]}）
+  narration 另有 "raid" 副本進度（raid:{diff,bosses,cleared,win,time}）
+  nextIf    依條件跳轉：[{ when:{ c2:0 }, next:"a1" }]，都不符合時走 next
+  新章節可設 "carryFrom":"ch1"，開場會自動承接上一章的數值。
+-->
+<script type="application/json" id="chapter-1">
+{
+  "id": "ch1",
+  "no": "第一章",
+  "title": "九點整，上線",
+  "startPov": "yuan",
+  "startMode": "reality",
+  "cast": {
+    "yuan": {
+      "name": "林致遠",
+      "initial": "林",
+      "real": "32 歲・竹科資深硬體工程師",
+      "gid": "薇歐拉",
+      "gclass": "死靈法師・女性角色"
+    },
+    "qing": {
+      "name": "沈若晴",
+      "initial": "沈",
+      "real": "29 歲・獵頭顧問 Rachel",
+      "gid": "鐵拳老王",
+      "gclass": "野蠻人・男性角色"
+    },
+    "both": {
+      "name": "雙視角",
+      "initial": "∞",
+      "real": "林致遠 ／ 沈若晴",
+      "gid": "薇歐拉 ／ 鐵拳老王",
+      "gclass": ""
+    }
+  },
+  "meterMax": 20,
+  "nextTeaser": "第二章",
+  "endLine": "「對方正在輸入中……」\n然後，又同時暗了下去。",
+  "drafts": {
+    "yuan": "c4a",
+    "qing": "c4b"
+  },
+  "hooks": {
+    "lead": [
+      {
+        "when": {
+          "c4a": 1,
+          "c4b": 1
+        },
+        "text": "兩個人在同一秒，寫下了同一句實話的兩種說法。只差一個 Enter。"
+      },
+      {
+        "when": {
+          "c4a": 0,
+          "c4b": 0
+        },
+        "text": "同一個問題，在兩個輸入框裡等著被送出。週六晚上，總得有人先開口。"
+      },
+      {
+        "when": {
+          "c4a": 2,
+          "c4b": 2
+        },
+        "text": "兩個輸入框，同時歸零。他們都以為，先退一步的只有自己。"
+      },
+      {
+        "when": {},
+        "text": "一個人往前了一步，一個人退了半步——而對方，都沒有看見。"
+      }
+    ],
+    "value": [
+      {
+        "when": {
+          "var:slip": {
+            "gte": 12
+          }
+        },
+        "text": "破綻已經裂開一道縫。下一次開口，也許就再也藏不住。"
+      },
+      {
+        "when": {
+          "var:clue": {
+            "gte": 8
+          }
+        },
+        "text": "你已經看穿了：每一條線索都指向同一個人。只是他們兩個，還隔著一支麥克風。"
+      },
+      {
+        "when": {
+          "var:bond": {
+            "gte": 7
+          }
+        },
+        "text": "他們還不知道彼此是誰，卻已經把最脆弱的位置，交給了對方。"
+      },
+      {
+        "when": {},
+        "text": "兩個人都守住了角色，卻沒發現，現實早已替他們排進同一支隊伍。"
+      }
+    ]
+  },
+  "nodes": [
+    {"id": "title", "type": "narration", "style": "title", "speaker": "旁白", "channel": "現實", "text": "九點整，上線", "label": "2026 年 10 月 7 日"},
+    {"id": "r1", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "示波器上的波形又抖了一下。\n\n林致遠把探棒從測試點移開，揉了揉眼睛。EVB 上那顆新晶片的電源時序還是不對，core 電壓比 IO 電壓晚爬升了兩毫秒，剛好卡在規格書的邊緣。這是這週第四次重來。"},
+    {"id": "r2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "PM 下午在群組裡丟了一句：「客戶週五要看 demo，這週能 bring-up 嗎？」後面附了一個微笑貼圖。\n\n他盯著那個貼圖看了很久，最後只回了兩個字：「盡量。」"},
+    {"id": "r3", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "實驗室裡只剩他一個人。空調很冷，機台風扇嗡嗡作響。\n\n林致遠，三十二歲，在這間竹科 IC 設計公司待了第六年。職稱變成資深硬體工程師，薪水漲了，頭髮少了，生活的形狀倒是沒什麼變。"},
+    {"id": "r4", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "手機震了一下。不是 PM，是一則 LinkedIn 通知。\n\n「林先生您好，我是瀚智人才顧問的 Rachel，目前有一個非常適合您背景的職缺……」"},
+    {"id": "c1", "type": "choice", "speaker": "林致遠", "channel": "現實", "text": "手機螢幕還亮著。致遠怎麼處理這則訊息？", "choices": [{"text": "直接滑掉", "feedback": "這個月第三個了。他連點開的力氣都不想浪費。", "effects": {"bond": 0, "slip": 0, "clue": 1}, "next": "r5", "recap": "直接滑掉，連點都沒點開"}, {"text": "點開，已讀不回", "feedback": "至少讓對方知道他看過了——也知道他沒有興趣。", "effects": {"bond": 0, "slip": 1, "clue": 2}, "next": "r5", "recap": "已讀不回"}, {"text": "回一句「目前沒興趣」", "feedback": "五個字。已經是他今天對陌生人最大的耐心。", "effects": {"bond": 1, "slip": 2, "clue": 2}, "next": "r5", "recap": "回了一句「目前沒興趣」"}], "recapLabel": "LinkedIn"},
+    {"id": "r5", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "前天還有一個獵頭直接打到公司座機，主管剛好站在旁邊。他只能壓低聲音說：「我在開會。」掛掉後，整個下午都覺得主管看他的眼神怪怪的。\n\n八點四十分，他走出研發大樓。新竹的風把識別證吹得翻了好幾圈。"},
+    {"id": "r6", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "回竹北的路上，他買了一碗泡麵和一瓶無糖綠茶。\n\n八點五十二分。還來得及。"},
+    {"id": "s1", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "信義區，同一時間", "pov": "qing", "mode": "reality"},
+    {"id": "q1", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "沈若晴掛掉今天第二十七通電話時，辦公室的燈已經關了一半。\n\n「目前沒有考慮換工作。」「你怎麼拿到我電話的？」「我在忙，寄 email 給我。」\n\n這就是獵頭的日常：在一百個說不的人裡，找到那一個願意聽你說完的人。"},
+    {"id": "q2", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "她在瀚智人才顧問做了三年，英文名字叫 Rachel，專做半導體和 IC 設計招募。手上最急的 case，要找一位有電源設計和 bring-up 經驗的資深硬體工程師。", "effects": {"clue": 1}, "note": "瀚智人才顧問、Rachel——就是剛剛那則 LinkedIn 訊息的署名。"},
+    {"id": "q3", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "最符合條件的那個人，她已經聯絡了三次。LinkedIn 已讀不回，email 石沉大海，前天打到他公司，對方只用很低的聲音丟下一句「我在開會」就掛了。\n\n林致遠。竹科某 IC 設計公司，資深硬體工程師，六年年資。", "alt": [{"when": {"c1": 0}, "text": "最符合條件的那個人，她已經聯絡了三次。LinkedIn 連「已讀」都沒有，email 石沉大海，前天打到他公司，對方只用很低的聲音丟下一句「我在開會」就掛了。\n\n林致遠。竹科某 IC 設計公司，資深硬體工程師，六年年資。"}, {"when": {"c1": 2}, "text": "最符合條件的那個人，她已經聯絡了三次。email 石沉大海，前天打到他公司，對方只用很低的聲音丟下一句「我在開會」就掛了。\n\nLinkedIn 倒是剛剛有了回音——「目前沒興趣。」五個字。她盯著看了兩秒，反而笑了：至少是活的。\n\n林致遠。竹科某 IC 設計公司，資深硬體工程師，六年年資。"}], "effects": {"clue": 1}, "note": "「我在開會」——你幾分鐘前，才在致遠的回憶裡聽過這句話。"},
+    {"id": "q4", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "她看著照片裡穿灰色 polo 衫、像被硬拉去拍證件照的男人。\n\n「竹科工程師都一個樣。」她小聲嘀咕，關掉電腦。\n\n二十九歲，單身，住永和。她推開同事的酒局，不是不想去，而是今晚有更重要的事。"},
+    {"id": "q5", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "捷運上，她看了一眼手機。八點四十七分。\n\n推開家門，她踢掉高跟鞋，把頭髮隨手綁成馬尾，打開電腦。桌面上那個遊戲圖示，在昏暗房間裡亮起暗紅色的光。"},
+    {"id": "s2", "type": "switch", "speaker": "林致遠", "channel": "氏族", "text": "九點整，上線", "pov": "yuan", "mode": "game"},
+    {"id": "g1", "type": "narration", "speaker": "旁白", "channel": "氏族", "text": "登入畫面淡出。銀白長髮、身穿黑色法袍的女性死靈法師站在城鎮廣場中央。\n\n她叫「薇歐拉」。戰力在氏族排第五，骷髏大軍總是整整齊齊地排在身後。"},
+    {"id": "g2", "type": "chat", "speaker": "夜梟", "channel": "氏族", "text": "老王來了沒"},
+    {"id": "g3", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "來了來了　誰在叫爸爸"},
+    {"id": "g4", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "你家薇歐拉在等你啦　快組隊"},
+    {"id": "g5", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "少廢話　薇歐拉組我"},
+    {"id": "g6", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "邀請來自一個肌肉虬結、扛著兩把巨斧的男性野蠻人。鬍子濃密，站姿像一座山。\n\n鐵拳老王是主坦，永遠第一個衝進怪堆；薇歐拉站在後排，召喚骷髏、施放詛咒，很少說話。兩人一前一後，配合了半年。", "note": "那座山，四十分鐘前才在捷運上踢掉高跟鞋。"},
+    {"id": "g7", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "今天這隻王會招小怪　你骷髏先清小的　我拉住大的"},
+    {"id": "g8", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "好"},
+    {"id": "g9", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "血量低就退後　不要逞強"},
+    {"id": "g10", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "你才是，上次你吃太多傷害差點倒"},
+    {"id": "g11", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "那是故意的　讓你有表現機會"},
+    {"id": "g12", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "林致遠忍不住笑出聲。房間裡只有他一個人，笑聲顯得有點突兀。\n\n那晚的團打得很順。最後一擊落下時，隊伍頻道刷了一排「GG」。"},
+    {"id": "g13", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "夫妻同心　其利斷金"},
+    {"id": "g14", "type": "chat", "speaker": "夜梟", "channel": "氏族", "text": "老王什麼時候娶薇歐拉"},
+    {"id": "g15", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "你們很煩欸　我妹啦"},
+    {"id": "c2", "type": "choice", "speaker": "林致遠", "channel": "氏族", "text": "我妹。\n\n林致遠盯著那兩個字，手指停在鍵盤上。", "choices": [{"text": "送出「……」", "feedback": "三個點，比任何一句反駁都更像在意。", "effects": {"bond": 1, "slip": 2, "clue": 0}, "next": "c2a1", "recap": "回了「……」"}, {"text": "回「誰是你妹」", "feedback": "訊息送出的瞬間，他才發現這句話有點太快。", "effects": {"bond": 2, "slip": 3, "clue": 0}, "next": "c2b1", "recap": "回嗆「誰是你妹」"}, {"text": "假裝沒看到", "feedback": "他沒有回。只是游標在輸入框裡，多停了三秒。", "effects": {"bond": 0, "slip": 0, "clue": 0}, "next": "c2c1", "recap": "假裝沒看到"}], "recapLabel": "「我妹」"},
+    {"id": "c2a1", "type": "chat", "speaker": "薇歐拉", "channel": "氏族", "text": "……"},
+    {"id": "c2a2", "type": "chat", "speaker": "夜梟", "channel": "氏族", "text": "薇歐拉無言了　笑死", "next": "s3"},
+    {"id": "c2b1", "type": "chat", "speaker": "薇歐拉", "channel": "氏族", "text": "誰是你妹"},
+    {"id": "c2b2", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "喔喔喔　薇歐拉回嘴了"},
+    {"id": "c2b3", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "……好啦　戰友　戰友行了吧", "next": "s3"},
+    {"id": "c2c1", "type": "narration", "speaker": "旁白", "channel": "氏族", "text": "氏族頻道很快被下一輪垃圾話洗掉，沒人發現薇歐拉沒有回話。\n\n除了老王。", "next": "s3"},
+    {"id": "s3", "type": "switch", "speaker": "沈若晴", "channel": "私訊", "text": "深夜的私訊", "pov": "qing", "mode": "dm"},
+    {"id": "d1", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "剛剛開玩笑的　別在意哈"},
+    {"id": "d2", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "那群人就愛亂起鬨"},
+    {"id": "d3", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "沒事，習慣了"},
+    {"id": "d4", "type": "narration", "speaker": "沈若晴", "channel": "私訊", "text": "沈若晴有點懊惱自己那句「我妹啦」。\n\n薇歐拉是她在遊戲裡最在乎的人。文靜、可靠、話不多，但每次她血量見底，薇歐拉的骷髏總是第一個擋到她前面。她常想，現實中的薇歐拉應該是個很溫柔的女生吧。", "note": "那個「很溫柔的女生」，三十二歲，在竹北，頭髮少了一點。"},
+    {"id": "d5", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "今天上班怎樣"},
+    {"id": "d6", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "還好，在弄一個一直搞不定的東西"},
+    {"id": "d7", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "然後又被獵頭煩"},
+    {"id": "d8", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "獵頭？"},
+    {"id": "d9", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "這個月第三個了。前天還打到我公司，主管就站我旁邊", "effects": {"clue": 1}, "note": "前天、公司座機、主管就在旁邊——若晴打的那通電話，對方也是這樣壓低聲音的。"},
+    {"id": "d10", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "不回訊息就是沒興趣啊，為什麼要一直打", "alt": [{"when": {"c1": 2}, "text": "今天還傳 LinkedIn 來，我都回沒興趣了，為什麼要一直打"}]},
+    {"id": "c3", "type": "choice", "speaker": "沈若晴", "channel": "私訊", "text": "若晴的手指僵在鍵盤上。她想起那個低聲說「我在開會」的人。\n\n不，不可能。竹科有幾萬個工程師。她該怎麼回？", "alt": [{"when": {"c1": 2}, "text": "若晴的手指僵在鍵盤上。她想起那個低聲說「我在開會」的人，還有幾個小時前那行「目前沒興趣」。\n\n不，不可能。竹科有幾萬個工程師。她該怎麼回？"}], "choices": [{"text": "替獵頭說幾句話", "feedback": "職業本能搶在理智前面開了口。", "effects": {"bond": 1, "slip": 3, "clue": 3}, "next": "d11a", "recap": "忍不住替獵頭說話"}, {"text": "附和薇歐拉", "feedback": "她把辯解吞回去，忽然有點對不起白天的自己。", "effects": {"bond": 2, "slip": 0, "clue": 1}, "next": "d11b", "recap": "附和薇歐拉，一起罵獵頭"}, {"text": "轉移話題", "feedback": "太巧了。巧到她暫時不敢再問。", "effects": {"bond": 0, "slip": 1, "clue": 2}, "next": "d11c", "recap": "把話題轉開"}], "recapLabel": "獵頭話題"},
+    {"id": "d11a", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "……獵頭也是人啊。我是說，他們可能也有業績壓力啦", "next": "d12a"},
+    {"id": "d12a", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "你怎麼幫獵頭講話", "next": "d13a"},
+    {"id": "d13a", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "我朋友在做獵頭　聽她抱怨過", "next": "d14", "note": "她說的那個「朋友」，此刻正握著滑鼠。"},
+    {"id": "d11b", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "打到公司真的有點太猛了　換我也會不爽", "next": "d12b", "note": "打到公司的，就是她自己。"},
+    {"id": "d12b", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "你今天居然沒有跟我唱反調", "next": "d13b"},
+    {"id": "d13b", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "偶爾也是會站你這邊的好嗎", "next": "d14"},
+    {"id": "d11c", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "先不說工作了　你那顆晶片到底怎麼了", "next": "d12c"},
+    {"id": "d12c", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "電源時序。講了你也不懂", "next": "d13c", "note": "電源時序——正是她今天下午寫進職缺需求的那四個字。"},
+    {"id": "d13c", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "我可以負責覺得很厲害", "next": "d14"},
+    {"id": "d14", "type": "narration", "speaker": "旁白", "channel": "私訊", "text": "他們聊到很晚。聊那顆電源時序搞不定的晶片，聊一直催業績的主管，聊新竹的風和台北的雨。\n\n兩個人都沒有提到自己的名字，也沒有人問。在遊戲裡，這種事好像本來就不重要。"},
+    {"id": "s4", "type": "switch", "speaker": "林致遠", "channel": "公告", "text": "凌晨十二點十七分・影盟之戰", "pov": "yuan", "mode": "game"},
+    {"id": "w1", "type": "chat", "speaker": "夜梟", "channel": "公告", "text": "本週六晚上影盟之戰，對手確定是「血月王庭」。分組名單如下，請各位確認。"},
+    {"id": "w2", "type": "narration", "speaker": "旁白", "channel": "公告", "text": "血月王庭。伺服器裡出了名的課長氏族，核心成員共鳴值高得嚇人。上一季，深淵燈火被他們輾壓，連一座據點都沒守住。\n\n第三小隊：隊長阿凱、鐵拳老王、薇歐拉。\n\n林致遠鬆了一口氣。有老王在，至少不會死得太難看。"},
+    {"id": "s5", "type": "switch", "speaker": "沈若晴", "channel": "隊伍", "text": "同一時間", "pov": "qing", "mode": "game"},
+    {"id": "w3", "type": "narration", "speaker": "沈若晴", "channel": "隊伍", "text": "沈若晴也看到了。她嘴角不自覺地上揚：太好了，可以罩著薇歐拉。\n\n然後，阿凱在小隊頻道丟出一段話。"},
+    {"id": "w4", "type": "chat", "speaker": "阿凱", "channel": "隊伍", "text": "各位，這場不是開玩笑的"},
+    {"id": "w5", "type": "chat", "speaker": "阿凱", "channel": "隊伍", "text": "對面共鳴高一大截，單挑必死，只能靠集火跟走位"},
+    {"id": "w6", "type": "chat", "speaker": "阿凱", "channel": "隊伍", "text": "打字一定來不及"},
+    {"id": "w7", "type": "chat", "speaker": "阿凱", "channel": "隊伍", "text": "所以這場全員開語音。不開的，我只能換人上"},
+    {"id": "s6", "type": "switch", "speaker": "林致遠", "channel": "私訊", "text": "竹北，深夜", "pov": "yuan", "mode": "dm"},
+    {"id": "w8", "type": "narration", "speaker": "林致遠", "channel": "私訊", "text": "林致遠看著那行字，手指懸在鍵盤上方。螢幕上方那支用了三年的麥克風，積了一層薄灰。\n\n三十二歲男人的低沉嗓音。只要一開口，薇歐拉就不存在了。"},
+    {"id": "t1", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "對方正在輸入中……", "typing": true},
+    {"id": "c4a", "type": "choice", "speaker": "林致遠", "channel": "私訊", "text": "私訊視窗亮起「對方正在輸入中……」。\n\n致遠的手指落回鍵盤。他最後打出了什麼？", "choices": [{"text": "試探：「你週六會開語音嗎？」", "draft": "你週六會開語音嗎？", "feedback": "像是隨口一問，游標卻在問號後閃了很久。", "effects": {"bond": 1, "slip": 2, "clue": 0}, "next": "s7", "recap": "「你週六會開語音嗎？」"}, {"text": "暗示：「如果我跟你想的不太一樣呢」", "draft": "如果我跟你想的不太一樣呢", "feedback": "他第一次讓真實的自己，靠近薇歐拉的邊界。", "effects": {"bond": 2, "slip": 4, "clue": 1}, "next": "s7", "recap": "「如果我跟你想的不太一樣呢」"}, {"text": "全部刪掉，不送出", "draft": "其實我", "erase": true, "feedback": "輸入框恢復空白。這是他最熟悉的安全距離。", "effects": {"bond": 0, "slip": 0, "clue": 0}, "next": "s7", "recap": "打了「其實我」，又刪掉"}], "recapLabel": "致遠草稿"},
+    {"id": "s7", "type": "switch", "speaker": "沈若晴", "channel": "私訊", "text": "永和，同一個瞬間", "pov": "qing", "mode": "dm"},
+    {"id": "w9", "type": "narration", "speaker": "沈若晴", "channel": "私訊", "text": "沈若晴把馬尾解開又綁上，綁上又解開。她選男性角色，就是不想再被叫公主、不想再被當成需要人帶的那個。\n\n只要一開口，鐵拳老王就不存在了。更可怕的是，她一直叫薇歐拉「妹」。"},
+    {"id": "t2", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "對方正在輸入中……", "typing": true},
+    {"id": "c4b", "type": "choice", "speaker": "沈若晴", "channel": "私訊", "text": "同一個瞬間，她也在輸入。\n\n若晴最後打出了什麼？", "choices": [{"text": "試探：「你會開麥嗎？」", "draft": "你會開麥嗎", "feedback": "簡短得像戰術確認，心跳卻完全不是。", "effects": {"bond": 1, "slip": 2, "clue": 0}, "next": "final", "recap": "「你會開麥嗎」"}, {"text": "暗示：「先說，我聲音可能跟你想的不一樣」", "draft": "先說，我聲音可能跟你想的不一樣", "feedback": "她差一點，就親手拆掉鐵拳老王。", "effects": {"bond": 2, "slip": 4, "clue": 1}, "next": "final", "recap": "「先說，我聲音可能跟你想的不一樣」"}, {"text": "全部刪掉，不送出", "draft": "欸　我跟你說", "erase": true, "feedback": "她看著空白輸入框，忽然希望對面能比她勇敢一點。", "effects": {"bond": 0, "slip": 0, "clue": 0}, "next": "final", "recap": "打了「欸　我跟你說」，又刪掉"}], "recapLabel": "若晴草稿"},
+    {"id": "final", "type": "chapterEnd", "speaker": "旁白", "channel": "私訊", "text": "然後，又同時暗了下去。", "pov": "both", "mode": "dm", "scene": "dualTyping"}
+  ]
+}
+</script>
+
+<script type="application/json" id="chapter-2">
+{
+  "id": "ch2",
+  "no": "第二章",
+  "title": "影盟之戰",
+  "carryFrom": "ch1",
+  "meterMax": 32,
+  "startPov": "yuan",
+  "startMode": "reality",
+  "nextTeaser": "第三章",
+  "endLine": "「本場戰鬥回放（含語音）已自動儲存。」\n兩個人，同時把滑鼠移到了「播放」上。",
+  "cast": {
+    "yuan": {
+      "name": "林致遠",
+      "initial": "林",
+      "real": "32 歲・竹科資深硬體工程師",
+      "gid": "薇歐拉",
+      "gclass": "死靈法師・女性角色"
+    },
+    "qing": {
+      "name": "沈若晴",
+      "initial": "沈",
+      "real": "29 歲・獵頭顧問 Rachel",
+      "gid": "鐵拳老王",
+      "gclass": "野蠻人・男性角色"
+    },
+    "both": {
+      "name": "雙視角",
+      "initial": "∞",
+      "real": "林致遠 ／ 沈若晴",
+      "gid": "薇歐拉 ／ 鐵拳老王",
+      "gclass": ""
+    }
+  },
+  "hooks": {
+    "lead": [
+      {
+        "when": {
+          "c5a": 1
+        },
+        "text": "「妹，快！」——如果那段回放被誰點開，第一個字就會出賣她。"
+      },
+      {
+        "when": {
+          "c5a": 0,
+          "c5b": {
+            "in": [
+              0,
+              1
+            ]
+          }
+        },
+        "text": "兩個聲音都說了實話。現在，只差有人按下播放。"
+      },
+      {
+        "when": {
+          "c5a": 2,
+          "c5b": 2
+        },
+        "text": "兩個人都按下了按鍵，卻都沒有真正出聲。回放裡，只會留下兩段呼吸。"
+      },
+      {
+        "when": {},
+        "text": "一個人喊出了聲音，一個人吞了回去——而回放，把兩個都錄下來了。"
+      }
+    ],
+    "value": [
+      {
+        "when": {
+          "var:slip": {
+            "gte": 26
+          }
+        },
+        "text": "破綻已經多到藏不住。就算沒人點開回放，也總會有人開始對時間、對口氣、對那四個字。"
+      },
+      {
+        "when": {
+          "var:clue": {
+            "gte": 16
+          }
+        },
+        "text": "你已經拼出整張圖：LinkedIn、麥克風、同一秒的「麥克風壞了」。全伺服器只有你知道答案。"
+      },
+      {
+        "when": {
+          "var:bond": {
+            "gte": 16
+          }
+        },
+        "text": "在峽谷裡，他們不需要語音也能配合。真正難的，是在現實裡認出對方。"
+      },
+      {
+        "when": {},
+        "text": "他們贏了一場戰爭，卻還沒準備好面對一段錄音。"
+      }
+    ]
+  },
+  "nodes": [
+    {"id": "title", "type": "narration", "style": "title", "speaker": "旁白", "channel": "現實", "text": "影盟之戰", "label": "2026 年 10 月 10 日（六）"},
+    {"id": "carry", "type": "narration", "style": "carry", "speaker": "旁白", "channel": "現實", "text": "上一章，你替他們做的選擇"},
+    {"id": "y1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "週五的 demo，驚險過關。\n\n最後是他在 IO LDO 的 enable 腳多掛了一顆電容，硬是讓它晚兩毫秒才起來，core 和 IO 的上電順序才終於對了。客戶看完沒說什麼，PM 在群組裡丟了三個鼓掌貼圖。\n\n他回了一個「嗯」。"},
+    {"id": "y2", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "星期六下午三點二十分。竹北的套房裡，窗簾只拉開一半。\n\n林致遠把那支積了灰的麥克風從螢幕上拿下來，用衛生紙擦了三遍。擦完，他才發現自己根本不知道要拿它怎麼辦。"},
+    {"id": "y3", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "週二深夜，他在私訊框裡打過一行字，最後沒有送出。\n\n今晚九點，影盟之戰。阿凱說，不開語音的，換人上。", "alt": [{"when": {"ch1.c4a": 0}, "text": "週二深夜，他在私訊框裡打了「你週六會開語音嗎？」。游標在問號後閃了很久，他沒有送出。\n\n今晚九點，影盟之戰。阿凱說，不開語音的，換人上。"}, {"when": {"ch1.c4a": 1}, "text": "週二深夜，他在私訊框裡打了「如果我跟你想的不太一樣呢」。那是他離說實話最近的一次。他沒有按下 Enter。\n\n今晚九點，影盟之戰。阿凱說，不開語音的，換人上。"}, {"when": {"ch1.c4a": 2}, "text": "週二深夜，他打了「其實我」三個字，又一個一個刪掉。\n\n今晚九點，影盟之戰。阿凱說，不開語音的，換人上。"}]},
+    {"id": "y4", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他按下錄音鍵，清了清喉嚨。\n\n「……我是薇歐拉。」\n\n播放。喇叭裡傳出一個三十二歲男人的低沉嗓音，帶著一點竹科工程師開會時特有的疲憊。他把錄音刪了，像在銷毀證據。"},
+    {"id": "c1", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "麥克風對策", "text": "離開戰還有五個半小時。致遠決定——", "choices": [{"text": "下載變聲器試試看", "feedback": "他選了「少女」模式。出來的聲音，像一隻感冒的卡通鴨。", "effects": {"bond": 0, "slip": 1, "clue": 0}, "next": "y5a", "recap": "試了變聲器，失敗"}, {"text": "先想好一個藉口", "feedback": "他在記事本打了四個字：麥克風壞了。看起來夠隨意，也夠無法查證。", "effects": {"bond": 0, "slip": 0, "clue": 1}, "next": "y6", "recap": "準備好藉口「麥克風壞了」"}, {"text": "先私訊老王，探探口風", "feedback": "問別人會不會開，比問自己容易一點。", "effects": {"bond": 1, "slip": 2, "clue": 1}, "next": "y5c", "recap": "私訊老王問會不會開麥"}]},
+    {"id": "y5a", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他又試了「御姐」模式。這次像隧道裡的廣播，還帶迴音。\n\n林致遠默默刪掉 App，在記事本上打了四個字：麥克風壞了。", "next": "y6"},
+    {"id": "y5c", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他打開遊戲，私訊老王：「週六你會開麥嗎？」\n\n「對方正在輸入中……」跳了很久，久到他以為老王睡著了。\n\n「應該會吧　你呢」\n\n他盯著那幾個字，回：「應該。」\n\n關掉視窗，他在記事本上打了四個字：麥克風壞了。", "note": "兩個「應該」。兩個人，都沒有說實話。", "next": "y6"},
+    {"id": "y6", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "晚上八點半，他把麥克風插回去，按下靜音鍵。\n\n紅色的小燈亮起來，像一個守住的秘密。"},
+    {"id": "s1", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "永和，同一個下午", "pov": "qing", "mode": "reality"},
+    {"id": "q1", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "沈若晴星期六原本不接工作電話。但來電顯示是文姐。\n\n「Rachel，那個竹科的林致遠，客戶點名一定要。」文姐的聲音帶著週末被打擾的不耐，「預算再往上加兩成，年底前要到人。你週一能約到他嗎？」"},
+    {"id": "q2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「他三次都沒理我。」\n\n「所以要第四次。」文姐說，「做我們這行，被拒絕不是結束，是開始。」\n\n電話掛了。若晴盯著 LinkedIn 上那張大頭照：灰色 polo 衫，像被硬拉去拍證件照的男人。", "note": "那個男人此刻正在竹北，用衛生紙擦一支麥克風。"},
+    {"id": "q3", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她打開對話框。上一則訊息，停在「已讀」。\n\n游標在輸入框裡閃著。", "alt": [{"when": {"ch1.c1": 0}, "text": "她打開對話框。上一則訊息，到現在都還是「未讀」。\n\n游標在輸入框裡閃著。"}, {"when": {"ch1.c1": 2}, "text": "她打開對話框。上一則訊息底下，還躺著那句「目前沒興趣」。五個字，客氣得像一扇關上的門。\n\n游標在輸入框裡閃著。"}]},
+    {"id": "c2", "type": "choice", "speaker": "沈若晴", "channel": "現實", "recapLabel": "第四則訊息", "text": "第四次。要什麼時候傳？", "choices": [{"text": "現在就傳", "feedback": "她打得很快，像打團時報點：「林先生，週末打擾了……」送出。", "effects": {"bond": 0, "slip": 0, "clue": 2}, "next": "q4", "recap": "週六下午就傳了"}, {"text": "排程到晚上，趁他最放鬆的時候", "feedback": "獵頭的經驗法則：週六晚上九點前，人最沒有防備。她設好排程，忘了今晚九點自己在做什麼。", "effects": {"bond": 0, "slip": 1, "clue": 3}, "next": "q4", "recap": "排程在晚上九點前送出"}, {"text": "先不傳，週一再說", "feedback": "她把手機蓋在桌上。今晚，她只想當鐵拳老王。", "effects": {"bond": 1, "slip": 0, "clue": 0}, "next": "q4", "recap": "先不傳，留到週一"}]},
+    {"id": "q4", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她打開電腦，戴上耳機。然後做了一件幾乎沒做過的事——對著麥克風說話。\n\n「……我是鐵拳老王。」", "alt": [{"when": {"c2": 0}, "text": "她打開電腦，戴上耳機。然後做了一件幾乎沒做過的事——對著麥克風說話。\n\n「……我是鐵拳老王。」", "note": "竹北那支剛擦乾淨的麥克風旁邊，手機亮了一下。"}]},
+    {"id": "q5", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "播放。\n\n一個二十九歲女生的聲音，清亮，尾音還帶著一點笑意。跟那個扛著兩把巨斧、站姿像一座山的男人，沒有一根鬍子的關係。\n\n她把臉埋進抱枕裡，悶悶地叫了一聲。"},
+    {"id": "q6", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她選男性角色，就是不想再被叫公主。一旦開口，深淵燈火的頻道會變成什麼樣子，她用膝蓋想都知道。\n\n更何況——薇歐拉。她叫了半年的「妹」。", "alt": [{"when": {"ch1.c4b": 1}, "text": "她選男性角色，就是不想再被叫公主。一旦開口，深淵燈火的頻道會變成什麼樣子，她用膝蓋想都知道。\n\n更何況——薇歐拉。週二那句「先說，我聲音可能跟你想的不一樣」，她差一點就送出去了。"}]},
+    {"id": "q7", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她在便利貼上寫了四個字，貼在螢幕邊框：\n\n麥克風壞了。", "effects": {"clue": 1}, "note": "同一個下午，竹北的記事本上，也是這四個字。"},
+    {"id": "s2", "type": "switch", "speaker": "林致遠", "channel": "公告", "text": "20:50・影盟之戰 等待區", "pov": "yuan", "mode": "game"},
+    {"id": "w1", "type": "chat", "speaker": "夜梟", "channel": "公告", "text": "影盟之戰規則最後再講一次：今晚 12 個戰場同時開打，每個戰場，每個氏族只能派 8 個人。"},
+    {"id": "w2", "type": "chat", "speaker": "夜梟", "channel": "公告", "text": "目標是摧毀對方的水晶之心。水晶前面有箭塔擋著，先拆塔才打得到水晶。路上遇到血月的人，該打就打。"},
+    {"id": "w3", "type": "chat", "speaker": "夜梟", "channel": "公告", "text": "12 場拿下 7 場就是我們贏。上一季的帳，今晚一起算。"},
+    {"id": "w4", "type": "narration", "style": "roster", "speaker": "旁白", "channel": "公告", "text": "第三戰場・深淵燈火出戰名單", "roster": [{"name": "阿凱", "role": "聖教軍・戰場隊長"}, {"name": "鐵拳老王", "role": "野蠻人・主坦"}, {"name": "薇歐拉", "role": "死靈法師"}, {"name": "小米粥", "role": "武僧・補師"}, {"name": "雨夜", "role": "巫師"}, {"name": "阿肥", "role": "狩魔獵人"}, {"name": "老K", "role": "血騎士"}, {"name": "布丁", "role": "巫師・新人"}]},
+    {"id": "w5", "type": "chat", "speaker": "夜梟", "channel": "氏族", "text": "第三戰場我特別把老王跟薇歐拉排在一起　不用謝"},
+    {"id": "w6", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "謝什麼　本來就該排一起"},
+    {"id": "w7", "type": "narration", "speaker": "林致遠", "channel": "語音", "text": "林致遠看著那行字，喉嚨有點乾。\n\n語音頻道亮了起來。八個名字依序跳進去，六個旁邊亮著綠色的麥克風。兩個是紅的。"},
+    {"id": "w8", "type": "narration", "style": "voice", "speaker": "旁白", "channel": "語音", "text": "語音頻道・深淵燈火｜第三戰場", "voice": {"members": ["阿凱", "鐵拳老王", "薇歐拉", "小米粥", "雨夜", "阿肥", "老K", "布丁"], "off": ["鐵拳老王", "薇歐拉"], "lit": []}},
+    {"id": "w9", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "測試測試　大家聽得到嗎"},
+    {"id": "w10", "type": "chat", "speaker": "小米粥", "channel": "語音", "text": "聽得到～"},
+    {"id": "w11", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "老王？薇歐拉？你們兩個怎麼是紅的"},
+    {"id": "w12", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "林致遠的手指已經放在鍵盤上了。那四個字，他想了一整個下午。"},
+    {"id": "w13", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "麥克風壞了", "time": "20:56:31"},
+    {"id": "w14", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "麥克風壞了", "time": "20:56:31"},
+    {"id": "w15", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "同一秒。一字不差。", "effects": {"clue": 1}, "note": "一張便利貼、一份記事本，寫的是同一句話。"},
+    {"id": "w16", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "……你們兩個連壞都要一起壞喔？"},
+    {"id": "w17", "type": "chat", "speaker": "阿肥", "channel": "語音", "text": "夫妻同心　其利斷金啦"},
+    {"id": "w18", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "好啦好啦　打字報點　跟緊我　不要亂跑"},
+    {"id": "w19", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "八點五十八分。手機很安靜。今晚沒有 PM，也沒有獵頭。\n\n他把手機推到桌角。今晚，他只想當薇歐拉。", "alt": [{"when": {"c2": 1}, "text": "八點五十八分。桌上的手機亮了。\n\nLinkedIn：「林先生，週末打擾了，我是瀚智的 Rachel……」\n\n他把手機翻過去蓋住。今晚，他只想當薇歐拉。", "note": "同一秒，永和那支手機也亮了：「您的排程訊息已送出。」她沒看見——她正在找鐵拳老王的斧頭。"}, {"when": {"c2": 0}, "text": "八點五十八分。下午那則 LinkedIn 他還沒點開，預覽寫著：「林先生，週末打擾了，我是瀚智的 Rachel……」\n\n他把手機推到桌角。今晚，他只想當薇歐拉。"}, {"when": {"c1": 2}, "text": "八點五十八分。手機很安靜。今晚沒有 PM，也沒有獵頭。\n\n下午那句「應該會吧」還在私訊裡。老王說應該會開，結果也紅了。他沒有多想——或者說，他不敢多想。"}]},
+    {"id": "s3", "type": "switch", "speaker": "沈若晴", "channel": "語音", "text": "21:00・第三戰場 開戰", "pov": "qing", "mode": "game"},
+    {"id": "b1", "type": "narration", "style": "hud", "speaker": "旁白", "channel": "語音", "text": "開戰", "hud": {"time": "15:00", "ours": {"crystal": 100, "towers": 3}, "theirs": {"crystal": 100, "towers": 3}}},
+    {"id": "b2", "type": "narration", "speaker": "旁白", "channel": "語音", "text": "載入畫面散去，地圖展開：一條焦黑的峽谷，兩端各懸著一顆緩緩旋轉的水晶之心，中間隔著上、中、下三條路，每條路上一座箭塔。\n\n血月王庭的八個名字出現在對面，共鳴值一個比一個高。排第一的叫「緋夜」。"},
+    {"id": "b3", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "老K雨夜布丁跟我走中路　阿肥小米粥守家"},
+    {"id": "b4", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "老王薇歐拉　下路那座箭塔交給你們"},
+    {"id": "b5", "type": "narration", "speaker": "沈若晴", "channel": "隊伍", "text": "交給你們。沈若晴握著滑鼠的手心微微出汗。\n\n鐵拳老王扛著巨斧衝出重生點，薇歐拉的骷髏大軍跟在身後，像一支沉默的送葬隊伍。"},
+    {"id": "c3", "type": "choice", "speaker": "沈若晴", "channel": "隊伍", "recapLabel": "下路箭塔", "text": "第一座箭塔就在眼前。塔下站著兩個血月王庭的人。\n\n老王要怎麼打？", "choices": [{"text": "直接衝塔，主坦就是要第一個進去", "feedback": "她喜歡這個角色，就是因為他從來不用問「可以嗎」。", "effects": {"bond": 1, "slip": 0, "clue": 0}, "next": "b6a", "recap": "老王第一個衝塔"}, {"text": "等薇歐拉的骷髏先吃塔傷", "feedback": "她在隊伍頻道打了「等你」兩個字。打完才發現，這不太像老王會說的話。", "effects": {"bond": 2, "slip": 2, "clue": 1}, "next": "b6b", "recap": "打了「等你」"}, {"text": "先站到薇歐拉前面，盯住那兩個人", "feedback": "塔可以晚點拆。後排，不能少一個。", "effects": {"bond": 2, "slip": 1, "clue": 0}, "next": "b6c", "recap": "先護住薇歐拉"}]},
+    {"id": "b6a", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "衝了"},
+    {"id": "b6a2", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "老王一頭撞進箭塔射程，塔上的弩箭全咬在他身上。血條掉得很快——但薇歐拉的詛咒幾乎同時落下，兩個血月的人被纏在原地。\n\n他們連一個字都沒交換。半年，夠了。", "next": "b7"},
+    {"id": "b6b", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "等你"},
+    {"id": "b6b2", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "？"},
+    {"id": "b6b3", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "好"},
+    {"id": "b6b4", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "骷髏先一步湧上去，吃掉了第一波塔傷。老王跟在後面，斧頭落下時，箭塔已經只剩一半的血。", "note": "竹北那頭，有人盯著「等你」兩個字看了兩秒。老王平常只會說「跟上」。", "next": "b7"},
+    {"id": "b6c", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "側面會有人切　我站你前面"},
+    {"id": "b6c2", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "收到"},
+    {"id": "b6c3", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "血月的刺客果然從側面切進來，正好撞上老王的斧頭。那一下，老王扣了三成血。\n\n薇歐拉的骨牆隨即升起，把刺客關在外面。", "next": "b7"},
+    {"id": "b7", "type": "narration", "style": "hud", "speaker": "旁白", "channel": "語音", "text": "下路箭塔・已摧毀", "hud": {"time": "11:42", "ours": {"crystal": 100, "towers": 3}, "theirs": {"crystal": 100, "towers": 2}}},
+    {"id": "b8", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "漂亮！下路塔倒了"},
+    {"id": "b9", "type": "chat", "speaker": "雨夜", "channel": "語音", "text": "中路也快了　對面好像在集結"},
+    {"id": "b10", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "小心　緋夜不見了"},
+    {"id": "s4", "type": "switch", "speaker": "林致遠", "channel": "語音", "text": "11:20・下路荒地", "pov": "yuan", "mode": "game"},
+    {"id": "p1", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "林致遠第一次看見緋夜，是在老王的血條忽然掉了一半的時候。\n\n一個全身裹著暗紅鎧甲的血騎士，從老王背後的陰影裡浮出來。共鳴值，是老王的兩倍。"},
+    {"id": "p2", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "緋夜在下路！老王後面！！"},
+    {"id": "p3", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "老王聽得到。但他的麥克風是紅的，打字回報已經來不及。\n\n薇歐拉離他，只有五步。"},
+    {"id": "c4", "type": "choice", "speaker": "林致遠", "channel": "隊伍", "recapLabel": "緋夜偷襲", "text": "五步。致遠的手指只來得及做一件事。", "choices": [{"text": "立起骨牆，擋在老王和緋夜之間", "feedback": "骨牆升起的同時，他才意識到自己往前站了一步——站到了前排。", "effects": {"bond": 3, "slip": 1, "clue": 0}, "next": "p4a", "recap": "薇歐拉衝到前排立骨牆"}, {"text": "照阿凱的指令，對緋夜下詛咒，讓大家集火", "feedback": "冷靜、正確，像在 debug。只是心跳比示波器上的波形抖得還厲害。", "effects": {"bond": 1, "slip": 0, "clue": 0}, "next": "p4b", "recap": "下詛咒，讓全隊集火"}, {"text": "在隊伍頻道打「後面」", "feedback": "兩個字，零點八秒。在影盟之戰裡，這已經太慢了。", "effects": {"bond": 0, "slip": 0, "clue": 0}, "next": "p4c", "recap": "打字提醒，來不及"}]},
+    {"id": "p4a", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "緋夜的刀砍在骨牆上，碎骨四濺。老王趁那一秒轉身，兩把巨斧掄成一個圓。\n\n血月王庭的人退了。"},
+    {"id": "p4a2", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "妹　你瘋了喔　死靈站前面", "alt": [{"when": {"ch1.c2": 1}, "text": "……戰友　你瘋了喔　死靈站前面"}]},
+    {"id": "p4a3", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "你才是", "next": "p5", "alt": [{"when": {"var:bond": {"gte": 12}}, "text": "你才是。上次也是你先擋我"}]},
+    {"id": "p4b", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "詛咒上了！集火緋夜！"},
+    {"id": "p4b2", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "雨夜的冰錐、阿肥的箭雨從兩側同時落下。緋夜被逼退，卻在撤退前一刀砍在老王身上。\n\n老王的血條，只剩一條細細的紅線。他還站著。", "next": "p5"},
+    {"id": "p4c", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "後面"},
+    {"id": "p4c2", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "訊息跳出時，緋夜的刀已經落下了。老王倒地，畫面一片灰。\n\n「復活倒數 15 秒」。林致遠盯著那行字，第一次恨自己打字太慢。", "next": "p5"},
+    {"id": "p5", "type": "narration", "style": "hud", "speaker": "旁白", "channel": "語音", "text": "中路箭塔・已摧毀", "hud": {"time": "06:10", "ours": {"crystal": 80, "towers": 2}, "theirs": {"crystal": 100, "towers": 1}}},
+    {"id": "p6", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "對面主力去打我們家了　小米粥阿肥撐住"},
+    {"id": "p7", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "所有人聽好　最後六分鐘　能拆就拆　直接推水晶"},
+    {"id": "s5", "type": "switch", "speaker": "沈若晴", "channel": "語音", "text": "00:40・敵方水晶之心", "pov": "qing", "mode": "game"},
+    {"id": "f1", "type": "narration", "speaker": "旁白", "channel": "語音", "text": "最後一座箭塔倒下的時候，深淵燈火只剩四個人還站著。\n\n阿凱、老K、布丁在中路被緋夜帶隊截住，一個一個倒下。語音裡，只剩雨夜在喘。"},
+    {"id": "f2", "type": "narration", "style": "hud", "speaker": "旁白", "channel": "語音", "text": "雙方箭塔全數摧毀", "hud": {"time": "00:40", "ours": {"crystal": 31, "towers": 0}, "theirs": {"crystal": 48, "towers": 0}}},
+    {"id": "f3", "type": "chat", "speaker": "雨夜", "channel": "語音", "text": "我沒魔了　水晶交給你們"},
+    {"id": "f4", "type": "narration", "speaker": "旁白", "channel": "語音", "text": "水晶之心前，只剩兩個深淵燈火的人。\n\n一個扛著巨斧的野蠻人，一個銀白長髮的死靈法師。血月王庭的人，正從兩側往回趕。", "note": "在現實裡，那是一個竹科工程師，和一個正想把他挖走的獵頭。"},
+    {"id": "f5", "type": "narration", "speaker": "沈若晴", "channel": "語音", "text": "三十九秒。打字一定來不及。\n\n沈若晴的手指，停在那顆她一整晚都沒碰過的按鍵上——按住說話。", "alt": [{"when": {"var:bond": {"gte": 14}}, "text": "三十九秒。打字一定來不及。\n\n她甚至不用看，就知道薇歐拉會站在哪裡。可是緋夜不會等她們。\n\n沈若晴的手指，停在那顆她一整晚都沒碰過的按鍵上——按住說話。"}]},
+    {"id": "c5a", "type": "choice", "speaker": "沈若晴", "channel": "語音", "recapLabel": "若晴喊出", "text": "按下去，就是她自己的聲音。\n\n她喊了什麼？", "choices": [{"text": "「薇歐拉，打水晶！我擋！」", "feedback": "清亮的聲音衝出喉嚨，快得連她自己都嚇了一跳。", "effects": {"bond": 2, "slip": 4, "clue": 1}, "next": "s6", "recap": "「薇歐拉，打水晶！我擋！」"}, {"text": "「妹，快！」", "feedback": "喊出口的瞬間她就後悔了。為什麼偏偏是這個字。", "effects": {"bond": 1, "slip": 5, "clue": 2}, "next": "s6", "recap": "「妹，快！」"}, {"text": "只倒抽一口氣，沒出聲", "feedback": "按鍵壓著，喉嚨卻鎖住了。只有呼吸聲漏了出去。", "effects": {"bond": 0, "slip": 2, "clue": 0}, "next": "s6", "recap": "按著鍵，只漏出呼吸聲"}]},
+    {"id": "s6", "type": "switch", "speaker": "林致遠", "channel": "語音", "text": "同一秒", "pov": "yuan", "mode": "game"},
+    {"id": "f6", "type": "narration", "speaker": "林致遠", "channel": "語音", "text": "林致遠看見緋夜的刀光，從老王左邊閃了出來。\n\n他的手指，在他想清楚之前，就按下了那顆鍵。"},
+    {"id": "c5b", "type": "choice", "speaker": "林致遠", "channel": "語音", "recapLabel": "致遠喊出", "text": "三十二歲男人的嗓音。\n\n他喊了什麼？", "choices": [{"text": "「老王，左邊！」", "feedback": "低沉、乾脆，像在實驗室裡喊同事關電源。", "effects": {"bond": 2, "slip": 4, "clue": 1}, "next": "f7", "recap": "「老王，左邊！」"}, {"text": "「退後，我來。」", "feedback": "他從來沒有站過前排。這是第一次，連聲音都站了出去。", "effects": {"bond": 3, "slip": 4, "clue": 0}, "next": "f7", "recap": "「退後，我來。」"}, {"text": "喉嚨一緊，只發出模糊的「欸——」", "feedback": "半個音節。他寧願那只是麥克風的雜訊。", "effects": {"bond": 0, "slip": 2, "clue": 0}, "next": "f7", "recap": "只發出半聲「欸——」"}]},
+    {"id": "f7", "type": "narration", "style": "voice", "speaker": "旁白", "channel": "語音", "text": "語音頻道・深淵燈火｜第三戰場", "voice": {"members": ["阿凱", "鐵拳老王", "薇歐拉", "小米粥", "雨夜", "阿肥", "老K", "布丁"], "off": [], "lit": ["阿凱", "鐵拳老王", "薇歐拉", "雨夜"]}},
+    {"id": "f8", "type": "narration", "speaker": "旁白", "channel": "語音", "text": "那一瞬間，語音頻道裡同時亮起四個綠點。\n\n雨夜在尖叫，阿凱在死亡畫面裡大吼「打！打！打！」，水晶碎裂的音效像一千面玻璃同時炸開——\n\n兩個聲音，被整個捲進了噪音裡。"},
+    {"id": "f9", "type": "narration", "style": "hud", "speaker": "旁白", "channel": "語音", "text": "勝利", "hud": {"time": "00:03", "ours": {"crystal": 9, "towers": 0}, "theirs": {"crystal": 0, "towers": 0}, "win": true}},
+    {"id": "f10", "type": "chat", "speaker": "系統", "channel": "公告", "text": "第三戰場：深淵燈火 勝利"},
+    {"id": "f11", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "贏了！！！贏了啦！！！"},
+    {"id": "f12", "type": "chat", "speaker": "小米粥", "channel": "語音", "text": "我們家水晶剩 9%　嚇死"},
+    {"id": "f13", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "欸等一下"},
+    {"id": "f14", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "剛剛最後那兩聲　是誰喊的？"},
+    {"id": "f15", "type": "narration", "speaker": "旁白", "channel": "語音", "text": "頻道安靜了一秒。\n\n竹北，林致遠的手離開了鍵盤。永和，沈若晴的手也是。"},
+    {"id": "f16", "type": "chat", "speaker": "系統", "channel": "公告", "text": "本場戰鬥回放（含語音）已自動儲存，氏族成員可於「影盟紀錄」中查看。"},
+    {"id": "final", "type": "chapterEnd", "scene": "replay", "speaker": "旁白", "channel": "語音", "text": "兩個人，同時把滑鼠移到了「播放」上。", "pov": "both", "mode": "game"}
+  ]
+}
+</script>
+
+<script type="application/json" id="chapter-3">
+{
+  "id": "ch3",
+  "no": "第三章",
+  "title": "地獄骨夾",
+  "carryFrom": "ch2",
+  "meterMax": 44,
+  "startPov": "yuan",
+  "startMode": "reality",
+  "nextTeaser": "第四章",
+  "endLine": "週四晚上九點，老時間。\n兩個人的行事曆上，寫著同一個晚上。",
+  "cast": {
+    "yuan": {
+      "name": "林致遠",
+      "initial": "林",
+      "real": "32 歲・竹科資深硬體工程師",
+      "gid": "薇歐拉",
+      "gclass": "死靈法師・女性角色"
+    },
+    "qing": {
+      "name": "沈若晴",
+      "initial": "沈",
+      "real": "29 歲・獵頭顧問 Rachel",
+      "gid": "鐵拳老王",
+      "gclass": "野蠻人・男性角色"
+    },
+    "both": {
+      "name": "雙視角",
+      "initial": "∞",
+      "real": "林致遠 ／ 沈若晴",
+      "gid": "薇歐拉 ／ 鐵拳老王",
+      "gclass": ""
+    }
+  },
+  "hooks": {
+    "lead": [
+      {
+        "when": {
+          "c5": 0
+        },
+        "text": "週四晚上八點，他們會第一次聽見彼此真正的聲音——而兩個人都以為，那只是一通工作電話。"
+      },
+      {
+        "when": {
+          "c5": 2
+        },
+        "text": "「週四晚上有約了。」她會不會在九點前看懂這句話？他約的，正是她。"
+      },
+      {
+        "when": {},
+        "text": "她撥出的那通電話，也許沒有人接。但九點整，他一定會在骨道入口等她。"
+      }
+    ],
+    "value": [
+      {
+        "when": {
+          "var:slip": {
+            "gte": 38
+          }
+        },
+        "text": "破綻多到像一張攤開的地圖。下一次，只要有一個人肯低頭看。"
+      },
+      {
+        "when": {
+          "var:clue": {
+            "gte": 28
+          }
+        },
+        "text": "電源時序、麥克風壞了、同一秒的加入、週四九點——所有線索都排好了隊。只差他們自己。"
+      },
+      {
+        "when": {
+          "var:bond": {
+            "gte": 26
+          }
+        },
+        "text": "不用語音，不用口令，連「左邊」都不用說。這種默契，現實裡很少有人給得起。"
+      },
+      {
+        "when": {},
+        "text": "他們在骨道裡認得出對方的每一步，卻在現實裡，擦肩了四次。"
+      }
+    ]
+  },
+  "nodes": [
+    {"id": "title", "type": "narration", "style": "title", "speaker": "旁白", "channel": "現實", "text": "地獄骨夾", "label": "2026 年 10 月 11 日（日）— 10 月 12 日（一）"},
+    {"id": "carry", "type": "narration", "style": "carry", "speaker": "旁白", "channel": "現實", "text": "上一章，你替他們做的選擇"},
+    {"id": "y1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "週日深夜十一點。林致遠第七次點開那段回放。\n\n影盟紀錄・第三戰場。他直接把進度條拖到最後三十九秒。"},
+    {"id": "y2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "阿凱在吼，雨夜在尖叫，水晶碎裂的音效像一場爆炸。\n\n可是在那堆噪音的最底下，有一句話，很短，很亮：「……水晶！我擋！」\n\n是女生的聲音。", "alt": [{"when": {"ch2.c5a": 1}, "text": "阿凱在吼，雨夜在尖叫，水晶碎裂的音效像一場爆炸。\n\n可是在那堆噪音的最底下，有兩個字，清清楚楚：「妹，快！」\n\n是女生的聲音。而全氏族會叫他「妹」的，只有一個人。"}, {"when": {"ch2.c5a": 2}, "text": "阿凱在吼，雨夜在尖叫，水晶碎裂的音效像一場爆炸。\n\n在那堆噪音的最底下，只有一聲很輕的抽氣。像有人按著按鍵，卻把話吞了回去。\n\n他聽不出是誰。"}]},
+    {"id": "y3", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他把音量開到最大，又聽了一次。\n\n那一場語音裡，唯一的女生是雨夜。一定是雨夜。他關掉回放，像關上一個不該打開的抽屜。", "alt": [{"when": {"ch2.c5a": 1}, "text": "他把音量開到最大，又聽了一次。\n\n……雨夜平常也會叫布丁「妹」。一定是雨夜。\n\n他這樣告訴自己，告訴了三遍。"}, {"when": {"ch2.c5a": 2}, "text": "可能是阿肥，可能是小米粥，可能是任何人。\n\n他這樣想，反而鬆了一口氣。"}], "note": "那一秒，語音頻道裡亮著四個綠點。雨夜是其中一個——另一個，是鐵拳老王。"},
+    {"id": "c1", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "週日的回放", "text": "回放停在最後一秒。致遠——", "choices": [{"text": "調成 0.5 倍速，再聽一次", "feedback": "慢下來的聲音更清楚，也更不像雨夜。他按了暫停，沒有再按播放。", "effects": {"bond": 0, "slip": 1, "clue": 2}, "next": "s1", "recap": "0.5 倍速又聽了一次"}, {"text": "關掉，不聽了", "feedback": "有些東西，聽得越清楚，越回不去。", "effects": {"bond": 0, "slip": 0, "clue": 0}, "next": "s1", "recap": "關掉回放，不再聽"}, {"text": "把回放下載存起來", "feedback": "他把檔案命名成「影盟_第三戰場」，放進一個平常不會打開的資料夾。", "effects": {"bond": 1, "slip": 0, "clue": 1}, "next": "s1", "recap": "把回放下載存了起來"}]},
+    {"id": "s1", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "永和，同一個深夜", "pov": "qing", "mode": "reality"},
+    {"id": "q1", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "沈若晴戴著耳機，把那三十九秒聽了不知道第幾次。\n\n阿凱的吼聲底下，有一個男人的聲音，低低的，很乾脆：「老王，左邊。」\n\n就是那一聲，讓她轉身躲開了緋夜的刀。", "alt": [{"when": {"ch2.c5b": 1}, "text": "沈若晴戴著耳機，把那三十九秒聽了不知道第幾次。\n\n阿凱的吼聲底下，有一個男人的聲音，低低的：「退後，我來。」\n\n她把那四個字倒回去，聽了五次。"}, {"when": {"ch2.c5b": 2}, "text": "沈若晴戴著耳機，把那三十九秒聽了不知道第幾次。\n\n阿凱的吼聲底下，只有半個音節，一聲模糊的「欸——」。低低的，像男生。"}]},
+    {"id": "q2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "男生的聲音。第三戰場的男生有阿凱、阿肥、老K、布丁——還有一個，她從來沒聽過聲音的薇歐拉。\n\n「不可能。」她對著螢幕說，「薇歐拉是女生。」\n\n一定是老K。老K講話本來就低。", "note": "那一秒，老K 已經倒在中路。他的麥克風，是暗的。"},
+    {"id": "q3", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "回放我聽了　全部都是我在叫　笑死"},
+    {"id": "q4", "type": "chat", "speaker": "雨夜", "channel": "氏族", "text": "最後我也有尖叫　抱歉各位耳朵"},
+    {"id": "q5", "type": "chat", "speaker": "阿肥", "channel": "氏族", "text": "那句「老王左邊」是誰喊的啊　超帥", "alt": [{"when": {"ch2.c5b": 1}, "text": "那句「退後我來」是誰喊的啊　超帥"}, {"when": {"ch2.c5b": 2}, "text": "最後那聲「欸——」是誰啦　笑死"}]},
+    {"id": "q6", "type": "chat", "speaker": "老K", "channel": "氏族", "text": "不是我　我那時候已經躺了"},
+    {"id": "q7", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "若晴的手指停在手機螢幕上。\n\n不是老K。\n\n……那就是阿凱自己喊的吧。他吼成那樣，自己也不記得。她把手機蓋在枕頭邊，翻過身。", "effects": {"clue": 2}, "note": "整個群組裡，只有一個人沒有說話。薇歐拉今晚，一個字都沒打。"},
+    {"id": "s2", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "週一中午・竹科", "pov": "yuan", "mode": "reality"},
+    {"id": "m1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "實驗室的微波爐前排了四個人。林致遠端著便當回座位，滑開手機。\n\nLinkedIn 上那則週六的訊息，他到現在還沒回。\n\n「林先生，週末打擾了，我是瀚智的 Rachel。上次提到的職缺，客戶這週調整了條件，特別希望能和您聊聊。不會佔用您太多時間。」", "alt": [{"when": {"ch2.c2": 2}, "text": "實驗室的微波爐前排了四個人。林致遠端著便當回座位，滑開手機。\n\nLinkedIn 有一則今天早上九點整送到的訊息。\n\n「林先生您好，我是瀚智的 Rachel。上次提到的職缺，客戶這週調整了條件，特別希望能和您聊聊。不會佔用您太多時間。」"}]},
+    {"id": "m2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "第四次了。\n\n他想起週六晚上那三十九秒。贏了之後，整個人好像鬆了一點。人一鬆，就容易做出平常不會做的事。"},
+    {"id": "c2", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "第四則訊息", "text": "他該怎麼回？", "choices": [{"text": "「可以先用訊息聊聊」", "feedback": "八個字。按下送出的時候，他自己都有點意外。", "effects": {"bond": 0, "slip": 1, "clue": 2}, "next": "s3", "recap": "回「可以先用訊息聊聊」"}, {"text": "已讀不回", "feedback": "第四次已讀不回。他對自己的穩定性感到放心。", "effects": {"bond": 0, "slip": 0, "clue": 1}, "next": "s3", "recap": "第四次已讀不回"}, {"text": "「謝謝，目前不考慮」", "feedback": "客氣、明確，像一份寫得很好的規格書。", "effects": {"bond": 1, "slip": 0, "clue": 1}, "next": "s3", "recap": "回「謝謝，目前不考慮」"}]},
+    {"id": "s3", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "週一下午・信義區", "pov": "qing", "mode": "reality"},
+    {"id": "r1", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "下午兩點，她第三次點開那個對話框。「已讀」。\n\n文姐從玻璃門外經過，她低頭，假裝在打報告。", "alt": [{"when": {"c2": 0}, "text": "下午兩點，若晴的手機震了一下。\n\n林致遠：「可以先用訊息聊聊。」\n\n她差點把咖啡打翻。第四次。真的是第四次。文姐從玻璃門外經過，她舉起手機，比了一個讚。"}, {"when": {"c2": 2}, "text": "下午兩點，她收到回覆：「謝謝，目前不考慮。」\n\n至少回了。她在筆記裡寫下：態度禮貌，拒絕明確，還有機會。"}]},
+    {"id": "r2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她在筆記本上整理他的資料：電源設計、bring-up、六年年資、竹科。\n\n然後，筆停了一下。\n\n電源時序。她好像在哪裡聽過這四個字。", "effects": {"clue": 2}, "note": "週二深夜的私訊裡，她和薇歐拉聊的，正是一顆電源時序搞不定的晶片。"},
+    {"id": "r3", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她搖搖頭。竹科每個硬體工程師都在弄電源時序吧。\n\n今天是週一。晚上九點，骨夾重置。這種事，等打完再想。"},
+    {"id": "s4", "type": "switch", "speaker": "沈若晴", "channel": "氏族", "text": "週一 20:55・骨夾重置", "pov": "qing", "mode": "game"},
+    {"id": "g1", "type": "narration", "speaker": "旁白", "channel": "氏族", "text": "地獄骨夾，是這個遊戲裡最強的地獄王副本。五隻地獄王排在一條往下的骨道裡，一隻比一隻深，一隻比一隻狠。每一場，最多八個人組隊。\n\n每週一和週四，系統重置，獎勵也跟著重置。對深淵燈火來說，週一和週四的晚上，就是骨夾時間。"},
+    {"id": "g2", "type": "narration", "style": "raid", "speaker": "旁白", "channel": "隊伍", "text": "本週進度：尚未挑戰", "raid": {"diff": "煉獄 14", "bosses": ["腐骨主母", "熔鐵屠夫", "雙生哀嚎", "深淵織網者", "骨夾之主"], "cleared": 0}},
+    {"id": "g3", "type": "narration", "speaker": "沈若晴", "channel": "氏族", "text": "沈若晴打開氏族頻道，打下那行半年來打過幾十次的字。"},
+    {"id": "g4", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "骨夾開車 --煉獄14五個王", "time": "20:55:02", "pause": true},
+    {"id": "g5", "type": "chat", "speaker": "系統", "channel": "隊伍", "text": "薇歐拉 加入了隊伍", "time": "20:55:03"},
+    {"id": "g6", "type": "narration", "speaker": "沈若晴", "channel": "隊伍", "text": "一秒。\n\n半年來，薇歐拉沒有一次不是第一個按加入。若晴有時候會想，她是不是一直開著氏族頻道，在等這一行字。", "note": "竹北那頭，他確實一直開著。從八點五十分開始。"},
+    {"id": "g7", "type": "narration", "style": "roster", "speaker": "旁白", "channel": "隊伍", "text": "骨夾・煉獄 14｜車長 鐵拳老王", "roster": [{"name": "鐵拳老王", "role": "車長・主坦"}, {"name": "薇歐拉", "role": "+1 秒加入"}, {"name": "小米粥", "role": "+4 秒加入"}, {"name": "雨夜", "role": "+9 秒加入"}, {"name": "阿肥", "role": "+12 秒加入"}, {"name": "阿凱", "role": "+20 秒加入"}, {"name": "布丁", "role": "+31 秒加入"}, {"name": "老K", "role": "+46 秒加入"}]},
+    {"id": "g8", "type": "chat", "speaker": "阿凱", "channel": "隊伍", "text": "又是薇歐拉第一　老王車的固定乘客"},
+    {"id": "g9", "type": "chat", "speaker": "小米粥", "channel": "隊伍", "text": "人家是副駕好嗎"},
+    {"id": "g10", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "少廢話　走了"},
+    {"id": "g11", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "第一隻「腐骨主母」，三分十二秒。第二隻「熔鐵屠夫」，四分零五秒。\n\n老王往左拉怪，骷髏已經在左邊等著。老王血量見底，骨牆就先一步升起。薇歐拉的詛咒，總是落在老王下一斧要砍的位置。\n\n整整兩隻王，他們沒有交換一個字。", "nextIf": [{"when": {"c2": 0}, "next": "a1"}], "next": "s5"},
+    {"id": "a1", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "等我30秒　手機"},
+    {"id": "a2", "type": "narration", "speaker": "沈若晴", "channel": "隊伍", "text": "她讓老王站到骨道角落，拿起手機，飛快地回 LinkedIn：\n\n「謝謝林先生！我先把職缺資料傳給您參考，有任何問題都可以直接問我。」\n\n附上 JD，送出。"},
+    {"id": "a3", "type": "switch", "speaker": "林致遠", "channel": "隊伍", "text": "竹北，同一時間", "pov": "yuan", "mode": "game"},
+    {"id": "a4", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "老王站在骨道角落，不動了。\n\n林致遠桌上的手機震了一下。LinkedIn：「謝謝林先生！我先把職缺資料傳給您參考……」\n\n他沒有點開。骨夾打到一半，現實可以等。", "effects": {"clue": 3}, "note": "老王的三十秒 AFK，和這則訊息，出自同一隻手。"},
+    {"id": "a5", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "好了　走"},
+    {"id": "a6", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "嗯", "next": "s5"},
+    {"id": "s5", "type": "switch", "speaker": "沈若晴", "channel": "隊伍", "text": "第三隻王・雙生哀嚎", "pov": "qing", "mode": "game"},
+    {"id": "b1", "type": "narration", "style": "raid", "speaker": "旁白", "channel": "隊伍", "text": "第三隻王・挑戰中", "raid": {"diff": "煉獄 14", "bosses": ["腐骨主母", "熔鐵屠夫", "雙生哀嚎", "深淵織網者", "骨夾之主"], "cleared": 2}},
+    {"id": "b2", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "雙生哀嚎，是骨夾裡最多隊伍翻車的地方。兩顆頭底下各有一座封印，必須兩個人在同一秒，分別站上左右兩側。差半秒，全隊滅團。\n\n通常這時候，車長會在隊伍頻道喊誰左、誰右。"},
+    {"id": "c3", "type": "choice", "speaker": "沈若晴", "channel": "隊伍", "recapLabel": "雙生封印", "text": "封印倒數十秒。老王要怎麼指揮？", "choices": [{"text": "打字：「薇歐拉 左」", "feedback": "標準的車長口令。清楚、安全，沒有一個多餘的字。", "effects": {"bond": 1, "slip": 0, "clue": 0}, "next": "b3a", "recap": "打「薇歐拉 左」"}, {"text": "什麼都不打，直接走向右邊", "feedback": "她甚至沒有回頭看。半年了，她知道左邊會有人。", "effects": {"bond": 3, "slip": 1, "clue": 1}, "next": "b3b", "recap": "一個字都沒打，直接走右邊"}, {"text": "打字：「妹 你左我右」", "feedback": "那個「妹」字送出去的瞬間，她的耳朵有點熱。", "effects": {"bond": 2, "slip": 2, "clue": 1}, "next": "b3c", "recap": "打「妹 你左我右」"}]},
+    {"id": "b3a", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "薇歐拉 左"},
+    {"id": "b3a2", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "收到", "next": "b4"},
+    {"id": "b3b", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "老王一言不發地走向右邊的封印。\n\n同一秒，左邊的封印亮了。薇歐拉站在那裡，好像本來就該在那裡。"},
+    {"id": "b3b2", "type": "chat", "speaker": "阿凱", "channel": "隊伍", "text": "……你們兩個是有心電感應喔", "next": "b4"},
+    {"id": "b3c", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "妹 你左我右"},
+    {"id": "b3c2", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "知道"},
+    {"id": "b3c3", "type": "chat", "speaker": "小米粥", "channel": "隊伍", "text": "妹～～～", "next": "b4"},
+    {"id": "b4", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "兩座封印同時落下。雙生哀嚎的兩顆頭撞在一起，碎成一地白骨。\n\n第三隻，兩分五十八秒。"},
+    {"id": "s6", "type": "switch", "speaker": "林致遠", "channel": "私訊", "text": "第四隻王倒下・休息一分鐘", "pov": "yuan", "mode": "game"},
+    {"id": "e1", "type": "narration", "style": "raid", "speaker": "旁白", "channel": "隊伍", "text": "最後一隻王・準備中", "raid": {"diff": "煉獄 14", "bosses": ["腐骨主母", "熔鐵屠夫", "雙生哀嚎", "深淵織網者", "骨夾之主"], "cleared": 4}},
+    {"id": "e2", "type": "narration", "speaker": "林致遠", "channel": "私訊", "text": "深淵織網者倒下時，小米粥說要去倒水，阿凱去上廁所。隊伍頻道安靜下來。\n\n然後，私訊亮了。"},
+    {"id": "e3", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "欸"},
+    {"id": "e4", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "週六那個回放　你有聽嗎"},
+    {"id": "c4", "type": "choice", "speaker": "林致遠", "channel": "私訊", "recapLabel": "回放的事", "text": "游標閃著。致遠想起那三十九秒，和那個他說服自己是雨夜的聲音。", "alt": [{"when": {"ch2.c5a": 1}, "text": "游標閃著。致遠想起那三十九秒，和那句「妹，快！」。"}], "choices": [{"text": "「有。都是阿凱在叫」", "feedback": "安全的答案。他打得很快，像在搶答。", "effects": {"bond": 0, "slip": 0, "clue": 0}, "next": "e5a", "recap": "「有。都是阿凱在叫」"}, {"text": "「有。最後那個女生的聲音，是雨夜嗎？」", "feedback": "按下送出，他才發現自己問的，根本不是雨夜。", "effects": {"bond": 1, "slip": 3, "clue": 2}, "next": "e5b", "recap": "問「那個女生的聲音是雨夜嗎」"}, {"text": "「沒聽，怎麼了」", "feedback": "他刪掉「有」，改成「沒聽」。說謊的時候，他打字特別慢。", "effects": {"bond": 0, "slip": 1, "clue": 0}, "next": "e5c", "recap": "說謊「沒聽」"}]},
+    {"id": "e5a", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "笑死　真的"},
+    {"id": "e5a2", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "那最後那句「老王，左邊」　是誰喊的啊", "alt": [{"when": {"ch2.c5b": 1}, "text": "那「退後，我來」那句　是誰啊"}, {"when": {"ch2.c5b": 2}, "text": "那最後那聲「欸——」是誰啦　笑死"}]},
+    {"id": "e5a3", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "不知道。阿凱吧", "note": "他說的「阿凱」，是他自己。", "next": "e6"},
+    {"id": "e5b", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "……應該是吧"},
+    {"id": "e5b2", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "她叫超大聲的", "note": "「應該是吧」——她說的雨夜，是她自己。"},
+    {"id": "e5b3", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "嗯", "next": "e6"},
+    {"id": "e5c", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "沒事　隨便問問"},
+    {"id": "e5c2", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "反正贏了就好", "next": "e6"},
+    {"id": "e6", "type": "chat", "speaker": "阿凱", "channel": "隊伍", "text": "我回來了　最後一隻　拚了"},
+    {"id": "f1", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "骨夾之主會在第三階段，把全場的人關進骨籠，只留一個人在外面。外面那個人，要在二十秒內打碎所有骨籠。\n\n這一次，被留在外面的是薇歐拉。"},
+    {"id": "f2", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "七座骨籠。林致遠先打左邊第一座——老王的那座。\n\n隊伍頻道跳出一行字："},
+    {"id": "f3", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "左邊那個先"},
+    {"id": "f4", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "他打字回：「知道」。打完才發現，老王那行字跳出來的時候，他的骷髏已經在左邊了。\n\n骨籠一座一座碎開。老王衝出來的第一件事，是站到薇歐拉前面。", "effects": {"bond": 2}, "alt": [{"when": {"var:bond": {"gte": 24}}, "text": "他打字回：「知道」。打完才發現，老王那行字跳出來的時候，他的骷髏已經在左邊了。\n\n骨籠一座一座碎開。老王衝出來的第一件事，是站到薇歐拉前面——就像他知道她會先救誰一樣。"}]},
+    {"id": "f5", "type": "narration", "style": "raid", "speaker": "旁白", "channel": "隊伍", "text": "全數通關", "raid": {"diff": "煉獄 14", "bosses": ["腐骨主母", "熔鐵屠夫", "雙生哀嚎", "深淵織網者", "骨夾之主"], "cleared": 5, "win": true, "time": "19:47"}},
+    {"id": "f6", "type": "chat", "speaker": "系統", "channel": "隊伍", "text": "地獄骨夾・煉獄 14　五王全數擊殺｜用時 19:47"},
+    {"id": "f7", "type": "chat", "speaker": "小米粥", "channel": "隊伍", "text": "老王車　穩"},
+    {"id": "f8", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "薇歐拉　週四老時間？"},
+    {"id": "f9", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "老時間"},
+    {"id": "f10", "type": "narration", "speaker": "旁白", "channel": "隊伍", "text": "老時間。週四晚上九點。\n\n他們從來沒有正式約過。只是半年來，每一次重置，兩個人都在。"},
+    {"id": "s7", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "週一 22:40・竹北", "pov": "yuan", "mode": "reality"},
+    {"id": "z1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "下線後，林致遠洗了澡，躺在床上滑手機。\n\nLinkedIn 又是 Rachel。第五次。", "alt": [{"when": {"c2": 0}, "text": "下線後，林致遠洗了澡，躺在床上，終於點開 Rachel 晚上傳來的職缺資料。\n\n電源設計、bring-up、年薪比現在多兩成。資料最底下，還有一段話："}]},
+    {"id": "z2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「林先生，若方便的話，這週四晚上八點，能和您通個十分鐘的電話嗎？我九點前一定結束，不會耽誤您太久。」", "note": "她九點前一定要結束——因為九點，她要開骨夾的車。"},
+    {"id": "c5", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "週四的電話", "text": "週四晚上八點。九點，是老時間。\n\n他回——", "choices": [{"text": "「好，九點前結束」", "feedback": "他算了一下：八點講十分鐘，八點五十上線。時間很夠。", "effects": {"bond": 0, "slip": 1, "clue": 2}, "next": "final", "recap": "答應週四 20:00 通電話"}, {"text": "已讀不回", "feedback": "螢幕暗下去。週四晚上，他只想留給一件事。", "effects": {"bond": 1, "slip": 0, "clue": 0}, "next": "final", "recap": "已讀不回"}, {"text": "「抱歉，週四晚上有約了」", "feedback": "有約。跟誰？他沒有往下想。", "effects": {"bond": 1, "slip": 1, "clue": 2}, "next": "final", "recap": "回「週四晚上有約了」"}]},
+    {"id": "final", "type": "chapterEnd", "scene": "calendar", "speaker": "旁白", "channel": "現實", "text": "週四。兩個人的行事曆上，寫著同一個晚上。", "pov": "both", "mode": "dm", "calendar": {"date": "10 月 15 日（四）", "yuan": [{"time": "20:00", "text": "Rachel 電話（10 分鐘）", "when": {"c5": 0}}, {"time": "20:50", "text": "上線"}, {"time": "21:00", "text": "骨夾・老時間", "hl": true}], "qing": [{"time": "20:00", "text": "致電 林致遠（已確認）", "when": {"c5": 0}}, {"time": "20:00", "text": "致電 林致遠？（未回覆）", "when": {"c5": 1}}, {"time": "——", "text": "林致遠：週四晚上有約", "when": {"c5": 2}}, {"time": "20:55", "text": "骨夾開車 --煉獄14五個王"}, {"time": "21:00", "text": "骨夾・老時間", "hl": true}]}}
+  ]
+}
+</script>
+
+<script type="application/json" id="chapter-4">
+{
+  "id": "ch4",
+  "no": "第四章",
+  "title": "新的職缺",
+  "carryFrom": "ch3",
+  "meterMax": 56,
+  "startPov": "qing",
+  "startMode": "reality",
+  "nextTeaser": "第五章",
+  "endLine": "十一月十四日，台北。\n距離見面，還有三十天。",
+  "cast": {
+    "yuan": {
+      "name": "林致遠",
+      "initial": "林",
+      "real": "32 歲・竹科資深硬體工程師",
+      "gid": "薇歐拉",
+      "gclass": "死靈法師・女性角色"
+    },
+    "qing": {
+      "name": "沈若晴",
+      "initial": "沈",
+      "real": "29 歲・獵頭顧問 Rachel",
+      "gid": "鐵拳老王",
+      "gclass": "野蠻人・男性角色"
+    },
+    "both": {
+      "name": "雙視角",
+      "initial": "∞",
+      "real": "林致遠 ／ 沈若晴",
+      "gid": "薇歐拉 ／ 鐵拳老王",
+      "gclass": ""
+    }
+  },
+  "hooks": {
+    "lead": [
+      {
+        "when": {
+          "c3": 0,
+          "c4": 0
+        },
+        "text": "兩個名字都在報名表上了。三十天後，薇歐拉和鐵拳老王會在同一張桌子前坐下——而其中一個，正想把另一個挖去台北。"
+      },
+      {
+        "when": {
+          "c3": 0
+        },
+        "text": "薇歐拉報名了，老王還沒有。三十天，夠一個人改變主意，也夠一個人想好藉口。"
+      },
+      {
+        "when": {
+          "c4": 0
+        },
+        "text": "老王報名了，薇歐拉還沒有。她說是為了薇歐拉，可是薇歐拉還在猶豫。"
+      },
+      {
+        "when": {
+          "c3": 2,
+          "c4": 2
+        },
+        "text": "加班，和喜酒。兩個藉口，一樣經不起查證——尤其是在同一個週六。"
+      },
+      {
+        "when": {},
+        "text": "兩個人都在等對方先決定。就像雙生封印，總得有人先站上去。"
+      }
+    ],
+    "value": [
+      {
+        "when": {
+          "var:slip": {
+            "gte": 48
+          }
+        },
+        "text": "破綻已經不是縫，是一扇半開的門。燒肉店的那張長桌，可能撐不到第一輪啤酒。"
+      },
+      {
+        "when": {
+          "var:clue": {
+            "gte": 40
+          }
+        },
+        "text": "內湖、上電時序、九點有事、台北——你看得一清二楚。他們只差把兩份筆記放在一起。"
+      },
+      {
+        "when": {
+          "var:bond": {
+            "gte": 34
+          }
+        },
+        "text": "他們已經習慣把背後交給對方。真正的考驗是：見到本人的那一秒，還敢不敢。"
+      },
+      {
+        "when": {},
+        "text": "一通電話、一場骨夾、一張報名表。同一個晚上，他們離彼此近了三次。"
+      }
+    ]
+  },
+  "nodes": [
+    {"id": "title", "type": "narration", "style": "title", "speaker": "旁白", "channel": "現實", "text": "新的職缺", "label": "2026 年 10 月 15 日（四）"},
+    {"id": "carry", "type": "narration", "style": "carry", "speaker": "旁白", "channel": "現實", "text": "上一章，你替他們做的選擇"},
+    {"id": "q1", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "週四晚上七點四十分。沈若晴把通話稿印出來，用螢光筆畫了三條線。\n\n他回了「好，九點前結束」。四次石沉大海之後，第一次答應。她不能搞砸。", "alt": [{"when": {"ch3.c5": 1}, "text": "週四晚上七點四十分。沈若晴把通話稿印出來，用螢光筆畫了三條線。\n\n他沒有回。已讀，沒有回。\n\n文姐說：「打。最壞就是沒人接。」所以她決定，八點整，打過去。最後一次。"}, {"when": {"ch3.c5": 2}, "text": "週四晚上七點四十分。沈若晴把職缺資料重新整理了一遍。\n\n他說週四晚上有約。那就不打擾。她決定八點整，傳一則整理得清清楚楚的訊息，讓他有空再看。"}]},
+    {"id": "q2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她看了一眼時鐘，又看了一眼電腦桌面上那個暗紅色的遊戲圖示。\n\n八點講電話，八點五十結束。九點，老時間。時間剛好。", "note": "竹北那頭，有人算的是一模一樣的時間表。"},
+    {"id": "q3", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "八點整。她深吸一口氣，按下撥號。", "alt": [{"when": {"ch3.c5": 2}, "text": "八點整。她按下送出。"}]},
+    {"id": "s1", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "竹北・20:00", "pov": "yuan", "mode": "reality"},
+    {"id": "k1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "八點整，手機響了。一秒都沒有差。\n\n林致遠盯著那串陌生號碼，讓它響了兩聲，才接起來。", "alt": [{"when": {"ch3.c5": 1}, "text": "八點整，手機響了。陌生號碼。\n\n他沒回她的訊息，她還是打來了。林致遠猶豫了三聲，最後還是接了——有人這麼準時，他很難不接。"}, {"when": {"ch3.c5": 2}, "text": "八點整，LinkedIn 跳出一則很長的訊息。\n\n他說週四有約，她就真的沒有打來。林致遠對這個獵頭的印象，第一次好了一點。"}], "nextIf": [{"when": {"ch3.c5": 2}, "next": "k4"}]},
+    {"id": "k2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「林先生您好，我是瀚智的 Rachel。」\n\n電話那頭的聲音清亮，語速很快，尾音帶著一點笑意。\n\n林致遠愣了半秒。"},
+    {"id": "k3", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "很普通的、業務的聲音。他放鬆了一點。", "alt": [{"when": {"ch2.c5a": {"in": [0, 1]}}, "text": "他好像在哪裡聽過這個聲音。\n\n然後他想起來：電話的語音頻寬只有三百到三千四百赫茲，高頻全被切掉了。這種頻寬下，誰的聲音聽起來都有點像誰。\n\n工程師的腦袋，很擅長替自己找到解釋。", "note": "他確實聽過。在那三十九秒的回放裡，用全頻寬聽過。"}], "note": "這個聲音，他差一點就在回放裡聽見。", "effects": {"clue": 2}},
+    {"id": "k4", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "Rachel 講得很清楚：客戶是內湖一家做電源管理晶片的公司，曜川半導體。新產品線要找一位能從 bring-up 一路帶到量產的資深硬體工程師，職稱技術主任，年薪比現在多兩成，加員工認股，每週可以遠端兩天。\n\n「最重要的是，」她說，「他們的 PMIC 第一版，上電時序一直有問題。看了您的背景，我覺得您會是最適合的人。」", "alt": [{"when": {"ch3.c5": 2}, "text": "Rachel 寫得很清楚：客戶是內湖一家做電源管理晶片的公司，曜川半導體。新產品線要找一位能從 bring-up 一路帶到量產的資深硬體工程師，職稱技術主任，年薪比現在多兩成，加員工認股，每週可以遠端兩天。\n\n最後一段寫著：「最重要的是，他們的 PMIC 第一版，上電時序一直有問題。看了您的背景，我覺得您會是最適合的人。」"}], "note": "上電時序。上週二深夜，她才在私訊裡聽一個死靈法師抱怨過。"},
+    {"id": "k5", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "上電時序。\n\n林致遠低頭，看著桌上那塊被他折騰了一整週、最後靠一顆電容救回來的 EVB。"},
+    {"id": "c1", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "職缺的提問", "text": "電話那頭在等他開口。他問——", "alt": [{"when": {"ch3.c5": 2}, "text": "他在對話框裡打了一行字——"}], "choices": [{"text": "「為什麼是我？」", "feedback": "他問得很直接。對方停了一秒，像是沒想到他會問這個。", "effects": {"bond": 1, "slip": 0, "clue": 1}, "next": "k6a", "recap": "問「為什麼是我？」"}, {"text": "「在內湖的話，要搬去台北嗎？」", "feedback": "他問的是通勤，腦袋裡卻冒出另一件事：老王好像住台北。他不知道自己為什麼會想到這個。", "effects": {"bond": 1, "slip": 1, "clue": 2}, "next": "k6b", "recap": "問「要搬去台北嗎？」"}, {"text": "「我考慮一下」", "feedback": "他最常用的一句話。開會用，回 PM 用，現在也用在她身上。", "effects": {"bond": 0, "slip": 0, "clue": 1}, "next": "k6c", "recap": "回「我考慮一下」"}]},
+    {"id": "k6a", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「因為您三次都沒理我。」她笑了一下，「說真的，能不回三次獵頭訊息的人，通常手上的事情很重要。客戶要的，就是這種人。」", "alt": [{"when": {"ch3.c5": 2}, "text": "她回得很快：「因為您三次都沒理我。說真的，能不回三次獵頭訊息的人，通常手上的事情很重要。客戶要的，就是這種人。」"}], "next": "k7"},
+    {"id": "k6b", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「很多人住新北，通勤也還好。像我住永和，到內湖捷運四十分鐘左右。」\n\n她說完，好像才發現自己講太多了，輕輕咳了一聲。", "alt": [{"when": {"ch3.c5": 2}, "text": "她回：「很多人住新北，通勤也還好。像我住永和，到內湖捷運四十分鐘左右。」\n\n下一行又補了一句：「抱歉，扯到我自己了。」"}], "note": "永和。他記住了這兩個字，雖然他還不知道為什麼要記住。", "next": "k7"},
+    {"id": "k6c", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「當然！我把資料整理好寄給您，您慢慢看。」她的語氣一點都沒有失望。\n\n做這行三年，她知道「考慮一下」，已經比「沒興趣」近了很多。", "alt": [{"when": {"ch3.c5": 2}, "text": "「當然！您慢慢看，有問題隨時問我。」\n\n她的回覆一點都沒有失望。做這行三年，她知道「考慮一下」，已經比「沒興趣」近了很多。"}], "next": "k7"},
+    {"id": "k7", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "「那就先這樣，」他看了一眼時間，八點四十二分，「我九點有事。」\n\n「沒問題！」她的聲音忽然輕快起來，「剛好我九點也有事。」\n\n兩個人同時笑了一下，掛掉電話。", "alt": [{"when": {"ch3.c5": 2}, "text": "八點四十二分，他打：「我九點有事，先這樣。」\n\n「沒問題！剛好我九點也有事。」\n\n他看著那行字，嘴角動了一下。這個獵頭，打字的節奏有點像某個人。"}], "effects": {"clue": 2}, "note": "兩個人九點的「事」，是同一件事。"},
+    {"id": "s2", "type": "switch", "speaker": "林致遠", "channel": "氏族", "text": "21:00・老時間", "pov": "yuan", "mode": "game"},
+    {"id": "g1", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "骨夾開車 --煉獄14五個王", "time": "20:58:40", "pause": true},
+    {"id": "g2", "type": "chat", "speaker": "系統", "channel": "隊伍", "text": "薇歐拉 加入了隊伍", "time": "20:58:41"},
+    {"id": "g3", "type": "chat", "speaker": "阿凱", "channel": "隊伍", "text": "老王今天晚了三分鐘發車　稀奇"},
+    {"id": "g4", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "剛剛在忙工作　走了走了"},
+    {"id": "g5", "type": "narration", "speaker": "林致遠", "channel": "隊伍", "text": "剛剛在忙工作。\n\n林致遠看著那行字，想起自己剛剛也在「忙工作」。他沒有多想。\n\n週四的骨夾打得比週一還快。老王今天的斧頭特別兇，像心情很好。", "note": "她心情很好，因為四次石沉大海的候選人，今晚終於開口了。"},
+    {"id": "g6", "type": "narration", "style": "raid", "speaker": "旁白", "channel": "隊伍", "text": "全數通關", "raid": {"diff": "煉獄 14", "bosses": ["腐骨主母", "熔鐵屠夫", "雙生哀嚎", "深淵織網者", "骨夾之主"], "cleared": 5, "win": true, "time": "18:30"}},
+    {"id": "g7", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "今天怎樣"},
+    {"id": "c2", "type": "choice", "speaker": "林致遠", "channel": "私訊", "recapLabel": "告訴老王", "text": "今天怎樣。\n\n他今天，跟一個獵頭講了四十二分鐘。要告訴老王嗎？", "alt": [{"when": {"ch3.c5": 2}, "text": "今天怎樣。\n\n他今天，跟一個獵頭傳了四十分鐘的訊息。要告訴老王嗎？"}], "choices": [{"text": "「接了一通獵頭電話」", "feedback": "他第一次跟老王講現實裡的事，講得比想像中自然。", "effects": {"bond": 1, "slip": 3, "clue": 3}, "next": "h1a", "recap": "說「接了一通獵頭電話」"}, {"text": "「沒什麼，加班」", "feedback": "最省事的答案。說完，他有一點點後悔。", "effects": {"bond": 0, "slip": 0, "clue": 1}, "next": "h1b", "recap": "說「沒什麼，加班」"}, {"text": "「我可能會換工作」", "feedback": "他打出來，才發現這是他第一次對任何人說這句話。", "effects": {"bond": 2, "slip": 2, "clue": 2}, "next": "h1c", "recap": "說「我可能會換工作」"}]},
+    {"id": "h1a", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "接了一通獵頭電話"},
+    {"id": "h1a2", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "……喔？"},
+    {"id": "h1a3", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "怎樣　有興趣嗎"},
+    {"id": "h1a4", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "內湖的。還在想", "note": "永和那頭，若晴盯著「內湖」兩個字，手指懸在鍵盤上整整五秒。", "next": "s3"},
+    {"id": "h1b", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "沒什麼，加班"},
+    {"id": "h1b2", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "辛苦了　竹科真的不是人", "note": "他沒有加班。八點到八點四十二分，他在跟她講話。", "next": "s3"},
+    {"id": "h1c", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "我可能會換工作"},
+    {"id": "h1c2", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "！！"},
+    {"id": "h1c3", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "換去哪"},
+    {"id": "h1c4", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "還不確定。可能台北"},
+    {"id": "h1c5", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "台北好啊　我在台北", "note": "她不知道，她今晚已經親手把他往台北推了一步。", "next": "s3"},
+    {"id": "s3", "type": "switch", "speaker": "沈若晴", "channel": "私訊", "text": "永和，同一時間", "pov": "qing", "mode": "game"},
+    {"id": "r1", "type": "narration", "speaker": "沈若晴", "channel": "私訊", "text": "加班。\n\n她回了一句辛苦了，心裡想的卻是另一個工程師——那個說「我九點有事」的林致遠。\n\n不知道他九點，是要做什麼。", "alt": [{"when": {"c2": 0}, "text": "內湖。\n\n若晴把今晚的通話筆記拉到螢幕旁邊：內湖、PMIC、上電時序。\n\n……竹科每週接到獵頭電話的人，應該有幾百個吧。內湖的職缺，也有幾十個。她這樣告訴自己，卻沒辦法把筆記關掉。"}, {"when": {"c2": 2}, "text": "可能台北。\n\n她今晚才剛幫一個竹科工程師，介紹了一個台北的職缺。\n\n「巧合。」她說出聲來，「全台灣的工程師都想去台北。」"}], "effects": {"clue": 1}},
+    {"id": "s4", "type": "switch", "speaker": "林致遠", "channel": "公告", "text": "22:00・氏族公告", "pov": "yuan", "mode": "game"},
+    {"id": "n1", "type": "chat", "speaker": "夜梟", "channel": "公告", "text": "各位深淵燈火的戰友：本氏族下個月就滿三週年了！"},
+    {"id": "n2", "type": "chat", "speaker": "夜梟", "channel": "公告", "text": "三年，從十二個人打到現在，影盟之戰上週還贏了血月王庭。族長決定，來辦一場線下聚會。"},
+    {"id": "n3", "type": "narration", "style": "event", "speaker": "旁白", "channel": "公告", "text": "深淵燈火・三週年線下聚會", "event": [{"k": "日期", "v": "11 月 14 日（六）18:30"}, {"k": "地點", "v": "台北・東區燒肉店（包場）"}, {"k": "報名", "v": "氏族公告下方按「報名」，10/31 截止"}, {"k": "備註", "v": "族長請第一輪。記得帶本人來，不要帶角色。"}]},
+    {"id": "n4", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "終於可以看到大家本人了"},
+    {"id": "n5", "type": "chat", "speaker": "小米粥", "channel": "氏族", "text": "我要看薇歐拉本人！一定是長髮正妹"},
+    {"id": "n6", "type": "chat", "speaker": "阿肥", "channel": "氏族", "text": "老王本人一定有鬍子　賭一百"},
+    {"id": "n7", "type": "chat", "speaker": "雨夜", "channel": "氏族", "text": "夫妻檔一定要來喔"},
+    {"id": "n8", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "@鐵拳老王 @薇歐拉　你們兩個不准缺席"},
+    {"id": "n9", "type": "narration", "speaker": "林致遠", "channel": "氏族", "text": "長髮正妹。\n\n林致遠摸了一下自己越來越高的髮際線。\n\n三十天後，台北。一張長桌，十幾個人，小米粥會舉著手機到處問「薇歐拉是誰」。然後他要舉手。", "note": "永和那頭，也有人正盯著「一定有鬍子」五個字發呆。"},
+    {"id": "c3", "type": "choice", "speaker": "林致遠", "channel": "氏族", "recapLabel": "薇歐拉報名", "text": "報名按鈕就在公告下面。薇歐拉——", "choices": [{"text": "按下「報名」", "feedback": "手指比腦袋快。等他反應過來，名單上已經多了「薇歐拉」三個字。", "effects": {"bond": 2, "slip": 3, "clue": 1}, "next": "j1a", "recap": "按下報名"}, {"text": "回「再看看那天有沒有空」", "feedback": "最安全的答案。三十天，夠他想一個更好的藉口。", "effects": {"bond": 0, "slip": 1, "clue": 0}, "next": "j1b", "recap": "說「再看看」"}, {"text": "回「那天要加班」", "feedback": "送出之後，他才想起十一月十四號是星期六。", "effects": {"bond": 0, "slip": 2, "clue": 1}, "next": "j1c", "recap": "說「那天要加班」"}]},
+    {"id": "j1a", "type": "chat", "speaker": "系統", "channel": "公告", "text": "薇歐拉 已報名 三週年線下聚會"},
+    {"id": "j1a2", "type": "chat", "speaker": "小米粥", "channel": "氏族", "text": "！！！！薇歐拉要來！！！", "next": "s5"},
+    {"id": "j1b", "type": "chat", "speaker": "薇歐拉", "channel": "氏族", "text": "再看看那天有沒有空"},
+    {"id": "j1b2", "type": "chat", "speaker": "夜梟", "channel": "氏族", "text": "還有三十天　你一定有空", "next": "s5"},
+    {"id": "j1c", "type": "chat", "speaker": "薇歐拉", "channel": "氏族", "text": "那天要加班"},
+    {"id": "j1c2", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "週六加什麼班　竹科是不是人啊", "next": "s5"},
+    {"id": "s5", "type": "switch", "speaker": "沈若晴", "channel": "氏族", "text": "永和，同一時間", "pov": "qing", "mode": "game"},
+    {"id": "u1", "type": "narration", "speaker": "沈若晴", "channel": "氏族", "text": "沈若晴看著那行「一定有鬍子」，笑不出來。\n\n她想像那個畫面：東區的燒肉店，一張長桌，阿肥舉著一百塊喊「老王是誰？」——然後她舉手。", "alt": [{"when": {"c3": 0}, "text": "沈若晴看著那行「一定有鬍子」，笑不出來。\n\n然後她看見：「薇歐拉 已報名」。\n\n她想像那個畫面：東區的燒肉店，一張長桌，薇歐拉坐在對面。一個長髮、文靜、血量見底時會第一個擋到她前面的女生。然後阿肥舉著一百塊喊「老王是誰？」——她要舉手。"}]},
+    {"id": "u2", "type": "narration", "speaker": "沈若晴", "channel": "氏族", "text": "她選男性角色，就是不想被當成需要人帶的那個。可是三年的氏族、半年的骨夾，總不能永遠只用打字出現。"},
+    {"id": "c4", "type": "choice", "speaker": "沈若晴", "channel": "氏族", "recapLabel": "老王報名", "text": "鐵拳老王——", "choices": [{"text": "按下「報名」", "feedback": "她告訴自己：是為了薇歐拉。半年的骨夾，總不能讓人家一個人坐。", "effects": {"bond": 2, "slip": 3, "clue": 1}, "next": "v1a", "recap": "按下報名"}, {"text": "先私訊薇歐拉：「你會去嗎」", "feedback": "先問她。就像打王之前，先看副駕站在哪。", "effects": {"bond": 2, "slip": 1, "clue": 1}, "next": "v1b", "recap": "先私訊問薇歐拉"}, {"text": "回「那天要去喝喜酒」", "feedback": "完美的藉口：不能查證，也不能改期。打完，她有點討厭這麼會找藉口的自己。", "effects": {"bond": 0, "slip": 1, "clue": 0}, "next": "v1c", "recap": "說「那天要喝喜酒」"}]},
+    {"id": "v1a", "type": "chat", "speaker": "系統", "channel": "公告", "text": "鐵拳老王 已報名 三週年線下聚會"},
+    {"id": "v1a2", "type": "chat", "speaker": "阿肥", "channel": "氏族", "text": "鬍子確定要來了　大家準備好一百塊", "next": "final"},
+    {"id": "v1b", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "你會去嗎"},
+    {"id": "v1b2", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "我報了。你呢", "alt": [{"when": {"c3": 1}, "text": "不知道。你呢"}, {"when": {"c3": 2}, "text": "我說要加班。你呢"}]},
+    {"id": "v1b3", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "我也還在想", "next": "final"},
+    {"id": "v1c", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "那天要去喝喜酒"},
+    {"id": "v1c2", "type": "chat", "speaker": "雨夜", "channel": "氏族", "text": "喝完喜酒再來續攤啊", "next": "final"},
+    {"id": "final", "type": "chapterEnd", "scene": "signup", "speaker": "旁白", "channel": "公告", "text": "三十天後。如果他們都去的話。", "pov": "both", "mode": "game", "signup": {"title": "三週年線下聚會・報名名單", "rows": [{"name": "夜梟", "status": "已報名"}, {"name": "阿凱", "status": "已報名"}, {"name": "小米粥", "status": "已報名"}, {"name": "雨夜", "status": "已報名"}, {"name": "阿肥", "status": "已報名"}, {"name": "薇歐拉", "status": "已報名", "when": {"c3": 0}}, {"name": "薇歐拉", "status": "再看看", "when": {"c3": 1}}, {"name": "薇歐拉", "status": "說要加班", "when": {"c3": 2}}, {"name": "鐵拳老王", "status": "已報名", "when": {"c4": 0}}, {"name": "鐵拳老王", "status": "還在想", "when": {"c4": 1}}, {"name": "鐵拳老王", "status": "說要喝喜酒", "when": {"c4": 2}}, {"name": "老K", "status": "未回覆"}, {"name": "布丁", "status": "未回覆"}]}}
+  ]
+}
+</script>
+
+
+<script>
+"use strict";
+/* ===== 章節登記：新增章節時，把 <script type="application/json" id="chapter-N"> 的 id 加進來 ===== */
+const CHAPTER_IDS = ["chapter-1", "chapter-2", "chapter-3", "chapter-4"];
+const SAVE_KEY = "abyss-lantern:save:v2";
+const CARRY_KEY = "abyss-lantern:carry:v1";
+const PREF_KEY = "abyss-lantern:prefs";
+const METERS = { bond: "默契", slip: "破綻", clue: "線索" };
+const CH_CLASS = { "氏族": "c-clan", "隊伍": "c-party", "私訊": "c-dm", "公告": "c-notice", "語音": "c-voice" };
+
+const CHAPTERS = CHAPTER_IDS.map(id => { try { return JSON.parse(document.getElementById(id).textContent); } catch (e) { console.error("章節資料解析失敗：" + id, e); return null; } }).filter(Boolean);
+let CH, N, ORDER;
+
+const $ = s => document.querySelector(s);
+const app = $("#app"), stage = $("#stage"), scroller = $("#scroll");
+let state, busy = false, fast = false, pending = null;
+
+/* ---------- storage (always guarded) ---------- */
+function readJSON(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (_) { return null; } }
+function writeJSON(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (_) {} }
+function removeKey(k){ try { localStorage.removeItem(k); } catch (_) {} }
+function save(){ writeJSON(SAVE_KEY, state); }
+
+function useChapter(ch){ CH = ch; N = {}; ORDER = ch.nodes.map(n => n.id); ch.nodes.forEach((n, i) => N[n.id] = Object.assign({}, n, { index: i })); }
+function mmax(){ return CH.meterMax || 20; }
+function freshState(ch){
+  const vars = { bond: 0, slip: 0, clue: 0 };
+  if (ch.carryFrom) { const c = (readJSON(CARRY_KEY) || {})[ch.carryFrom]; if (c && c.vars) Object.assign(vars, c.vars); }
+  return { v: 2, chapter: ch.id, pos: ch.nodes[0].id, path: [ch.nodes[0].id], vars, picks: {}, ended: false };
+}
+function loadState(){
+  const s = readJSON(SAVE_KEY);
+  try {
+    if (!s || s.v !== 2) throw 0;
+    const ch = CHAPTERS.find(c => c.id === s.chapter); if (!ch) throw 0;
+    useChapter(ch);
+    if (!Array.isArray(s.path) || !s.path.length || !s.path.every(id => N[id]) || !N[s.pos]) throw 0;
+    s.vars = Object.assign({ bond: 0, slip: 0, clue: 0 }, s.vars); s.picks = s.picks || {};
+    return s;
+  } catch (_) { useChapter(CHAPTERS[0]); return freshState(CHAPTERS[0]); }
+}
+
+/* ---------- helpers ---------- */
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function paras(t){ return String(t).split(/\n\n+/).map(p => "<p>" + esc(p).replace(/\n/g, "<br>") + "</p>").join(""); }
+/* 條件：{ c1:2 }＝本章選擇；{ "ch1.c1":2 }＝前章選擇；{ "var:bond":{gte:10} }＝數值；值可為 {gte, lte, in:[…]} */
+function cond(when){
+  if (!when) return true;
+  const carry = readJSON(CARRY_KEY) || {};
+  return Object.entries(when).every(([k, v]) => {
+    let actual;
+    if (k.startsWith("var:")) actual = state.vars[k.slice(4)];
+    else if (k.includes(".")) { const [c, id] = k.split("."); actual = carry[c] && carry[c].picks ? carry[c].picks[id] : undefined; }
+    else actual = state.picks[k];
+    if (v && typeof v === "object") {
+      if (actual == null) return false;
+      if ("gte" in v && !(actual >= v.gte)) return false;
+      if ("lte" in v && !(actual <= v.lte)) return false;
+      if ("in" in v && !v.in.includes(actual)) return false;
+      return true;
+    }
+    return actual === v;
+  });
+}
+function pickAlt(n){ if (n.alt) for (const a of n.alt) if (cond(a.when)) return a; return null; }
+function textOf(n){ const a = pickAlt(n); return a && a.text != null ? a.text : n.text; }
+function noteOf(n){ const a = pickAlt(n); return a && "note" in a ? a.note : n.note; }
+function nextOf(n){
+  if (n.type === "choice") { const p = state.picks[n.id]; return p == null ? null : n.choices[p].next; }
+  if (n.type === "chapterEnd") return null;
+  if (n.nextIf) for (const b of n.nextIf) if (cond(b.when)) return b.next;
+  return n.next || ORDER[n.index + 1] || null;
+}
+function wait(ms){
+  if (fast) return Promise.resolve();
+  return new Promise(r => { const t = setTimeout(() => { pending = null; r(); }, ms); pending = () => { clearTimeout(t); pending = null; r(); }; });
+}
+function hurry(){ fast = true; if (pending) pending(); }
+function scrollEnd(){ requestAnimationFrame(() => { scroller.scrollTop = scroller.scrollHeight; }); }
+function el(html){ const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; }
+function sideOf(n, pov){ const me = CH.cast[pov]; return me && me.gid === n.speaker ? "me" : "them"; }
+function leadIds(){ return [CH.cast.yuan.gid, CH.cast.qing.gid]; }
+
+/* ---------- header / mode ---------- */
+let curPov = null, curMode = null;
+function applyHeader(pov, mode){
+  curPov = pov; curMode = mode;
+  const c = CH.cast[pov];
+  $("#povInitial").textContent = c.initial;
+  $("#povName").textContent = c.name;
+  $("#tagReal").textContent = "現實｜" + c.real;
+  $("#tagGid").textContent = "遊戲 ID｜" + c.gid + (c.gclass ? "（" + c.gclass + "）" : "");
+  app.className = "app mode-" + mode;
+  $("#modeChip").textContent = mode === "game" ? "遊戲模式" : mode === "dm" ? "私訊模式" : "現實模式";
+}
+function ctxAt(idx){
+  for (let i = idx; i >= 0; i--) { const n = N[state.path[i]]; if (n.type === "switch" || n.type === "chapterEnd") return { pov: n.pov, mode: n.mode }; }
+  return { pov: CH.startPov, mode: CH.startMode };
+}
+
+/* ---------- meters ---------- */
+function renderMeters(){
+  for (const k of ["bond", "slip", "clue"]) {
+    const K = k[0].toUpperCase() + k.slice(1), v = state.vars[k];
+    $("#val" + K).textContent = v; $("#bar" + K).style.width = Math.min(100, v / mmax() * 100) + "%";
+  }
+}
+function applyEffects(eff, showFloat){
+  if (!eff) return [];
+  const out = [];
+  for (const [k, v] of Object.entries(eff)) { if (!v || !(k in state.vars)) continue; state.vars[k] += v; out.push([k, v]); }
+  renderMeters();
+  if (showFloat && out.length) {
+    const btn = $("#meterBtn"); btn.classList.remove("pulse"); void btn.offsetWidth; btn.classList.add("pulse");
+    out.forEach(([k, v], i) => { const f = el(`<span class="float k-${k}" style="animation-delay:${i * .18}s">${METERS[k]} ${v > 0 ? "+" : ""}${v}</span>`); btn.appendChild(f); setTimeout(() => f.remove(), 2200 + i * 180); });
+  }
+  return out;
+}
+
+/* ---------- veil ---------- */
+async function veil(n){
+  const c = CH.cast[n.pov], v = $("#veil");
+  v.className = "veil v-" + (n.pov === "both" ? "both" : n.mode);
+  $("#veilName").textContent = c.name;
+  $("#veilTags").innerHTML = `<span>現實｜${esc(c.real)}</span><span>遊戲 ID｜${esc(c.gid)}</span>`;
+  $("#veilSub").textContent = n.text && n.type === "switch" ? n.text : "";
+  void v.offsetWidth; v.classList.add("show");
+  await wait(420);
+  applyHeader(n.pov, n.mode); stage.innerHTML = "";
+  await wait(1100);
+  v.classList.remove("show");
+  await wait(300);
+}
+
+/* ---------- special cards ---------- */
+const MIC_ON = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="1.5" width="5" height="8.5" rx="2.5" fill="currentColor"/><path d="M3 8a5 5 0 0 0 10 0M8 13v2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+const MIC_OFF = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="1.5" width="5" height="8.5" rx="2.5" fill="currentColor"/><path d="M3 8a5 5 0 0 0 10 0M8 13v2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M2 2l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+function rosterEl(n){
+  const leads = leadIds();
+  return el(`<div class="card block"><h5>${esc(n.text)}</h5><div class="roster">${(n.roster || []).map(r => `<div class="${leads.includes(r.name) ? "hl" : ""}">${esc(r.name)}<small>${esc(r.role)}</small></div>`).join("")}</div><div class="card-foot">8 ／ 8 人・已鎖定</div></div>`);
+}
+function voiceEl(n){
+  const v = n.voice || {}, off = v.off || [], lit = v.lit || [], leads = leadIds();
+  const rows = (v.members || []).map(m => {
+    const st = lit.includes(m) ? "lit" : off.includes(m) ? "off" : "on";
+    return `<div class="vrow ${leads.includes(m) ? "lead" : ""}"><span>${esc(m)}</span><span class="mic ${st}" title="${st === "off" ? "靜音" : st === "lit" ? "說話中" : "開啟"}">${st === "off" ? MIC_OFF : MIC_ON}</span></div>`;
+  }).join("");
+  return el(`<div class="card voice block"><h5>${esc(n.text)}</h5>${rows}</div>`);
+}
+function hudEl(n){
+  const h = n.hud || {}, tw = k => "◆".repeat(k) + "◇".repeat(Math.max(0, 3 - k));
+  const side = (s, cls, name) => `<div class="side ${cls}"><div class="nm">${esc(name)}</div><div class="crys"><i style="width:${s.crystal}%"></i></div><div class="cv">水晶之心 ${s.crystal}%</div><div class="towers" aria-label="箭塔剩 ${s.towers} 座">${tw(s.towers)}</div></div>`;
+  return el(`<div class="card hud-card block ${h.win ? "win" : ""}"><div class="hud">${side(h.ours, "ours", "深淵燈火")}<div class="clock">${esc(h.time)}<small>第三戰場</small></div>${side(h.theirs, "theirs", "血月王庭")}</div><div class="hud-cap">${esc(n.text)}</div></div>`);
+}
+function raidEl(n){
+  const r = n.raid || {}, bs = r.bosses || [];
+  const rows = bs.map((b, i) => { const st = i < r.cleared ? "done" : i === r.cleared && !r.win ? "now" : "todo";
+    return `<li class="${st}"><span class="bi">${st === "done" ? "✓" : i + 1}</span><span>${esc(b)}</span><small>${st === "done" ? "已擊殺" : st === "now" ? "挑戰中" : ""}</small></li>`; }).join("");
+  return el(`<div class="card raid block ${r.win ? "win" : ""}"><div class="raid-top"><h5>地獄骨夾・${esc(r.diff || "")}</h5><span>${r.cleared || 0} ／ ${bs.length}${r.time ? "・" + esc(r.time) : ""}</span></div><div class="track"><i style="width:${bs.length ? (r.cleared || 0) / bs.length * 100 : 0}%"></i></div><ul>${rows}</ul><div class="raid-foot">${esc(n.text)}<span>每週一、週四重置・8 人</span></div></div>`);
+}
+function eventEl(n){
+  return el(`<div class="card event block"><div class="ev-mark" aria-hidden="true">III</div><h5>${esc(n.text)}</h5>${(n.event || []).map(r => `<div class="ev-row"><span>${esc(r.k)}</span><b>${esc(r.v)}</b></div>`).join("")}<div class="ev-btn">報名</div></div>`);
+}
+function carryEl(n){
+  const c = CH.carryFrom ? (readJSON(CARRY_KEY) || {})[CH.carryFrom] : null;
+  if (!c) return el(`<div class="carry block"><h5>${esc(n.text)}</h5><p>找不到上一章的紀錄，數值從 0 開始。</p></div>`);
+  const r = Array.isArray(c.recap) ? c.recap : Object.entries(c.recap || {}).map(([k, t]) => ({ label: k, text: t }));
+  return el(`<div class="carry block"><h5>${esc(n.text)}</h5>
+    <div class="vals"><span class="k-bond">默契 <b>${c.vars.bond}</b></span><span class="k-slip">破綻 <b>${c.vars.slip}</b></span><span class="k-clue">線索 <b>${c.vars.clue}</b></span></div>
+    <ul>${r.map(x => `<li><span>${esc(x.label)}</span>${esc(x.text)}</li>`).join("")}</ul></div>`);
+}
+
+/* ---------- block rendering ---------- */
+function noteEl(text){
+  return el(`<div class="note"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8Z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg><div><b>上帝視角</b>${esc(text)}</div></div>`);
+}
+function dimPast(){ stage.querySelectorAll(".narr:not(.past)").forEach(e => e.classList.add("past")); }
+function sceneHead(n){
+  const mode = n.mode, frag = document.createDocumentFragment();
+  frag.appendChild(el(`<div class="scene-head block">${esc(n.text)}</div>`));
+  if (mode === "game") frag.appendChild(el(`<div class="win-bar block"><b>深淵燈火・頻道</b><span class="legend"><i style="--c:var(--ch-clan)">氏族</i><i style="--c:var(--ch-party)">隊伍</i><i style="--c:var(--ch-voice)">語音</i><i style="--c:var(--ch-dm)">私訊</i></span></div>`));
+  if (mode === "dm") { const other = n.pov === "yuan" ? CH.cast.qing.gid : CH.cast.yuan.gid; frag.appendChild(el(`<div class="win-bar block"><span><span class="dot-online"></span><b>私訊・${esc(other)}</b></span><span style="color:var(--ch-dm)">一對一</span></div>`)); }
+  return frag;
+}
+function chatHTML(n){
+  const cls = CH_CLASS[n.channel] || "c-clan", self = CH.cast[curPov] && CH.cast[curPov].gid === n.speaker;
+  return `<div class="msg ${cls} ${n.channel === "公告" ? "notice" : ""} ${self ? "self" : ""}">${n.time ? `<span class="t">${esc(n.time)}</span>` : ""}<span class="ch">【${esc(n.channel)}】</span><span class="who">${esc(n.speaker)}</span>${esc(textOf(n))}</div>`;
+}
+function typingBubble(n, side){
+  return el(`<div class="row ${side}"><div class="name">${esc(n.speaker)}</div><div class="bubble typing">正在輸入中<span class="dots"><i></i><i></i><i></i></span></div></div>`);
+}
+function composer(text, tag){
+  return el(`<div class="composer">${tag ? `<span class="who-tag">${esc(tag)}</span>` : ""}<span class="field">${esc(text || "")}</span><span class="caret"></span><span class="send" aria-hidden="true">➤</span></div>`);
+}
+async function typeInto(field, draft, erase){
+  field.textContent = "";
+  for (const ch of draft) { field.textContent += ch; await wait(70); }
+  if (erase) { await wait(650); while (field.textContent.length) { field.textContent = field.textContent.slice(0, -1); await wait(45); } }
+  if (fast) field.textContent = erase ? "" : draft;
+}
+
+async function show(n, animate){
+  const t = n.type;
+  if (t === "switch") {
+    if (animate) await veil(n); else applyHeader(n.pov, n.mode);
+    stage.appendChild(sceneHead(n));
+  }
+  else if (t === "narration") {
+    const st = n.style;
+    if (st === "title") stage.appendChild(el(`<div class="title-card block"><div class="no">${esc(CH.no)}</div><h1>${esc(textOf(n))}</h1><div class="rule"></div><div class="date">${esc(n.label || "")}</div><div class="start-hint">輕觸開始</div></div>`));
+    else if (st === "roster") stage.appendChild(rosterEl(n));
+    else if (st === "voice") stage.appendChild(voiceEl(n));
+    else if (st === "hud") stage.appendChild(hudEl(n));
+    else if (st === "carry") stage.appendChild(carryEl(n));
+    else if (st === "raid") stage.appendChild(raidEl(n));
+    else if (st === "event") stage.appendChild(eventEl(n));
+    else { dimPast(); stage.appendChild(el(`<div class="narr block">${paras(textOf(n))}</div>`)); }
+  }
+  else if (t === "chat") {
+    if (animate) {
+      const voice = n.channel === "語音";
+      const tl = el(`<div class="msg typing-line ${CH_CLASS[n.channel] || "c-clan"}"><span class="who">${esc(n.speaker)}</span>${voice ? "正在說話" : "正在輸入"}<span class="dots"><i></i><i></i><i></i></span></div>`);
+      stage.appendChild(tl); scrollEnd();
+      await wait(Math.min(1500, 420 + textOf(n).length * 45));
+      tl.remove();
+    }
+    stage.appendChild(el(chatHTML(n)));
+  }
+  else if (t === "dm") {
+    const side = sideOf(n, curPov);
+    if (n.typing) { stage.appendChild(typingBubble(n, side)); }
+    else {
+      if (animate && side === "them") { const tb = typingBubble(n, side); stage.appendChild(tb); scrollEnd(); await wait(Math.min(1700, 600 + textOf(n).length * 50)); tb.remove(); }
+      else if (animate) await wait(250);
+      stage.appendChild(el(`<div class="row ${side}"><div class="name">${esc(n.speaker)}</div><div class="bubble">${esc(textOf(n))}</div></div>`));
+    }
+  }
+  else if (t === "choice") stage.appendChild(choiceBox(n));
+  else if (t === "chapterEnd") { await showEnding(n, animate); scrollEnd(); return; }
+  const note = noteOf(n);
+  if (note && t !== "choice") { if (animate) await wait(250); stage.appendChild(noteEl(note)); }
+  scrollEnd();
+}
+
+function choiceBox(n){
+  const picked = state.picks[n.id];
+  const box = el(`<div class="choice-box"><div class="prompt">${paras(textOf(n))}</div><div class="opt-label">請選擇</div><div class="opts"></div></div>`);
+  const opts = box.querySelector(".opts");
+  n.choices.forEach((c, i) => {
+    const b = el(`<button class="opt" type="button"><span class="k">${i + 1}</span><span>${esc(c.text)}</span></button>`);
+    b.addEventListener("click", e => { if (state.picks[n.id] != null) return; e.stopPropagation(); pick(n, i, box); });
+    opts.appendChild(b);
+  });
+  if (picked != null) resolveChoice(box, n, picked, false);
+  return box;
+}
+function resolveChoice(box, n, i, animate){
+  const c = n.choices[i], opts = box.querySelector(".opts");
+  opts.classList.add("done"); box.querySelector(".opt-label").textContent = "你的選擇";
+  opts.querySelectorAll(".opt").forEach((b, j) => { b.setAttribute("aria-disabled", "true"); b.tabIndex = -1; if (j === i) b.classList.add("picked"); });
+  const fb = el(`<div class="feedback">${esc(c.feedback)}</div>`);
+  const d = Object.entries(c.effects || {}).filter(([, v]) => v);
+  if (d.length) { const ds = el(`<div class="deltas"></div>`); d.forEach(([k, v]) => ds.appendChild(el(`<span class="delta k-${k}" style="color:var(--m)">${METERS[k]} ${v > 0 ? "+" : ""}${v}</span>`))); fb.appendChild(ds); }
+  let field = null;
+  if (c.draft != null) { const cp = composer(animate ? "" : (c.erase ? "" : c.draft), "草稿"); box.appendChild(cp); field = cp.querySelector(".field"); }
+  box.appendChild(fb);
+  return field;
+}
+async function pick(n, i, box){
+  if (busy || state.picks[n.id] != null) return;
+  busy = true; fast = false;
+  const c = n.choices[i];
+  state.picks[n.id] = i;
+  applyEffects(c.effects, true);
+  save();
+  const field = resolveChoice(box, n, i, true);
+  scrollEnd();
+  if (field) { await typeInto(field, c.draft, c.erase); scrollEnd(); }
+  busy = false; fast = false; updateUI();
+}
+
+/* ---------- chapter endings ---------- */
+function draftOf(id){ const n = N[id], p = state.picks[id]; if (!n || p == null) return ""; const c = n.choices[p]; return c.erase ? "" : (c.draft || ""); }
+function dualPanes(){
+  const y = CH.cast.yuan, q = CH.cast.qing;
+  return el(`<div class="dual block">
+    <div class="pane"><div class="pane-head"><span>${esc(y.name)}・<b>${esc(y.gid)}</b></span><span>竹北</span></div><div class="slot"></div></div>
+    <div class="pane"><div class="pane-head"><span>${esc(q.name)}・<b>${esc(q.gid)}</b></span><span>永和</span></div><div class="slot"></div></div></div>`);
+}
+async function endDual(n, animate){
+  const y = CH.cast.yuan, q = CH.cast.qing, d = CH.drafts || {};
+  stage.appendChild(el(`<div class="scene-head block">同一個瞬間</div>`));
+  const dual = dualPanes(), slots = dual.querySelectorAll(".slot");
+  const tbY = typingBubble({ speaker: q.gid }, "them"), tbQ = typingBubble({ speaker: y.gid }, "them");
+  slots[0].appendChild(tbY); slots[0].appendChild(composer(draftOf(d.yuan), ""));
+  slots[1].appendChild(tbQ); slots[1].appendChild(composer(draftOf(d.qing), ""));
+  stage.appendChild(dual); scrollEnd();
+  const finish = () => { tbY.querySelector(".bubble").classList.add("dark"); tbQ.querySelector(".bubble").classList.add("dark"); dual.classList.add("dark"); };
+  if (animate) { await wait(2600); finish(); await wait(1300); } else finish();
+}
+async function endReplay(n, animate){
+  stage.appendChild(el(`<div class="scene-head block">同一時間</div>`));
+  const dual = dualPanes();
+  dual.querySelectorAll(".slot").forEach(s => s.appendChild(el(`<div class="replay"><span class="play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M5 3l8 5-8 5z" fill="currentColor"/></svg></span><div><b>影盟紀錄・第三戰場</b><small>戰鬥回放（含語音）・15:00</small></div><svg class="cursor" width="16" height="20" viewBox="0 0 16 20" aria-hidden="true"><path d="M1 1v15l4-4 3 7 3-1-3-7h6z" fill="#f4ecdf" stroke="#111" stroke-width="1"/></svg></div>`)));
+  stage.appendChild(dual); scrollEnd();
+  if (animate) { await wait(900); dual.classList.add("hover"); await wait(2200); dual.classList.add("dark"); await wait(900); }
+  else dual.classList.add("hover", "dark");
+}
+async function endCalendar(n, animate){
+  const c = n.calendar || {};
+  stage.appendChild(el(`<div class="scene-head block">${esc(c.date || "")}</div>`));
+  const dual = dualPanes();
+  dual.querySelectorAll(".slot").forEach((slot, k) => {
+    const items = (c[k ? "qing" : "yuan"] || []).filter(x => cond(x.when));
+    slot.appendChild(el(`<div class="cal"><div class="cal-day">${esc(c.date || "")}</div>${items.map((x, i) => `<div class="cal-row ${x.hl ? "hl" : ""}" style="animation-delay:${animate ? .5 + i * .5 : 0}s"><span>${esc(x.time)}</span><b>${esc(x.text)}</b></div>`).join("")}</div>`));
+  });
+  stage.appendChild(dual); scrollEnd();
+  if (animate) { await wait(3200); dual.classList.add("match"); await wait(1200); } else dual.classList.add("match");
+}
+async function endSignup(n, animate){
+  const sg = n.signup || {}, leads = leadIds();
+  stage.appendChild(el(`<div class="scene-head block">${esc(sg.title || "")}</div>`));
+  const rows = (sg.rows || []).filter(r => cond(r.when));
+  const card = el(`<div class="card signup block"><h5>${esc(sg.title || "")}</h5>${rows.map((r, i) => `<div class="su-row ${leads.includes(r.name) ? "lead" : ""} ${r.status === "已報名" ? "yes" : ""}" style="animation-delay:${animate ? .3 + i * .22 : 0}s"><span>${esc(r.name)}</span><b>${esc(r.status)}</b></div>`).join("")}</div>`);
+  stage.appendChild(card); scrollEnd();
+  if (animate) { await wait(1200 + rows.length * 220); card.classList.add("focus"); await wait(1600); } else card.classList.add("focus");
+}
+async function showEnding(n, animate){
+  if (animate) await veil(Object.assign({}, n, { text: "" })); else applyHeader(n.pov, n.mode);
+  if (n.scene === "replay") await endReplay(n, animate);
+  else if (n.scene === "calendar") await endCalendar(n, animate);
+  else if (n.scene === "signup") await endSignup(n, animate);
+  else await endDual(n, animate);
+  stage.appendChild(el(`<div class="ending-line">${esc(n.text)}</div>`)); scrollEnd();
+  if (animate) await wait(2200);
+  completeChapter();
+  openEnd();
+}
+function completeChapter(){
+  state.ended = true; save();
+  const carry = readJSON(CARRY_KEY) || {};
+  const recap = [];
+  CH.nodes.filter(n => n.type === "choice").forEach(n => { const p = state.picks[n.id]; if (p != null) recap.push({ label: n.recapLabel || n.id, text: n.choices[p].recap || n.choices[p].text }); });
+  const drafts = {}; Object.entries(CH.drafts || {}).forEach(([who, id]) => drafts[who] = draftOf(id));
+  carry[CH.id] = { vars: Object.assign({}, state.vars), picks: Object.assign({}, state.picks), recap, drafts, completedAt: new Date().toISOString() };
+  writeJSON(CARRY_KEY, carry);
+}
+function firstMatch(list){ for (const h of list || []) if (cond(h.when)) return h.text; return ""; }
+function openEnd(){
+  const v = state.vars;
+  $("#endNo").textContent = CH.no + "　完";
+  $("#endTitle").textContent = CH.title;
+  $("#endLast").innerHTML = esc(CH.endLine || "").replace(/\n/g, "<br>");
+  $("#sBond").textContent = v.bond; $("#sSlip").textContent = v.slip; $("#sClue").textContent = v.clue;
+  [["Bond", v.bond], ["Slip", v.slip], ["Clue", v.clue]].forEach(([k, x]) => $("#sBar" + k).style.width = Math.min(100, x / mmax() * 100) + "%");
+  const hk = CH.hooks || {}; $("#hook").textContent = firstMatch(hk.lead); $("#hook2").textContent = firstMatch(hk.value);
+  const teaser = CH.nextTeaser || "下一章";
+  $("#recapTitle").textContent = "帶入" + teaser + "的狀態";
+  const list = $("#recapList"); list.innerHTML = "";
+  CH.nodes.filter(n => n.type === "choice").forEach(n => { const p = state.picks[n.id]; if (p == null) return; list.appendChild(el(`<li><span>${esc(n.recapLabel || n.id)}</span>${esc(n.choices[p].recap || n.choices[p].text)}</li>`)); });
+  const carry = (readJSON(CARRY_KEY) || {})[CH.id];
+  $("#savedNote").textContent = carry ? "已記錄，" + teaser + "開頭將承接以上狀態與數值。" : "（此瀏覽器無法存檔，本次結果不會帶入下一章。）";
+  const idx = CHAPTERS.findIndex(c => c.id === CH.id), nxt = CHAPTERS[idx + 1], prev = CHAPTERS[idx - 1];
+  const nb = $("#nextBtn"); nb.disabled = !nxt; nb.innerHTML = nxt ? `前往${esc(nxt.no)}<small>${esc(nxt.title)}</small>` : `${esc(teaser)}<small>即將推出</small>`;
+  const pb = $("#prevBtn"); pb.hidden = !prev; if (prev) pb.textContent = "回到" + prev.no + "重玩";
+  $("#endOverlay").classList.add("show"); $("#endOverlay").scrollTop = 0;
+  updateUI();
+}
+
+/* ---------- flow ---------- */
+async function step(id){
+  const n = N[id]; if (!n) return;
+  state.pos = id; state.path.push(id);
+  applyEffects(n.effects, true);
+  save();
+  await show(n, true);
+  if ((n.type === "chat" || n.type === "dm") && !n.typing && !n.pause) {
+    const nx = N[nextOf(n)];
+    if (nx && (nx.type === "chat" || nx.type === "dm") && !nx.typing) { await wait(550); await step(nx.id); }
+  }
+}
+async function advance(){
+  if (busy || state.ended) return;
+  const cur = N[state.pos];
+  if (cur.type === "choice" && state.picks[cur.id] == null) return;
+  const nid = nextOf(cur); if (!nid) return;
+  busy = true; fast = false; updateUI();
+  try { await step(nid); } finally { busy = false; fast = false; updateUI(); }
+}
+function updateUI(){
+  const cur = N[state.pos];
+  const waitingChoice = cur.type === "choice" && state.picks[cur.id] == null;
+  const h = $("#hint");
+  h.classList.toggle("off", waitingChoice || state.ended);
+  h.textContent = busy ? "點擊可加速" : "點擊畫面或按空白鍵繼續";
+  $("#progress").style.width = ((cur.index + 1) / ORDER.length * 100) + "%";
+}
+function rebuild(){
+  stage.innerHTML = "";
+  let start = 0;
+  for (let i = state.path.length - 1; i >= 0; i--) { const t = N[state.path[i]].type; if (t === "switch" || t === "chapterEnd") { start = i; break; } }
+  const ctx = ctxAt(start); applyHeader(ctx.pov, ctx.mode);
+  stage.classList.add("static");
+  const chain = state.path.slice(start).map(id => N[id]);
+  renderMeters(); updateUI();
+  (async () => {
+    for (const n of chain) await show(n, false);
+    requestAnimationFrame(() => stage.classList.remove("static"));
+    renderMeters(); updateUI();
+  })();
+}
+function startChapter(ch){
+  $("#endOverlay").classList.remove("show");
+  useChapter(ch); state = freshState(ch); save(); rebuild();
+}
+
+/* ---------- input ---------- */
+function onTap(e){
+  if (e.target.closest("button, .panel")) return;
+  if (busy) { hurry(); return; }
+  advance();
+}
+scroller.addEventListener("click", onTap);
+$("#hint").addEventListener("click", onTap);
+document.addEventListener("keydown", e => {
+  if ($("#modal").classList.contains("show")) { if (e.key === "Escape") closeModal(); return; }
+  if ($("#toc").classList.contains("show")) { if (e.key === "Escape") $("#toc").classList.remove("show"); return; }
+  if ($("#endOverlay").classList.contains("show")) return;
+  const cur = N[state.pos];
+  if (cur && cur.type === "choice" && state.picks[cur.id] == null && /^[1-9]$/.test(e.key)) {
+    const boxes = stage.querySelectorAll(".choice-box"), btns = boxes.length ? boxes[boxes.length - 1].querySelectorAll(".opt") : [];
+    const b = btns[+e.key - 1]; if (b) b.click(); return;
+  }
+  if ((e.code === "Space" || e.key === "Enter") && !e.target.closest("button")) { e.preventDefault(); if (busy) hurry(); else advance(); }
+});
+const panel = $("#panel"), meterBtn = $("#meterBtn");
+function setPanel(open){ panel.classList.toggle("closed", !open); meterBtn.setAttribute("aria-expanded", open); writeJSON(PREF_KEY, { panel: open }); }
+meterBtn.addEventListener("click", e => { e.stopPropagation(); setPanel(panel.classList.contains("closed")); });
+document.addEventListener("click", e => { if (!e.target.closest("#panel, #meterBtn") && !panel.classList.contains("closed") && window.innerWidth < 760) setPanel(false); });
+function openModal(){ $("#modal").classList.add("show"); $("#modalYes").focus(); }
+function closeModal(){ $("#modal").classList.remove("show"); }
+$("#clearBtn").addEventListener("click", e => { e.stopPropagation(); openModal(); });
+$("#clearBtn2").addEventListener("click", openModal);
+$("#modalNo").addEventListener("click", closeModal);
+$("#modalYes").addEventListener("click", () => { removeKey(SAVE_KEY); removeKey(CARRY_KEY); closeModal(); startChapter(CHAPTERS[0]); });
+$("#replayBtn").addEventListener("click", () => startChapter(CH));
+$("#nextBtn").addEventListener("click", () => { const i = CHAPTERS.findIndex(c => c.id === CH.id); if (CHAPTERS[i + 1]) startChapter(CHAPTERS[i + 1]); });
+$("#prevBtn").addEventListener("click", () => { const i = CHAPTERS.findIndex(c => c.id === CH.id); if (CHAPTERS[i - 1]) startChapter(CHAPTERS[i - 1]); });
+
+
+/* ---------- 目錄 ---------- */
+function renderToc(){
+  const carry = readJSON(CARRY_KEY) || {}, list = $("#tocList"); list.innerHTML = "";
+  CHAPTERS.forEach((c, i) => {
+    const unlocked = i === 0 || !!carry[CHAPTERS[i - 1].id], isCur = CH && c.id === CH.id, done = !!carry[c.id];
+    const st = isCur && !state.ended ? "閱讀中" : done ? "已完成" : unlocked ? "可閱讀" : "未解鎖";
+    const b = el(`<li><button class="toc-item ${isCur ? "cur" : ""} ${done ? "done" : ""}" type="button" ${unlocked ? "" : "disabled"}><span class="no">${esc(c.no)}</span><b>${esc(c.title)}</b><small>${st}</small></button></li>`);
+    b.querySelector("button").addEventListener("click", () => {
+      $("#toc").classList.remove("show");
+      if (isCur && !state.ended) return;
+      startChapter(c);
+    });
+    list.appendChild(b);
+  });
+  if (CHAPTERS.length && CHAPTERS[CHAPTERS.length - 1].nextTeaser) list.appendChild(el(`<li><button class="toc-item" type="button" disabled><span class="no">${esc(CHAPTERS[CHAPTERS.length - 1].nextTeaser)}</span><b>即將推出</b><small></small></button></li>`));
+}
+$("#tocBtn").addEventListener("click", e => { e.stopPropagation(); renderToc(); $("#toc").classList.add("show"); });
+$("#tocBtn2").addEventListener("click", () => { renderToc(); $("#toc").classList.add("show"); });
+$("#tocClose").addEventListener("click", () => $("#toc").classList.remove("show"));
+$("#toc").addEventListener("click", e => { if (e.target.id === "toc") $("#toc").classList.remove("show"); });
+
+/* ---------- boot ---------- */
+if (!CHAPTERS.length) { stage.innerHTML = "<p style='padding:2em'>劇情資料讀取失敗。</p>"; }
+else {
+  state = loadState();
+  renderMeters();
+  const pref = readJSON(PREF_KEY); if (pref && pref.panel && window.innerWidth >= 760) setPanel(true);
+  rebuild();
+}
+</script>
+
+</body>
+</html>
