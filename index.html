@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0d0b0c">
 <title>深淵燈火｜互動式網頁小說</title>
-<meta name="description" content="（第一至六章）兩個《暗黑破壞神：永生不朽》玩家同屬氏族「深淵燈火」，遊戲裡的性別都與現實相反。你站在上帝視角，看他們一步步靠近真相。互動式網頁小說。">
+<meta name="description" content="（全九章完結）兩個《暗黑破壞神：永生不朽》玩家同屬氏族「深淵燈火」，遊戲裡的性別都與現實相反。你站在上帝視角，看他們一步步靠近真相。互動式網頁小說。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="深淵燈火｜互動式網頁小說">
 <meta property="og:description" content="竹科工程師扮成女死靈法師，獵頭顧問扮成男野蠻人。他們每週一、四一起打骨夾，卻不知道對方是誰。">
@@ -349,6 +349,67 @@ button{font:inherit;color:inherit;cursor:pointer}
 .dual.on .fl-dot{background:#6fbf73;box-shadow:0 0 8px #6fbf73}
 .dual.on .fl-row b{color:#f0e7da}.dual.on .fl-st{color:#8fd19a}
 .dual.off .pane{filter:saturate(.5) brightness(.8)}
+.mode-reality .card{background:rgba(255,255,255,.5);border-color:rgba(110,80,50,.28);color:var(--ink)}
+.mode-reality .card h5{color:var(--rust)}
+.mode-reality .card-foot{color:var(--ink-soft)}
+.table-top{height:8px;border-radius:6px;background:linear-gradient(90deg,#c9b38c,#a88a5c);margin:4px 0 10px;opacity:.6}
+.seat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seat{padding:8px;border-radius:8px;background:rgba(0,0,0,.04);font-size:14px;min-width:0}
+.seat b{display:block;font-weight:600}
+.seat small{display:block;font-size:10.5px;color:var(--ink-soft);margin-top:2px;line-height:1.4}
+.seat.q{background:rgba(138,58,44,.08);border:1px dashed rgba(138,58,44,.4)}
+.seat.q b{color:var(--rust);font-size:16px}
+.seat.lead{box-shadow:inset 0 0 0 2px rgba(138,58,44,.55)}
+.seat.lead::after{display:block;font-size:10px;color:var(--rust);margin-top:3px;letter-spacing:.06em}
+.seat.lead-yuan::after{content:"← 薇歐拉"}.seat.lead-qing::after{content:"← 鐵拳老王"}
+.dual.meet .pane{background:rgba(255,255,255,.45);border-color:rgba(110,80,50,.3)}
+.mode-reality .pane-head{color:var(--ink-soft)}.mode-reality .pane-head b{color:var(--rust)}
+.seen p{margin:0 0 10px;font-family:var(--serif);font-size:15.5px;line-height:1.85;color:var(--ink);animation:rise .7s both}
+.meet-lines{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:22px 0 6px}
+.meet-lines span{font-family:var(--serif);font-size:clamp(20px,5.6vw,26px);letter-spacing:.1em;color:var(--rust);animation:rise 1s both}
+.mode-reality .ending-line{color:var(--ink)}
+/* 現實模式（米白底）下的聊天泡泡與輸入框 */
+.bubble{color:#efe6dc}
+.mode-reality .row .name{color:var(--ink-soft)}
+.mode-reality .bubble{background:#fffdf8;border:1px solid rgba(110,80,50,.22);color:var(--ink);box-shadow:0 1px 2px rgba(60,40,20,.06)}
+.mode-reality .row.me .bubble{background:linear-gradient(160deg,#8a3a2c,#6f2c22);border-color:#6f2c22;color:#fff8f0}
+.mode-reality .bubble.typing{background:#fffdf8;color:var(--ink-soft)}
+.mode-reality .composer{background:#fffdf8;border-color:rgba(110,80,50,.3)}
+.mode-reality .composer .field{color:var(--ink)}
+.mode-reality .composer .field:empty::before{color:#a8998a}
+.mode-reality .composer .caret{background:var(--rust)}
+.mode-reality .composer .send{background:#efe6d8;color:#a8998a}
+.mode-reality .msg.typing-line{color:var(--ink-soft)}
+/* 對比修正：米白底上的數值色 */
+.mode-reality #stage .k-bond{--m:#7a5c16}
+.mode-reality #stage .k-slip{--m:#a12f28}
+.mode-reality #stage .k-clue{--m:#2f6680}
+.carry .vals b{filter:none}
+.mode-reality .delta{background:rgba(0,0,0,.06);font-weight:600}
+/* 對比修正：章節以遊戲／私訊模式開場時的章名卡與前情卡 */
+.mode-game .title-card .no,.mode-dm .title-card .no{color:var(--gold)}
+.mode-game .title-card .date,.mode-dm .title-card .date,.mode-game .title-card .start-hint,.mode-dm .title-card .start-hint{color:#c2b5a5}
+.mode-game .carry,.mode-dm .carry{background:rgba(10,8,9,.8);border-color:var(--line);color:var(--bone)}
+.mode-game .carry h5,.mode-dm .carry h5{color:var(--gold)}
+.mode-game .carry li,.mode-dm .carry li{border-color:rgba(255,255,255,.07)}
+.mode-game .carry li span,.mode-dm .carry li span{color:#b3a798}
+.composer .send{color:#b4a8ba}
+.mode-reality .fusion,.mode-reality .skill{background:#1a1416;border-color:rgba(200,163,90,.35);color:var(--bone)}
+.mode-reality .fusion h5{color:var(--gold)}
+.mode-reality .skill h5{color:#d6ecf5}
+.mode-reality .skill .sk-tier{color:#a99d90}
+.mode-reality .fusion.ok{box-shadow:0 0 0 1px rgba(111,191,115,.5),0 10px 30px rgba(60,120,70,.18)}
+.wphoto{margin:14px auto;max-width:360px;padding:10px 10px 14px;background:#fffdf8;border-radius:6px;box-shadow:0 12px 34px rgba(0,0,0,.35);transform:rotate(-1.2deg)}
+.wphoto.big{max-width:440px;transform:rotate(0);animation:rise 1.2s both}
+.wframe{border-radius:3px;overflow:hidden;line-height:0}
+.wframe svg{width:100%;height:auto;display:block}
+.wphoto figcaption{padding:10px 4px 0;text-align:center;font-family:var(--serif);color:#3a2e25;font-size:14.5px;line-height:1.7}
+.wphoto figcaption small{display:block;font-family:var(--sans);font-size:11px;color:#8f7d6b;letter-spacing:.2em;margin-top:2px}
+.mode-reality .event{background:linear-gradient(160deg,#3c181c,#0c090a);border-color:rgba(227,199,133,.5);color:var(--bone)}
+.mode-reality .event h5{color:var(--gold-hi)}
+.mode-reality .event .ev-mark{color:rgba(200,163,90,.12)}
+.event.stamped{position:relative}
+.ev-stamp{position:absolute;right:16px;bottom:14px;padding:6px 12px;border:2px solid #d0605a;color:#e07a72;border-radius:6px;font-family:var(--serif);font-weight:700;letter-spacing:.3em;transform:rotate(-8deg);opacity:.85}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -450,7 +511,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   章節欄位：meterMax、endLine、nextTeaser、hooks:{lead:[{when,text}],value:[…]}、drafts、carryFrom
   chapterEnd 可設 scene："dualTyping"（雙輸入框）｜"replay"（回放）｜"calendar"（雙行事曆，calendar:{date,yuan:[{time,text,when,hl}],qing:[…]}）
   narration 另有 "event" 活動公告卡（event:[{k,v}]）；chapterEnd 另有 "signup" 報名名單（signup:{title,rows:[{name,status,when}]}）
-  narration 另有 "fusion" 魔寵合成（fusion:{count,target,a,b,out}）、"skill" 技能卡（skill:{tier,desc,cd}）；chapterEnd 另有 "presence" 雙方上下線（presence:{time}）
+  narration 另有 "fusion" 魔寵合成（fusion:{count,target,a,b,out}）、"skill" 技能卡（skill:{tier,desc,cd}）；chapterEnd 另有 "presence" 雙方上下線（presence:{time}）、"meet" 見面（meet:{place,yuan:[{text,when}],qing:[…],lines}）；narration 另有 "seats" 座位表（seats:[{name,tag,q,lead}]）、"photo" 婚紗照（photo:{caption,date}）；chapterEnd 另有 "photo"；章節設 "final":true 為完結章
   narration 另有 "raid" 副本進度（raid:{diff,bosses,cleared,win,time}）
   nextIf    依條件跳轉：[{ when:{ c2:0 }, next:"a1" }]，都不符合時走 next
   新章節可設 "carryFrom":"ch1"，開場會自動承接上一章的數值。
@@ -1488,11 +1549,494 @@ button{font:inherit;color:inherit;cursor:pointer}
 }
 </script>
 
+<script type="application/json" id="chapter-7">
+{
+  "id": "ch7",
+  "no": "第七章",
+  "title": "角落",
+  "carryFrom": "ch6",
+  "meterMax": 84,
+  "startPov": "yuan",
+  "startMode": "reality",
+  "nextTeaser": "第八章",
+  "endLine": "21:48，街角的寵物店門口。\n「……老王？」「……薇歐拉？」",
+  "cast": {
+    "yuan": {
+      "name": "林致遠",
+      "initial": "林",
+      "real": "32 歲・竹科資深硬體工程師",
+      "gid": "薇歐拉",
+      "gclass": "死靈法師・女性角色"
+    },
+    "qing": {
+      "name": "沈若晴",
+      "initial": "沈",
+      "real": "29 歲・獵頭顧問 Rachel",
+      "gid": "鐵拳老王",
+      "gclass": "野蠻人・男性角色"
+    },
+    "both": {
+      "name": "雙視角",
+      "initial": "∞",
+      "real": "林致遠 ／ 沈若晴",
+      "gid": "薇歐拉 ／ 鐵拳老王",
+      "gclass": ""
+    }
+  },
+  "hooks": {
+    "lead": [
+      {
+        "when": {
+          "ch6.c1": 0
+        },
+        "text": "她躲了「林致遠」一整晚。消去法早就把答案推到她面前，她卻一直把它按掉——直到那件灰色 polo 衫，走到寵物店門口。"
+      },
+      {
+        "when": {
+          "c2": 2
+        },
+        "text": "她胸口貼著「Rachel」，他就躲了她一整晚。現在，那個 Rachel 站在寵物店門口，手機上開著一隻灰燼狐。"
+      },
+      {
+        "when": {
+          "c3": 0
+        },
+        "text": "全場唯一知道薇歐拉是男生的人，是老K。他說他不會講出去——但他看見了，那個綁馬尾的女生一直在看哪裡。"
+      },
+      {
+        "when": {},
+        "text": "四個角落，認錯了兩次，猜對了一次。最後十公尺，他們不是去找答案，是去確認答案。"
+      }
+    ],
+    "value": [
+      {
+        "when": {
+          "var:slip": {
+            "gte": 74
+          }
+        },
+        "text": "破綻已經不需要再累積了。今晚之後，剩下的只有一件事：他們怎麼面對。"
+      },
+      {
+        "when": {
+          "var:clue": {
+            "gte": 66
+          }
+        },
+        "text": "你一路看著他們擦肩、認錯、躲開。下一章，終於輪到他們追上你了。"
+      },
+      {
+        "when": {
+          "var:bond": {
+            "gte": 58
+          }
+        },
+        "text": "認錯了人，也沒有認錯那份默契。在寵物店門口，他們只需要做一件事：像在骨道裡一樣，相信對方會在那裡。"
+      },
+      {
+        "when": {},
+        "text": "半年，兩個 ID，一場聚會。最後十公尺，是他們自己走完的。"
+      }
+    ]
+  },
+  "nodes": [
+    {"id": "title", "type": "narration", "style": "title", "speaker": "旁白", "channel": "現實", "text": "角落", "label": "2026 年 11 月 14 日（六）・深淵燈火三週年"},
+    {"id": "carry", "type": "narration", "style": "carry", "speaker": "旁白", "channel": "現實", "text": "上一章，你替他們做的選擇"},
+    {"id": "s0", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "台北東區・18:21", "pov": "yuan", "mode": "reality"},
+    {"id": "y1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "燒肉店的門一推開，熱氣、油煙和笑聲同時撲過來。\n\n整間店被包了下來。一張長桌從門口排到最裡面，桌上已經擺滿了肉盤和啤酒。抽風機轟轟作響，十幾個人的聲音疊在一起，像一場沒有人在指揮的影盟之戰。", "alt": [{"when": {"ch6.c1": 2}, "text": "燒肉店的門一推開，熱氣、油煙和笑聲同時撲過來。林致遠把棒球帽壓低了一點。\n\n整間店被包了下來。一張長桌從門口排到最裡面，桌上已經擺滿了肉盤和啤酒。抽風機轟轟作響，十幾個人的聲音疊在一起，像一場沒有人在指揮的影盟之戰。"}]},
+    {"id": "y2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "門口站著一個戴眼鏡、笑得很開的中年男人，手裡拿著一疊白色貼紙和一支麥克筆。\n\n「歡迎歡迎！我是夜梟！」他把貼紙塞過來，「來，寫你的遊戲 ID，貼胸口。今天大家只認 ID，不認臉！」\n\n林致遠接過那張貼紙。白色的，空白的。"},
+    {"id": "c1", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "致遠的名牌", "text": "麥克筆的筆蓋已經打開了。他——", "choices": [{"text": "「等一下再寫」，把貼紙塞進口袋", "feedback": "他對夜梟點了點頭，像在會議上說「我回去確認一下」。貼紙在口袋裡，被他捏成了一團。", "effects": {"bond": 0, "slip": 0, "clue": 0}, "next": "y3a", "recap": "把空白貼紙塞進口袋"}, {"text": "寫了「薇歐拉」，又撕掉", "feedback": "三個字寫得很工整。寫完，他盯著它看了兩秒，然後撕成兩半。", "effects": {"bond": 1, "slip": 2, "clue": 1}, "next": "y3b", "recap": "寫了「薇歐拉」又撕掉"}, {"text": "寫了「小林」", "feedback": "不是謊話，只是不完整。他這半年，很擅長這件事。", "effects": {"bond": 0, "slip": 1, "clue": 1}, "next": "y3c", "recap": "名牌寫「小林」"}]},
+    {"id": "y3a", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "夜梟沒有多問，已經轉身去招呼下一個人了。\n\n林致遠走到長桌最裡面，在飲料冰箱旁邊那個位子坐下。背靠牆，看得到整張桌子。像骨道裡，死靈法師習慣站的位置。", "next": "y4"},
+    {"id": "y3b", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "夜梟看著那兩半貼紙，愣了一下，笑著說：「沒關係沒關係，想好再寫！」\n\n林致遠把碎片塞進口袋，走到長桌最裡面，在飲料冰箱旁邊那個位子坐下。背靠牆，看得到整張桌子。像骨道裡，死靈法師習慣站的位置。", "next": "y4"},
+    {"id": "y3c", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「小林？」夜梟瞇著眼睛看，「小林是誰的分身啊？」\n\n「……路人。」他說。\n\n夜梟大笑，拍拍他的肩膀。林致遠走到長桌最裡面，在飲料冰箱旁邊那個位子坐下。背靠牆，看得到整張桌子。像骨道裡，死靈法師習慣站的位置。", "next": "y4"},
+    {"id": "y4", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "胸口的貼紙一張一張被認出來。\n\n「阿凱」是一個講話很大聲的業務，一來就幫大家倒酒。「小米粥」是一個嬌小的女生，揹著一個比她還大的相機包。「雨夜」笑起來真的很大聲——跟回放裡一模一樣。「阿肥」一點都不胖，瘦得像竹竿，手裡捏著一張一百塊。"},
+    {"id": "y5", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他在找一個人。\n\n扛著兩把巨斧、站姿像一座山、一定有鬍子的鐵拳老王。"},
+    {"id": "s1", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "同一間店・18:24", "pov": "qing", "mode": "reality"},
+    {"id": "q1", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "沈若晴在門口深吸了三口氣，才推開門。\n\n米白色的針織衫，馬尾綁得比平常緊。她在捷運上把要說的話想了二十遍，推開門的那一刻，全部忘光。"},
+    {"id": "q2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "夜梟把貼紙遞給她：「歡迎！寫遊戲 ID，貼胸口！」\n\n她拿著那支麥克筆。鐵拳老王。四個字，她在遊戲裡打過幾千次，現在一筆都寫不下去。"},
+    {"id": "c2", "type": "choice", "speaker": "沈若晴", "channel": "現實", "recapLabel": "若晴的名牌", "text": "她——", "choices": [{"text": "笑著說「等等再寫」，貼紙收進包包", "feedback": "業務的笑容。她每天用它拒絕一百件事，今天第一次用來拒絕自己。", "effects": {"bond": 0, "slip": 0, "clue": 0}, "next": "q3a", "recap": "把空白貼紙收進包包"}, {"text": "寫了「老王」，又劃掉", "feedback": "兩個字被一條很粗的線劃掉。看起來，像一個沒按出去的 Enter。", "effects": {"bond": 1, "slip": 2, "clue": 1}, "next": "q3b", "recap": "寫了「老王」又劃掉"}, {"text": "習慣性地寫了「Rachel」", "feedback": "手比腦袋快。她每天在電話裡說幾十次的名字，就這樣貼到了胸口。", "effects": {"bond": 0, "slip": 2, "clue": 3}, "next": "q3c", "recap": "名牌寫了「Rachel」"}]},
+    {"id": "q3a", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她走到長桌的另一頭，在抽風機正下方的角落坐下。這裡最吵，也最不會有人注意。", "next": "q4"},
+    {"id": "q3b", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "夜梟看著那條粗線：「這是……老什麼？」\n\n「老……老朋友。」她說。然後她走到長桌另一頭，在抽風機正下方的角落坐下。這裡最吵，也最不會有人注意。", "next": "q4"},
+    {"id": "q3c", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「Rachel！」夜梟念得很大聲，「哇，英文名，好專業！是誰的朋友啊？」\n\n她笑了一下，沒有回答，走到長桌另一頭，在抽風機正下方的角落坐下。這裡最吵，也最不會有人注意。", "note": "飲料冰箱旁邊，有一個男人聽見了「Rachel」三個字，把頭壓得更低。", "effects": {"clue": 1}, "next": "q4"},
+    {"id": "q4", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她在找一個人。\n\n長髮、文靜、血量見底時會第一個擋到她前面的薇歐拉。小米粥說的「一定是長髮正妹」。"},
+    {"id": "q5", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她的視線掃過長桌——然後停住了。\n\n長桌最裡面，飲料冰箱旁邊，坐著一個男人。", "alt": [{"when": {"ch6.c1": 0}, "text": "她的視線掃過長桌——然後停住了。\n\n長桌最裡面，飲料冰箱旁邊，坐著一個穿灰色 polo 衫的男人。\n\n她認得那件衣服。她在 LinkedIn 上看過那張大頭照幾十次。\n\n林致遠。\n\n她的候選人，下週二要去曜川面試的林致遠，為什麼會在這裡？"}], "nextIf": [{"when": {"ch6.c1": 0}, "next": "q6p"}]},
+    {"id": "q6", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "一個很安靜的男人，眼睛底下有很深的黑眼圈，一直低頭看手機。\n\n不是她要找的人。她的視線移開了。", "next": "s2"},
+    {"id": "q6p", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她立刻低下頭，把馬尾撥到前面擋住半張臉。\n\n絕對不能讓候選人看到自己在電玩聚會。尤其是一個她追了四次、好不容易才答應面試的候選人。\n\n他一定是哪個氏族成員帶來的朋友吧。竹科工程師，玩遊戲很正常。她這樣告訴自己，然後決定：今晚，離那個角落越遠越好。", "note": "她決定要躲一整晚的人，正是她今晚要找的人。", "effects": {"clue": 2, "slip": 1}},
+    {"id": "s2", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "19:40・第三輪啤酒", "pov": "yuan", "mode": "reality"},
+    {"id": "p1", "type": "narration", "style": "seats", "speaker": "旁白", "channel": "現實", "text": "長桌・名牌認得出來的人", "seats": [{"name": "夜梟", "tag": "族長・門口"}, {"name": "阿凱", "tag": "倒酒中"}, {"name": "小米粥", "tag": "到處拍照"}, {"name": "雨夜", "tag": "笑最大聲"}, {"name": "阿肥", "tag": "捏著一百塊"}, {"name": "？", "tag": "門邊・很壯・沒名牌", "q": true}, {"name": "？", "tag": "靠窗・長髮・沒名牌", "q": true}, {"name": "？", "tag": "飲料冰箱旁・沒名牌", "q": true, "lead": "yuan"}, {"name": "？", "tag": "抽風機下・沒名牌", "q": true, "lead": "qing"}]},
+    {"id": "p2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "聚會熱鬧到第三輪啤酒，小米粥終於忍不住，站到椅子上大喊：\n\n「薇歐拉！你在哪裡！我知道你有來！」\n\n全場安靜了一秒，然後爆笑。沒有人舉手。林致遠低頭夾了一塊肉，吃得很專心。"},
+    {"id": "p2b", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "笑聲裡，抽風機下面那個角落，有人笑得特別厲害。很短，一下子就被抽風機吃掉了一半。", "alt": [{"when": {"ch3.c5": 0}, "text": "笑聲裡，抽風機下面那個角落，有人笑得特別厲害。很短，一下子就被抽風機吃掉了一半。\n\n林致遠抬頭看了一眼。那個笑聲，好像在哪裡聽過。\n\n可是抽風機太吵了，訊雜比太差。他低下頭，繼續吃肉。"}], "note": "那個笑聲，是全場唯一一個，聽到「薇歐拉你在哪裡」時，笑到彎腰的人。"},
+    {"id": "p3", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "阿肥接著站起來，揮著那張一百塊：「老王！鐵拳老王！你的鬍子呢！出來領錢！」\n\n還是沒有人舉手。\n\n林致遠數了一下：整間店裡，沒有名牌的人有四個。他是一個。剩下三個，其中一個，就是老王。", "effects": {"clue": 1}, "nextIf": [{"when": {"var:slip": {"gte": 70}}, "next": "p3s"}], "next": "p4"},
+    {"id": "p3s", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "小米粥拿著相機經過他的角落，突然停下來，瞇著眼睛看他。\n\n「欸。」她說，「你坐的位置好像薇歐拉喔。背靠牆，看得到整張桌子，都站後排。」\n\n林致遠的筷子停在半空中。\n\n「……路人。」他說。\n\n小米粥盯著他三秒，聳聳肩走了。他的背上全是汗。", "note": "破綻累積到這個程度，連小米粥都差一點看穿。這一段，只有破綻值夠高的讀者才看得到。", "next": "p4"},
+    {"id": "p4", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "然後，他口袋裡的手機震了一下。"},
+    {"id": "s3", "type": "switch", "speaker": "林致遠", "channel": "私訊", "text": "遊戲私訊", "pov": "yuan", "mode": "dm"},
+    {"id": "d1", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "何時要來幫我合成出救星寵呢？"},
+    {"id": "d2", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "你在哪"},
+    {"id": "d3", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "角落"},
+    {"id": "d4", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "我也在角落"},
+    {"id": "d5", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "……這間店有四個角落", "note": "她在抽風機下面打這行字的時候，笑出了聲。他在飲料冰箱旁邊，沒有聽見——抽風機太吵了。"},
+    {"id": "d6", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "我去找你"},
+    {"id": "s4", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "四個角落", "pov": "yuan", "mode": "reality"},
+    {"id": "e1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "四個角落。他自己是一個。\n\n靠窗那個長髮女生，安安靜靜地喝著烏龍茶，不可能是老王。抽風機下面那個綁馬尾的女生，一直在滑手機，也不可能。\n\n剩下的，只有門邊那一個。"},
+    {"id": "e2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "一個男人，一個人坐在門邊，面前疊了六個空肉盤。\n\n黑色背心，手臂比林致遠的小腿還粗，下巴一圈短短的鬍渣。他吃肉的樣子很專心，像在拉怪。不說話，不看手機，也沒有名牌。\n\n粗獷、豪爽、主坦。那就是鐵拳老王。一定是。", "note": "老王確實在一個角落，一直在滑手機。他看了一眼，就移開了。"},
+    {"id": "c3", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "認錯的第一個人", "text": "林致遠站起來，走到那個男人面前。對方抬頭，眼神像一面盾牌。\n\n他開口——", "alt": [{"when": {"ch6.c2": 0}, "text": "林致遠站起來，走到那個男人面前。對方抬頭，眼神像一面盾牌。\n\n他在床上練習過的那句話，就卡在喉嚨口。他開口——"}, {"when": {"ch6.c2": 2}, "text": "林致遠站起來，走到那個男人面前。對方抬頭，眼神像一面盾牌。\n\n他的手指，在口袋裡握著那支存好備忘錄的手機。他開口——"}], "choices": [{"text": "「……我是薇歐拉」", "feedback": "他終於說出口了。對著一個陌生的猛男。", "effects": {"bond": 1, "slip": 4, "clue": 1}, "next": "f1a", "recap": "對猛男說「我是薇歐拉」"}, {"text": "「你的灰燼狐，親密度滿了嗎」", "feedback": "用只有老王聽得懂的暗號。對錯，一句話就知道。", "effects": {"bond": 1, "slip": 1, "clue": 1}, "next": "f1b", "recap": "用灰燼狐當暗號試探"}, {"text": "把手機備忘錄遞過去", "feedback": "說不出口的話，就交給螢幕。他在 design review 上也常這樣。", "effects": {"bond": 1, "slip": 3, "clue": 1}, "next": "f1c", "recap": "把寫好的備忘錄遞給猛男"}]},
+    {"id": "f1a", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "猛男放下筷子，看了他三秒。\n\n「……你是薇歐拉？」聲音很低，低得像隔著一面牆。\n\n林致遠點頭。猛男又看了他三秒，然後說：「我是老K。」\n\n空氣凝固了。", "next": "f2"},
+    {"id": "f1b", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "猛男皺眉：「灰燼狐？」他想了一下，「我玩血騎士。沒養狐狸。」\n\n聲音很低，低得像隔著一面牆。林致遠的腦子轉了一下：低沉的聲音、血騎士……\n\n「……老K？」\n\n猛男點頭。", "next": "f2"},
+    {"id": "f1c", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "猛男接過手機，慢慢地讀：「老王，我是薇歐拉。抱歉一直沒說。我是男的。救星我還是會幫你合。」\n\n他抬頭，看了林致遠很久。\n\n「我是老K。」他把手機還回來，「寫得很好。但你找錯人了。」", "next": "f2"},
+    {"id": "f2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "林致遠站在那裡，覺得整間燒肉店的抽風機都在對著他吹。\n\n老K 拿起夾子，翻了一片肉，放到林致遠面前的空盤子上。\n\n「我在健身房當教練。」老K 說，「每天都有人問我『你是不是很兇』。」他頓了一下，「我不會說出去。坐。」", "effects": {"bond": 1}, "note": "老K 在影盟之戰裡倒在中路，麥克風是暗的。今晚，他是全場唯一知道薇歐拉秘密的人。"},
+    {"id": "f3", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "林致遠坐下了。那片肉很好吃。\n\n「老王不是我。」老K 低聲說，「我也不知道是誰。但是——」他用夾子指了指長桌另一頭，「那個綁馬尾的，從剛剛就一直在看靠窗那個女生。」"},
+    {"id": "f4e", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "林致遠沒有回頭。他在腦子裡，把今晚的資料排成一張表。\n\n沒有名牌的人，四個：他自己、老K、靠窗的長髮女生、抽風機下的馬尾。老K 不是老王。剩下兩個，都是女生。\n\n然後是老K 那句話：綁馬尾的那個，一直在看靠窗的長髮女生。\n\n一屋子的人裡，會專門去找「長髮、文靜的女生」的，只有一種人——以為薇歐拉是女生的那個人。", "effects": {"clue": 2}},
+    {"id": "f4e2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "推論只剩一個解。\n\n他把那個解在腦子裡看了三次，像看一道明明已經量到、卻不肯相信的波形。\n\n他沒有回頭去看抽風機下面那個角落。他不敢。", "note": "三百一十二列的試算表，教會他相信資料。今晚是第一次，他希望資料是錯的。"},
+    {"id": "s5", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "同一時間・靠窗的角落", "pov": "qing", "mode": "reality"},
+    {"id": "g1", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「我去找你。」\n\n薇歐拉說要來找她。可是誰都沒有走過來。\n\n沈若晴盯著靠窗的那個角落，已經盯了二十分鐘。"},
+    {"id": "g2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "一個長髮的女生，戴著細框眼鏡，一個人安安靜靜地坐在窗邊。她沒有喝酒，面前一杯烏龍茶，偶爾低頭看手機，偶爾看著窗外的車流發呆。\n\n文靜、可靠、話不多。\n\n跟她想像中的薇歐拉，一模一樣。"},
+    {"id": "g3", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "剛剛她傳完訊息，那個女生剛好也低頭看了手機。\n\n就是她。一定是她。", "alt": [{"when": {"ch6.c1": 0}, "text": "剛剛她傳完訊息，那個女生剛好也低頭看了手機。\n\n就是她。一定是她。\n\n更何況，從那個角落過去，不用經過飲料冰箱——不用經過林致遠。"}]},
+    {"id": "c4", "type": "choice", "speaker": "沈若晴", "channel": "現實", "recapLabel": "認錯的第二個人", "text": "她拿著手機，穿過整張長桌，走到窗邊。那個女生抬起頭。\n\n若晴開口——", "choices": [{"text": "「……妹？」", "feedback": "半年來叫了幾百次的字，第一次用真的聲音說出來。", "effects": {"bond": 1, "slip": 3, "clue": 1}, "next": "h1a", "recap": "對文靜女子叫了一聲「妹」"}, {"text": "「請問，你是薇歐拉嗎？」", "feedback": "最直接的問法。像打電話給候選人時的開場白。", "effects": {"bond": 1, "slip": 2, "clue": 1}, "next": "h1b", "recap": "直接問「你是薇歐拉嗎」"}, {"text": "把手機上的灰燼狐亮給她看", "feedback": "不說話，只出示證據。如果她是薇歐拉，她一定看得懂。", "effects": {"bond": 1, "slip": 1, "clue": 1}, "next": "h1c", "recap": "亮出灰燼狐當暗號"}]},
+    {"id": "h1a", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "長髮女生眨了眨眼睛，臉一下子紅了。\n\n「我、我是布丁……」她小聲說，「我才加入兩個月……妹是在叫我嗎？」\n\n沈若晴愣在原地。", "next": "h2"},
+    {"id": "h1b", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "長髮女生搖搖頭，推了推眼鏡：「不是耶……我是布丁。我才加入兩個月。」\n\n她想了一下，眼睛忽然亮起來：「你在找薇歐拉嗎？我也好想認識薇歐拉姐姐！她合寵超厲害的！」\n\n薇歐拉……姐姐。", "next": "h2"},
+    {"id": "h1c", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "長髮女生盯著螢幕看了很久：「哇，灰燼狐！親密度滿了耶！」\n\n她抬起頭，一臉崇拜：「你是……老王？天啊，老王是女生？」\n\n「噓——」若晴差點把手機摔了。\n\n「我是布丁！」她壓低聲音，「我不會說的！可是……你在找誰？」", "effects": {"slip": 1}, "next": "h2"},
+    {"id": "h2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "布丁在圖書館上班，玩遊戲是因為「打怪的時候不用跟人講話」。她說話很慢，很溫柔，笑起來會用手擋住嘴巴。\n\n很像薇歐拉。可是不是。\n\n若晴回到抽風機下面坐好，喝了一大口啤酒。四個角落，她認錯了一個。剩下的兩個裡，有一個是她自己。"},
+    {"id": "h3", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "那最後一個角落——飲料冰箱旁邊——已經空了。\n\n那個男人不知道什麼時候，坐到了門邊，在跟一個很壯的人吃肉。", "alt": [{"when": {"ch6.c1": 0}, "text": "那最後一個角落——飲料冰箱旁邊——已經空了。\n\n穿灰色 polo 衫的林致遠，不知道什麼時候坐到了門邊，在跟一個很壯的人吃肉。\n\n太好了，她想，他離得夠遠。"}], "note": "四個角落，她找遍了三個。唯一沒去找的那一個，坐著薇歐拉。"},
+    {"id": "h4e", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "沈若晴把啤酒杯放下，在心裡數了一遍。\n\n沒有名牌的人，四個：她自己、布丁、門邊的猛男、還有那個男人。布丁不是薇歐拉。\n\n如果薇歐拉今晚在這間店裡——那就只剩兩個男人。\n\n薇歐拉……是男生？", "alt": [{"when": {"ch6.c1": 0}, "text": "沈若晴把啤酒杯放下，在心裡數了一遍。\n\n沒有名牌的人，四個：她自己、布丁、門邊的猛男、還有穿灰色 polo 衫的林致遠。布丁不是薇歐拉。\n\n如果薇歐拉今晚在這間店裡——那就只剩兩個男人。而其中一個，會做三百列的試算表、弄了一整週的上電時序、說話很低很慢……\n\n林致遠？"}], "effects": {"clue": 2}},
+    {"id": "h4e2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她立刻把這個念頭按掉，像按掉一通不想接的電話。\n\n不可能。薇歐拉是那個會在她血量見底時第一個擋上來的人。那麼溫柔的人，怎麼會是——\n\n她沒有把那句話想完。", "note": "她按掉的那個念頭，是今晚唯一正確的答案。"},
+    {"id": "s6", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "21:30・散場", "pov": "yuan", "mode": "reality"},
+    {"id": "k1", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "九點半，夜梟站起來，敲了敲啤酒杯。\n\n「各位！深淵燈火三週年，謝謝大家！最後來張大合照！」\n\n十幾個人擠到店門口。小米粥架好相機，喊了三次「薇歐拉、老王，最後機會！」，還是沒有人舉手。"},
+    {"id": "k2", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "快門按下的那一刻，合照最左邊，有半個穿著深色衣服的肩膀；最右邊，有半截米白色的袖子。\n\n兩個人都站在鏡頭的邊緣。誰都沒有往中間站。", "note": "這張照片，之後會被小米粥上傳到氏族頻道。沒有人注意到，左右兩邊那兩個「半個人」。"},
+    {"id": "k3", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "人群一下子散開。有人去續攤，有人去趕捷運。\n\n林致遠站在騎樓下，手機握在手裡。老K 走之前，拍了拍他的肩膀，只說了兩個字：「加油。」"},
+    {"id": "k4", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "你到底有沒有來"},
+    {"id": "k5", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "有。你呢"},
+    {"id": "k6", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "有"},
+    {"id": "k7", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "……我認錯人了"},
+    {"id": "k8", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "我也是"},
+    {"id": "k9", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他抬頭，看見街角有一家還開著的寵物店。玻璃櫥窗亮著暖黃色的燈，裡面有兩隻小貓在睡覺。\n\n消去法早就只剩一個答案。他需要的，不是再推一次，是親眼看一次。\n\n救星。魔寵。寵物店。他打——", "note": "永和那頭的人，也已經猜到了。兩個人走向寵物店，都不是去找答案，而是去確認。"},
+    {"id": "k10", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "街角那家寵物店，門口。手機帶著"},
+    {"id": "k11", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "好"},
+    {"id": "final", "type": "chapterEnd", "scene": "meet", "speaker": "旁白", "channel": "現實", "text": "然後，兩個人同時抬起頭。", "pov": "both", "mode": "reality", "meet": {"place": "21:48・街角的寵物店", "area": "東區街角", "yuan": [{"text": "玻璃櫥窗前站著一個女生。米白色的針織衫，馬尾。抽風機下面那個角落的人。"}, {"text": "她的手機螢幕亮著。上面是一隻灰燼狐，親密度：滿。"}, {"text": "他聽過這個笑聲。電話裡，三百到三千四百赫茲。", "when": {"ch3.c5": 0}}, {"text": "她胸口那張貼紙，寫著「Rachel」。", "when": {"c2": 2}}], "qing": [{"text": "從騎樓下走過來一個男人。飲料冰箱旁邊那個角落的人。"}, {"text": "灰色 polo 衫。LinkedIn 大頭照那件。", "when": {"ch6.c1": 0}}, {"text": "深藍色的新襯衫，眼睛底下有很深的黑眼圈。", "when": {"ch6.c1": 1}}, {"text": "棒球帽壓得很低，看不清楚臉。", "when": {"ch6.c1": 2}}, {"text": "他的手機螢幕亮著。上面是一張試算表，分頁名稱叫「11/14」。"}], "lines": ["「……老王？」", "「……薇歐拉？」"]}}
+  ]
+}
+</script>
+
+<script type="application/json" id="chapter-8">
+{
+  "id": "ch8",
+  "no": "第八章",
+  "title": "第五十次",
+  "carryFrom": "ch7",
+  "meterMax": 96,
+  "startPov": "qing",
+  "startMode": "reality",
+  "nextTeaser": "第九章",
+  "endLine": "週日早上十點半，電話兩端。\n「……你昨天晚上，」「……您昨天晚上，」",
+  "cast": {
+    "yuan": {
+      "name": "林致遠",
+      "initial": "林",
+      "real": "32 歲・竹科資深硬體工程師",
+      "gid": "薇歐拉",
+      "gclass": "死靈法師・女性角色"
+    },
+    "qing": {
+      "name": "沈若晴",
+      "initial": "沈",
+      "real": "29 歲・獵頭顧問 Rachel",
+      "gid": "鐵拳老王",
+      "gclass": "野蠻人・男性角色"
+    },
+    "both": {
+      "name": "雙視角",
+      "initial": "∞",
+      "real": "林致遠 ／ 沈若晴",
+      "gid": "薇歐拉 ／ 鐵拳老王",
+      "gclass": ""
+    }
+  },
+  "hooks": {
+    "lead": [
+      {
+        "when": {
+          "ch6.c1": 0,
+          "ch7.c2": 2
+        },
+        "text": "兩個人都知道了，也都假裝不知道。這通確認面試的電話，是全世界最客氣的騙局。"
+      },
+      {
+        "when": {
+          "ch6.c1": 0
+        },
+        "text": "她知道他是林致遠。他還不知道，電話那頭的 Rachel，昨晚剛收下他合的救星。"
+      },
+      {
+        "when": {
+          "ch7.c2": 2
+        },
+        "text": "他看過那張「Rachel」貼紙。現在電話那頭自稱 Rachel 的人，笑聲跟昨晚一模一樣。"
+      },
+      {
+        "when": {},
+        "text": "同一個笑聲、同一個「嗯」。昨晚在寵物店門口，今天在電話兩端。"
+      }
+    ],
+    "value": [
+      {
+        "when": {
+          "var:bond": {
+            "gte": 66
+          }
+        },
+        "text": "從骨道到寵物店，五十次合成，一次就夠了。剩下的，是他們敢不敢在白天也認出彼此。"
+      },
+      {
+        "when": {
+          "var:slip": {
+            "gte": 84
+          }
+        },
+        "text": "所有的偽裝都已經掉在寵物店門口了。剩下的那一層，叫做「工作」。"
+      },
+      {
+        "when": {
+          "var:clue": {
+            "gte": 76
+          }
+        },
+        "text": "你早就知道答案。現在，答案自己打了電話過來。"
+      },
+      {
+        "when": {},
+        "text": "他們以為昨晚已經是全部了。其實，那只是第一半。"
+      }
+    ]
+  },
+  "nodes": [
+    {"id": "title", "type": "narration", "style": "title", "speaker": "旁白", "channel": "現實", "text": "第五十次", "label": "2026 年 11 月 14 日（六）21:48 — 11 月 15 日（日）"},
+    {"id": "carry", "type": "narration", "style": "carry", "speaker": "旁白", "channel": "現實", "text": "上一章，你替他們做的選擇"},
+    {"id": "s0", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "21:48・街角的寵物店", "pov": "qing", "mode": "reality"},
+    {"id": "a1", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "他走到她面前，停下來。\n\n一個男人。三十出頭，眼睛底下有很深的黑眼圈，手機螢幕還亮著，上面是一張試算表。他站得很直，像在等一場 design review 的判決。\n\n沈若晴看著他，看了很久。", "alt": [{"when": {"ch6.c1": 0}, "text": "他走到她面前，停下來。\n\n灰色 polo 衫。LinkedIn 大頭照那件。手機螢幕還亮著，上面是一張試算表。\n\n林致遠。\n\n她追了四次的候選人。她躲了一整晚的人。她半年來，每週一、週四晚上九點，一起打骨夾的薇歐拉。\n\n沈若晴看著他，看了很久。腦子裡有一百件事同時在響，像一間沒人接的辦公室。"}]},
+    {"id": "a2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "然後，她笑了。\n\n不是業務的笑，也不是客氣的笑。是那種憋了半年、終於憋不住的笑，笑到肩膀都在抖，笑到寵物店櫥窗裡的小貓都抬起頭來。", "note": "這個笑聲，他會記很久。"},
+    {"id": "a3", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「我以為你是文靜的小女生。」她說。"},
+    {"id": "a4", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他愣了一下，然後也笑了。很小聲，像怕吵到誰。\n\n「我也以為你是粗獷的大叔。」"},
+    {"id": "a5", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "兩個人站在寵物店門口，笑了很久。\n\n路過的人看了他們一眼，大概以為是一對喝醉的朋友。櫥窗裡的兩隻小貓翻了個身，又睡回去了。", "nextIf": [{"when": {"ch7.c2": {"in": [0, 1]}}, "next": "c1"}]},
+    {"id": "a6", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "她胸口那張貼紙，寫著「Rachel」。\n\n林致遠的視線在那兩個字上停了一秒。她注意到了，伸手把貼紙撕下來，揉成一團。\n\n「工作用的名字，」她說，「寫習慣了。」\n\nRachel。台北叫 Rachel 的人，應該有幾千個吧。他這樣想。他這幾週，很擅長這樣想。", "note": "他看見了，也聽過了。他只是還沒決定，要不要讓這兩件事接在一起。", "effects": {"clue": 2}},
+    {"id": "c1", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "笑完之後", "text": "笑完之後，安靜了一下。致遠覺得，他應該說點什麼。", "choices": [{"text": "「對不起，一直沒說」", "feedback": "他說得很認真。認真到她又差點笑出來，只是這次，笑容裡多了一點別的東西。", "effects": {"bond": 3, "slip": 0, "clue": 0}, "next": "b1a", "recap": "道歉「一直沒說」"}, {"text": "「你叫我妹，叫了半年」", "feedback": "他只是想講個笑話。說出口才發現，那其實是他這半年最在意的一件事。", "effects": {"bond": 2, "slip": 1, "clue": 0}, "next": "b1b", "recap": "說「你叫我妹叫了半年」"}, {"text": "什麼都沒說，伸出手：「手機」", "feedback": "工程師的道歉方式：先把問題解決。", "effects": {"bond": 2, "slip": 0, "clue": 0}, "next": "b1c", "recap": "直接伸手要手機"}]},
+    {"id": "b1a", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「我也沒說啊。」她聳聳肩，「扯平。」\n\n她說得很輕鬆。可是她看見他的肩膀，在那兩個字之後，鬆了下來。", "next": "b2"},
+    {"id": "b1b", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「……那現在怎麼辦？」她想了一下，「叫你哥？」\n\n「不要。」\n\n「弟？」\n\n「薇歐拉就好。」\n\n她又笑了。", "next": "b2"},
+    {"id": "b1c", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她看著那隻伸過來的手，愣了半秒，然後噗哧一聲。\n\n「你真的是薇歐拉。」她說，「一模一樣。」", "next": "b2"},
+    {"id": "b2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她低頭看著自己的手機。鎖定畫面是她和麻糬。灰燼狐的親密度，滿的。\n\n要把它交給他了。", "alt": [{"when": {"ch6.c3": 0}, "text": "她低頭看著自己的手機。鎖定畫面是她和麻糬。灰燼狐的親密度，滿的。LinkedIn 昨晚就登出了。\n\n要把它交給他了。"}, {"when": {"ch6.c3": 2}, "text": "她低頭看著自己的手機。鎖定畫面是她和麻糬。灰燼狐的親密度，滿的。LinkedIn 還登入著，最上面釘選的，是「林致遠」。\n\n要把它交給他了。"}]},
+    {"id": "c2", "type": "choice", "speaker": "沈若晴", "channel": "現實", "recapLabel": "交出手機", "text": "她——", "choices": [{"text": "先把通知全部關掉，再交出去", "feedback": "勿擾模式。她在每一場重要會議前都會開。今晚，比那些會議都重要。", "effects": {"bond": 1, "slip": 0, "clue": 0}, "next": "f0", "recap": "開了勿擾模式再交出去"}, {"text": "什麼都沒動，直接交給他", "feedback": "她說過，如果要把手機交給一個人，就不該先藏東西。", "effects": {"bond": 2, "slip": 2, "clue": 1}, "next": "f0b", "recap": "直接把手機交給他"}, {"text": "站在他旁邊，陪他一起按", "feedback": "手機給你，但我要看著。像骨夾裡，車長要看著副駕站好位置。", "effects": {"bond": 3, "slip": 1, "clue": 0}, "next": "f0", "recap": "站在旁邊陪他一起按"}]},
+    {"id": "f0b", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他接過手機的那一刻，螢幕上方滑下來一則通知。\n\n他沒有看清楚。他的眼睛已經在找魔寵的圖示了。", "note": "那則通知寫的是：「LinkedIn：林致遠 已讀了您的訊息」。他只要再慢半秒，就會看見自己的名字。", "effects": {"clue": 2}},
+    {"id": "f0", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "第 50 次", "pov": "yuan", "mode": "reality"},
+    {"id": "f1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "寵物店的燈從櫥窗裡透出來，暖黃色的，剛好照在螢幕上。\n\n林致遠蹲在店門口的台階上，把她的手機放在膝蓋上。她蹲在旁邊。兩個人的肩膀，中間大概隔著一隻貓的距離。"},
+    {"id": "f2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "霜牙狼，四星，守護。灰燼狐，親密度滿，守護。封技符鎖守護。\n\n他每一步都講出來，像在帶新人做 bring-up：「這個要先確認。這個不能鎖。這裡停一下，讓它跑完。」\n\n她一直點頭，一句話都沒插。她從來沒有這麼安靜地聽一個人講話。"},
+    {"id": "f3", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「好了。」他說，把手機轉向她，「你按。」\n\n「蛤？不是你要幫我合？」\n\n「條件是我調的。」他說，「但這隻，應該是你按下去的。」", "note": "三百一十二列的試算表裡，從來沒有一列寫過「讓別人按」。"},
+    {"id": "f4", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她深吸一口氣，按下合成。\n\n光圈轉了三圈。"},
+    {"id": "f5", "type": "narration", "style": "fusion", "speaker": "旁白", "channel": "現實", "text": "第 50 次合成・成功", "fusion": {"count": 50, "target": "救星", "a": {"name": "霜牙狼", "star": 4, "skills": ["守護", "堅韌"]}, "b": {"name": "灰燼狐", "star": 4, "skills": ["迅捷", "守護"]}, "out": {"name": "灰燼狐", "star": 5, "skills": ["守護", "救星", "迅捷"]}}},
+    {"id": "f6", "type": "narration", "style": "skill", "speaker": "旁白", "channel": "現實", "text": "救星", "skill": {"tier": "稀有・守護系・已繼承", "desc": "受到致命一擊時，使玩家進入昏迷狀態，隨後回復 50% 生命。", "cd": "冷卻時間 75 秒"}},
+    {"id": "f7", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她叫了一聲。很大聲。寵物店的店員從櫃檯後面探出頭來。\n\n「救星！救星！！」她抓著他的手臂搖，「五十次！第五十次！」\n\n林致遠被她搖得整個人晃來晃去，臉上卻一直在笑。他很久沒有這樣笑了。久到他自己都忘了，自己笑起來是什麼樣子。", "effects": {"bond": 2}},
+    {"id": "f8", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「以後你被秒，」他說，「會先昏過去，再回半條命。冷卻七十五秒。」\n\n「所以我可以多衝一點？」\n\n「不行。」他說，「七十五秒之內，還是我擋。」", "note": "主坦想要救星，是因為不想再讓副駕站到前面。副駕剛剛說，他還是要站到前面。"},
+    {"id": "s1", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "22:20・捷運站口", "pov": "qing", "mode": "reality"},
+    {"id": "g1", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "他們一起走到捷運站。一路上沒有聊工作，沒有聊名字，只聊骨夾：雙生哀嚎那一次，影盟那三十九秒，還有第一次見面那場，那個被她踢出隊伍的人。\n\n「你那時候，」她說，「為什麼都不回嘴？」\n\n「因為你會踢他。」他說，「我知道你會。」"},
+    {"id": "g2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "到了站口，她停下來。他要往竹北，她要回永和，方向剛好相反。\n\n「名字的話，」她說，「下次骨夾再說？」\n\n「嗯。」他說。", "alt": [{"when": {"ch6.c1": 0}, "text": "到了站口，她停下來。他要往竹北，她要回永和，方向剛好相反。\n\n她知道他的名字。她在筆記本上寫過幾十次。可是今晚，她不想當 Rachel。\n\n「名字的話，」她說，「下次骨夾再說？」\n\n「嗯。」他說。"}], "note": "他說「嗯」的方式，跟電話裡那個說「我考慮一下」的人，一模一樣。"},
+    {"id": "c3", "type": "choice", "speaker": "沈若晴", "channel": "現實", "recapLabel": "道別", "text": "她往後退了一步，笑著揮手——", "choices": [{"text": "「週一，骨夾老時間」", "feedback": "最熟悉的約定，用最熟悉的方式說。只是這一次，是看著對方的臉說的。", "effects": {"bond": 2, "slip": 0, "clue": 0}, "next": "g3a", "recap": "「週一，骨夾老時間」"}, {"text": "「謝謝你，薇歐拉」", "feedback": "她第一次用真的聲音叫這個名字。發現這三個字，比想像中好唸。", "effects": {"bond": 3, "slip": 0, "clue": 0}, "next": "g3b", "recap": "「謝謝你，薇歐拉」"}, {"text": "「下次換我請你吃燒肉」", "feedback": "她說得很快，快到來不及想這句話聽起來像什麼。", "effects": {"bond": 3, "slip": 1, "clue": 0}, "next": "g3c", "recap": "「下次換我請你吃燒肉」"}]},
+    {"id": "g3a", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「週一，骨夾老時間。」\n\n「老時間。」他說。\n\n她轉身走進捷運站。走到手扶梯上，她回頭看了一眼。他還站在原地。", "next": "s2"},
+    {"id": "g3b", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「謝謝你，薇歐拉。」\n\n他沒有說話，只是點頭。可是她看見他的耳朵紅了。\n\n她轉身走進捷運站。走到手扶梯上，她回頭看了一眼。他還站在原地。", "next": "s2"},
+    {"id": "g3c", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「下次換我請你吃燒肉。」\n\n說完她才發現，這聽起來很像在約下一次。她轉身就走，走得很快。\n\n走到手扶梯上，她回頭看了一眼。他還站在原地，好像也在想同一件事。", "next": "s2"},
+    {"id": "s2", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "23:50・竹北", "pov": "yuan", "mode": "reality"},
+    {"id": "h1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "回到竹北，已經快十二點了。\n\n房間跟昨天一樣：冰箱在響，衣架叮噹，EVB 上那顆綠色的 LED 還亮著。可是房間好像沒有昨天那麼大了。"},
+    {"id": "h2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他坐在床邊，一直想起那個笑聲。\n\n憋了半年、終於憋不住的那種笑。笑到肩膀發抖，笑到小貓都醒過來。他想，原來老王笑起來是這樣的。\n\n他昨天最怕的，是老王看見他的那一秒的表情。結果那一秒的表情，是笑。"},
+    {"id": "c4", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "睡前", "text": "睡覺之前，他——", "choices": [{"text": "在試算表新增一列：「11/14　救星　✓」", "feedback": "第三百一十三列。備註欄空了很久，最後他打了兩個字：「她按」。", "effects": {"bond": 2, "slip": 0, "clue": 0}, "next": "h3a", "recap": "試算表新增「11/14 救星 ✓」"}, {"text": "打開私訊，打「到家了嗎」", "feedback": "四個字，他打了三分鐘。", "effects": {"bond": 3, "slip": 1, "clue": 0}, "next": "h3b", "recap": "傳了「到家了嗎」"}, {"text": "什麼都不做，看著天花板笑", "feedback": "三十二歲的男人，半夜一個人對著天花板笑。他決定，這件事不用記錄。", "effects": {"bond": 2, "slip": 0, "clue": 0}, "next": "h3c", "recap": "看著天花板笑"}]},
+    {"id": "h3a", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他把試算表存檔，關掉電腦，躺下。\n\n第三百一十三列，是整張表裡唯一一列，他不想用條件格式標顏色的。他想讓它就這樣，乾乾淨淨地留在那裡。", "next": "s3"},
+    {"id": "h3b", "type": "dm", "speaker": "薇歐拉", "channel": "私訊", "text": "到家了嗎"},
+    {"id": "h3b2", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "到了！！救星我已經截圖二十次了"},
+    {"id": "h3b3", "type": "dm", "speaker": "鐵拳老王", "channel": "私訊", "text": "晚安　副駕"},
+    {"id": "h3b4", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "晚安，副駕。\n\n他把手機放在胸口，閉上眼睛。", "next": "s3"},
+    {"id": "h3c", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "天花板上什麼都沒有。可是他一直看見寵物店的暖黃色燈光，和一個抓著他手臂搖、大喊「第五十次」的人。\n\n他笑著睡著了。", "next": "s3"},
+    {"id": "s3", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "23:50・永和", "pov": "qing", "mode": "reality"},
+    {"id": "i1", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "永和沒有下雨。\n\n沈若晴洗完澡，抱著麻糬躺在床上，把灰燼狐的技能頁面開了又關、關了又開。救星。五星。親密度滿。\n\n麻糬一臉嫌棄地看著她。"},
+    {"id": "i2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她想起他蹲在台階上的樣子。膝蓋上放著她的手機，一步一步講解，聲音很低，很慢，好像每一個步驟都很重要。\n\n然後他說：「但這隻，應該是你按下去的。」\n\n她把臉埋進枕頭裡，悶悶地叫了一聲。跟上次錄音那次一樣。只是這一次，是因為別的原因。", "alt": [{"when": {"ch6.c1": 0}, "text": "她想起他蹲在台階上的樣子。膝蓋上放著她的手機，一步一步講解，聲音很低，很慢，好像每一個步驟都很重要。\n\n林致遠。她的候選人。她的薇歐拉。\n\n週二，她要在曜川的大廳等他。用 Rachel 的身份。她把臉埋進枕頭裡，悶悶地叫了一聲——一半是因為甜，一半是因為不知道週二該用哪一張臉。"}]},
+    {"id": "i3", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "她睡著的時候，手機還亮著，停在救星的技能說明上。\n\n「受到致命一擊時，使玩家進入昏迷狀態，隨後回復 50% 生命。」\n\n她想，今晚她大概也是這樣。被一擊命中，昏過去，然後慢慢地，回到了一半以上。"},
+    {"id": "s4", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "週日 10:30・竹北", "pov": "yuan", "mode": "reality"},
+    {"id": "k1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "週日早上，林致遠睡到十點才醒。他很久沒有睡得這麼好了。\n\n十點半，手機響了。來電顯示：Rachel（瀚智人才顧問）。\n\n週二的面試。他差點忘了。"},
+    {"id": "c5", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "接起電話", "text": "他接起電話——", "choices": [{"text": "「喂，我是林致遠」", "feedback": "標準的接法。他說得很清醒，像週一早上的站會。", "effects": {"bond": 0, "slip": 1, "clue": 1}, "next": "k2", "recap": "「喂，我是林致遠」"}, {"text": "「嗯」", "feedback": "剛睡醒的一個字。他說完才想起來，昨晚在捷運站口，他也是這樣回答的。", "effects": {"bond": 1, "slip": 2, "clue": 2}, "next": "k2", "recap": "只說了一聲「嗯」"}, {"text": "讓它響三聲，清清喉嚨再接", "feedback": "他不知道為什麼要清喉嚨。只是覺得，今天的聲音應該好一點。", "effects": {"bond": 1, "slip": 1, "clue": 1}, "next": "k2", "recap": "清了喉嚨才接"}]},
+    {"id": "k2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「林先生早安！週日打擾了。」\n\n電話那頭的聲音很有精神，語速很快，尾音帶著一點笑意。\n\n「想跟您確認一下週二面試的細節。時間是上午十點，地點在內湖曜川半導體三樓。第一關是研發處長和人資，處長希望您準備十五分鐘，講一個您處理過的上電時序案例。」"},
+    {"id": "k3", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「履歷請帶兩份紙本。我會九點四十在一樓大廳等您，先帶您熟悉一下環境。」\n\n林致遠一邊聽，一邊在便條紙上記：週二、十點、三樓、處長、十五分鐘、上電時序、兩份履歷、九點四十大廳。\n\n記到最後一行，他的筆停了。", "alt": [{"when": {"ch6.c1": 0}, "text": "「履歷請帶兩份紙本。我會九點四十在一樓大廳等您，先帶您熟悉一下環境。」\n\n她的語氣很專業，一個字都沒有多。只有在說到「上電時序」的時候，停了半拍，好像想起了一顆電容。\n\n林致遠一邊聽，一邊在便條紙上記。記到最後一行，他的筆停了。"}]},
+    {"id": "k4", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "因為電話那頭，笑了一下。\n\n很短，很輕，像是不小心漏出來的。可是他聽過。\n\n昨晚，寵物店門口，憋了半年、終於憋不住的那種笑。", "alt": [{"when": {"ch7.c2": 2}, "text": "因為電話那頭，笑了一下。\n\n很短，很輕，像是不小心漏出來的。可是他聽過。\n\n昨晚，寵物店門口。一張寫著「Rachel」、被揉成一團的貼紙。\n\n台北叫 Rachel 的人，有幾千個。可是笑成這樣的，他只認識一個。"}], "effects": {"clue": 3, "slip": 2}},
+    {"id": "final", "type": "chapterEnd", "scene": "meet", "speaker": "旁白", "channel": "現實", "text": "兩個人，在同一秒開口。", "pov": "both", "mode": "reality", "meet": {"place": "週日 10:34・電話兩端", "area": "電話中", "yuan": [{"text": "竹北。便條紙上寫著「九點四十，大廳」。"}, {"text": "電話那頭的笑聲，是昨晚寵物店門口的那一個。"}, {"text": "他看過那張「Rachel」貼紙。他終於讓這兩件事，接在一起了。", "when": {"ch7.c2": 2}}], "qing": [{"text": "永和。麻糬趴在她的筆記本上，壓住了「林致遠」三個字。"}, {"text": "電話這頭，她聽見他說「嗯」。跟昨晚捷運站口那一聲，一模一樣。", "when": {"c5": 1}}, {"text": "她從昨晚就知道了。她只是想再當一天老王。", "when": {"ch6.c1": 0}}, {"text": "她剛剛不小心笑了。她聽見電話那頭，突然安靜了。"}], "lines": ["「……你昨天晚上，」", "「……您昨天晚上，」"]}}
+  ]
+}
+</script>
+
+<script type="application/json" id="chapter-9">
+{
+  "id": "ch9",
+  "no": "第九章",
+  "title": "老時間",
+  "final": true,
+  "carryFrom": "ch8",
+  "meterMax": 110,
+  "startPov": "yuan",
+  "startMode": "reality",
+  "endLine": "每週一、週四，晚上九點。\n老時間，一輩子。",
+  "cast": {
+    "yuan": {
+      "name": "林致遠",
+      "initial": "林",
+      "real": "32 歲・曜川半導體技術主任",
+      "gid": "薇歐拉",
+      "gclass": "死靈法師・女性角色"
+    },
+    "qing": {
+      "name": "沈若晴",
+      "initial": "沈",
+      "real": "29 歲・獵頭顧問 Rachel",
+      "gid": "鐵拳老王",
+      "gclass": "野蠻人・男性角色"
+    },
+    "both": {
+      "name": "雙視角",
+      "initial": "∞",
+      "real": "林致遠 ／ 沈若晴",
+      "gid": "薇歐拉 ／ 鐵拳老王",
+      "gclass": ""
+    }
+  },
+  "hooks": {
+    "lead": [
+      {
+        "when": {
+          "c5": 0
+        },
+        "text": "新郎是薇歐拉，新娘是老王。你從第一章就知道了——現在，全氏族也終於追上你了。"
+      },
+      {
+        "when": {
+          "c5": 1
+        },
+        "text": "猜錯了也沒關係。半年的骨夾裡，他們自己也猜錯過好幾次。"
+      },
+      {
+        "when": {},
+        "text": "誰是薇歐拉、誰是老王，到最後已經不重要了。重要的是，冷卻七十五秒之內，總有一個人會擋在前面。"
+      }
+    ],
+    "value": [
+      {
+        "when": {
+          "var:bond": {
+            "gte": 80
+          }
+        },
+        "text": "默契值，已經不需要再計算了。"
+      },
+      {
+        "when": {
+          "var:clue": {
+            "gte": 86
+          }
+        },
+        "text": "你一路握著兩邊的答案，看著他們繞了一大圈，最後走到同一張照片裡。謝謝你，一直在旁邊看著。"
+      },
+      {
+        "when": {
+          "var:slip": {
+            "gte": 92
+          }
+        },
+        "text": "破綻多到藏不住的兩個人，最後乾脆什麼都不藏了。"
+      },
+      {
+        "when": {},
+        "text": "從「九點整，上線」開始。到「老時間，一輩子」為止。"
+      }
+    ]
+  },
+  "nodes": [
+    {"id": "title", "type": "narration", "style": "title", "speaker": "旁白", "channel": "現實", "text": "老時間", "label": "終章・2026 年 11 月 — 2028 年 6 月"},
+    {"id": "carry", "type": "narration", "style": "carry", "speaker": "旁白", "channel": "現實", "text": "上一章，你替他們做的選擇"},
+    {"id": "s0", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "週日 10:34・電話兩端", "pov": "yuan", "mode": "reality"},
+    {"id": "a1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「……你昨天晚上，」\n\n「……您昨天晚上，」\n\n兩個人同時停下來。電話裡安靜了三秒。三秒，在骨道裡夠打完一輪詛咒。"},
+    {"id": "c1", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "電話裡的那三秒", "text": "三秒之後，他先開口——", "choices": [{"text": "「……老王？」", "feedback": "兩個字，問得很輕。像在骨道裡確認副駕還在不在。", "effects": {"bond": 2, "slip": 1, "clue": 1}, "next": "a2a", "recap": "問了一聲「……老王？」"}, {"text": "「Rachel，你就是老王。」", "feedback": "不是問句。工程師下結論的語氣。說完，他才發現自己的手在抖。", "effects": {"bond": 1, "slip": 2, "clue": 2}, "next": "a2b", "recap": "直接說「你就是老王」"}, {"text": "什麼都沒說，先笑了出來", "feedback": "他從來不知道自己會這樣笑。昨晚之後，他好像學會了。", "effects": {"bond": 3, "slip": 1, "clue": 0}, "next": "a2c", "recap": "先笑了出來"}]},
+    {"id": "a2a", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "電話那頭，很久沒有聲音。\n\n然後是一聲很長、很長的嘆氣，和一個憋不住的笑。\n\n「……妹。」她說。", "next": "a3"},
+    {"id": "a2b", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "電話那頭，很久沒有聲音。\n\n「……你結論下得好快。」她說，「上電時序也是這樣調的嗎？」\n\n「嗯。」他說，「先量，再下結論。我量了一整晚。」", "next": "a3"},
+    {"id": "a2c", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他一笑，電話那頭也跟著笑了。\n\n兩個人隔著電話笑了將近一分鐘，誰都沒說一句完整的話。笑到後來，她說：「好，好，我知道了。你也知道了。」", "next": "a3"},
+    {"id": "a3", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「所以，」她清了清喉嚨，換回 Rachel 的聲音，「週二的面試，還照常嗎？」\n\n「照常。」他說。\n\n「那我得先跟我老闆報備。」她說，「顧問跟候選人私下認識，要講清楚。這是規矩。」\n\n他想了一下：「你會被罵嗎？」\n\n「不知道。」她笑了，「但我不想騙任何人了。一次都不要。」", "alt": [{"when": {"ch6.c1": 0}, "text": "「所以，」她清了清喉嚨，換回 Rachel 的聲音，「週二的面試，還照常嗎？」\n\n「照常。」他說。然後他想起一件事：「你昨晚，一看到我就知道了？」\n\n「……灰色 polo 衫。」她說，「我在 LinkedIn 上看了幾十次。」\n\n他沉默了一下：「我要換大頭照了。」\n\n「不要。」她說，「那是我第一次看見薇歐拉。」\n\n然後她說：「我得先跟我老闆報備。顧問跟候選人私下認識，要講清楚。我不想騙任何人了。一次都不要。」"}]},
+    {"id": "a4", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "文姐聽完，沉默了很久，最後只問了一句：「你有騙客戶嗎？」\n\n「沒有。」\n\n「有騙候選人嗎？」\n\n「……騙了半年，」若晴說，「說我是男的。」\n\n文姐笑到把咖啡打翻。", "effects": {"bond": 1}},
+    {"id": "s1", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "11 月 17 日（二）09:40・內湖", "pov": "yuan", "mode": "reality"},
+    {"id": "b1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "曜川半導體的大廳很亮，落地窗外是內湖灰灰的天空。\n\n她站在電梯旁邊，穿著見客戶的西裝外套，頭髮放下來，看起來完全是另一個人。只有看見他走進來的那一刻，她的嘴角動了一下——跟寵物店門口一樣。\n\n「林先生，早安。」她說，一本正經。\n\n「Rachel，早安。」他也一本正經。"},
+    {"id": "b2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "三樓的會議室裡，研發處長和人資已經在等了。處長開門見山：「給你十五分鐘，講一個你處理過的上電時序案例。」\n\n林致遠打開筆電。投影幕亮起來。"},
+    {"id": "c2", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "面試的十五分鐘", "text": "他講的是——", "choices": [{"text": "那塊 EVB，和那顆救回兩毫秒的電容", "feedback": "core 晚了 IO 兩毫秒，他在 enable 腳多掛了一顆電容。最簡單的解法，往往是看了一百次波形之後才想得到的。", "effects": {"bond": 0, "slip": 0, "clue": 1}, "next": "b3", "recap": "講了那顆救回兩毫秒的電容"}, {"text": "從示波器上一道抖動的波形講起", "feedback": "他沒有先講結論。他讓處長跟著他，一格一格看那道波形，直到處長自己說出「是時序」。", "effects": {"bond": 0, "slip": 0, "clue": 1}, "next": "b3", "recap": "從一道抖動的波形講起"}, {"text": "坦白說：他靠的是記錄每一次失敗的習慣", "feedback": "他沒提遊戲，只說：「我會把每一次失敗都記下來。三百次之後，就看得到規律。」", "effects": {"bond": 1, "slip": 0, "clue": 1}, "next": "b3", "recap": "講「記錄每一次失敗的習慣」"}]},
+    {"id": "b3", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "十五分鐘講完，處長沒有說話，翻了一下他的履歷，然後問：「你什麼時候可以來？」\n\n走出會議室時，她在電梯口等他。\n\n「怎麼樣？」\n\n「他問我什麼時候可以來。」\n\n她用力握了一下拳頭，又立刻放下來，假裝在整理資料夾。"},
+    {"id": "b4", "type": "narration", "style": "event", "mark": "", "btn": "", "stamp": "已簽署", "speaker": "旁白", "channel": "現實", "text": "錄取通知・曜川半導體", "event": [{"k": "職稱", "v": "技術主任・電源管理產品線"}, {"k": "年薪", "v": "新台幣 250 萬元（含員工認股）"}, {"k": "地點", "v": "台北・內湖（每週遠端兩天）"}, {"k": "到職", "v": "2027 年 1 月 4 日"}]},
+    {"id": "b5", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "十一月底，他簽了 offer。\n\n離職那天，PM 在群組裡丟了一個微笑貼圖。這一次，他回了三個字：「謝謝你。」\n\n然後他想了想，又補了一句：「demo 加油。」"},
+    {"id": "s1d", "type": "switch", "speaker": "林致遠", "channel": "現實", "text": "十二月初・竹北深夜", "pov": "yuan", "mode": "reality"},
+    {"id": "d1", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "簽完 offer 的那個晚上，Rachel 在 LinkedIn 傳來一則訊息：\n\n「恭喜林先生！也謝謝您，這一季的業績，我是靠您達標的。」\n\n後面跟著一個鞠躬的貼圖。很專業，很客氣。是一則獵頭會傳給每一個成交的候選人的訊息。"},
+    {"id": "d2", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "林致遠盯著那則訊息，很久。\n\n她第一次傳訊息給林致遠，是九月。她知道薇歐拉是誰，是十一月十四號晚上九點四十八分。\n\n那中間的兩個月，她對薇歐拉好，和她對林致遠好——是同一件事嗎？\n\n他不喜歡這個問題。可是他是一個會把每一次失敗都記下來的人。他沒辦法假裝沒看見一個沒解開的變數。"},
+    {"id": "c2b", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "佣金的疑問", "text": "那個變數，在他腦子裡閃了一整晚。他決定——", "choices": [{"text": "直接打電話問她", "feedback": "他撥出去的時候，手是穩的。把問題說出口，比讓它在腦子裡跑一整晚容易。", "effects": {"bond": 2, "slip": 0, "clue": 0}, "next": "d3a", "recap": "直接打電話問她"}, {"text": "打開試算表，把時間軸列出來", "feedback": "工程師的方式：不先下結論，先量。", "effects": {"bond": 1, "slip": 0, "clue": 1}, "next": "d3b", "recap": "把時間軸列成試算表"}, {"text": "什麼都不問，等老時間", "feedback": "他告訴自己，週一晚上九點，答案會自己出現。", "effects": {"bond": 1, "slip": 1, "clue": 0}, "next": "d3c", "recap": "什麼都不問，等老時間"}]},
+    {"id": "d3a", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "她接得很快：「喂？怎麼了？」\n\n他沉默了兩秒，然後說：「你對我好，有沒有一部分，是因為業績？」\n\n電話那頭安靜了。不是生氣的安靜，是在認真想的安靜。", "next": "d4"},
+    {"id": "d3b", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "他新開了一個分頁，叫「時間軸」。\n\n五月：第一次骨夾，老王把罵人的踢出隊伍。九月：Rachel 的第一則 LinkedIn。十一月十四日：寵物店。\n\n他看著那三列，看了很久。薇歐拉認識老王，比林致遠認識 Rachel，早了四個月。\n\n資料說，她先認識的是薇歐拉。他還是想聽她親口說。他打開了私訊。", "next": "d4"},
+    {"id": "d3c", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "週一晚上九點，骨夾照開。他一秒加入，打得跟平常一樣好。\n\n打完第五隻王，私訊亮了。\n\n「你這幾天怪怪的。」老王說，「骷髏都放得比平常早半秒。」\n\n他盯著那行字。她連這個都看得出來。他終於打了那個問題。", "next": "d4"},
+    {"id": "d4", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "「我先認識的是薇歐拉。」她說，「五月，骨夾，那個被我踢出去的人。九月我傳 LinkedIn 給林致遠的時候，我只知道他是一個很難約的工程師。」\n\n「中間那兩個月，我以為我在追兩個不同的人。一個是工作，一個是——」她停了一下，「一個不是工作。」\n\n「佣金是工作。骨夾不是。如果你不去曜川，我照樣每週一、週四晚上九點開車。你照樣會第一個按加入。」", "note": "她說的每一個日期，都和他試算表裡的時間軸一模一樣。"},
+    {"id": "d5", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「……嗯。」他說。\n\n她聽得出來，這個「嗯」跟捷運站口那一聲不一樣。這一聲，是放下來的聲音。\n\n「還有，」她說，「下次有問題就直接問。不要讓骷髏放早半秒。」\n\n他笑了。那個沒解開的變數，在那天晚上，被劃掉了。", "effects": {"bond": 2}},
+    {"id": "s2", "type": "switch", "speaker": "沈若晴", "channel": "氏族", "text": "十二月・老時間照舊", "pov": "qing", "mode": "game"},
+    {"id": "m1", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "骨夾開車 --煉獄14五個王", "time": "20:55:02", "pause": true},
+    {"id": "m2", "type": "chat", "speaker": "系統", "channel": "隊伍", "text": "薇歐拉 加入了隊伍", "time": "20:55:03"},
+    {"id": "m3", "type": "narration", "speaker": "沈若晴", "channel": "隊伍", "text": "什麼都沒有變。\n\n還是一秒。還是老王在前、薇歐拉在後。還是兩隻王打完不交換一個字。只是現在，鐵拳老王的身上多了一隻五星灰燼狐，被秒的時候會先昏過去，再站起來。\n\n七十五秒之內，薇歐拉的骨牆還是會先升起來。"},
+    {"id": "m4", "type": "narration", "style": "raid", "speaker": "旁白", "channel": "隊伍", "text": "全數通關・本週第二車", "raid": {"diff": "煉獄 14", "bosses": ["腐骨主母", "熔鐵屠夫", "雙生哀嚎", "深淵織網者", "骨夾之主"], "cleared": 5, "win": true, "time": "17:12"}},
+    {"id": "m5", "type": "narration", "style": "hud", "speaker": "旁白", "channel": "語音", "text": "影盟之戰・十二月・第三戰場 勝利", "hud": {"time": "02:41", "ours": {"crystal": 64, "towers": 1}, "theirs": {"crystal": 0, "towers": 0}, "win": true}},
+    {"id": "m6", "type": "chat", "speaker": "阿凱", "channel": "語音", "text": "老王薇歐拉　你們兩個的麥克風到底什麼時候修好"},
+    {"id": "m7", "type": "chat", "speaker": "鐵拳老王", "channel": "隊伍", "text": "還在送修"},
+    {"id": "m8", "type": "chat", "speaker": "薇歐拉", "channel": "隊伍", "text": "同一家"},
+    {"id": "m9", "type": "chat", "speaker": "老K", "channel": "隊伍", "text": "……", "note": "全氏族只有兩個人知道答案，而他們都選擇不說。布丁甚至在私訊裡傳了一句：「我會保守秘密到你們結婚！」——她不知道自己說中了。"},
+    {"id": "s3", "type": "switch", "speaker": "沈若晴", "channel": "現實", "text": "12 月 24 日（四）19:30・聖誕夜", "pov": "qing", "mode": "reality"},
+    {"id": "x1", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "信義區的街道上全是燈。聖誕樹、麋鹿、一閃一閃的星星，路上每一對情侶都走得很慢。\n\n沈若晴訂了一家小小的義大利餐廳，靠窗的位子。她早到了十分鐘，把菜單翻了三遍。"},
+    {"id": "x2", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "他準時到了。深藍色的襯衫，看得出來是新的。\n\n「這頓我請。」她把菜單推過去，「點貴的。」\n\n「為什麼？」\n\n「因為你。」她說，「年薪兩百五十萬，公司收百分之二十五的服務費。我今年最大的一筆獎金，是你。」\n\n他想了一下：「所以我是你今年最賺的一隻魔寵。」\n\n她笑到把水打翻。", "effects": {"bond": 1}},
+    {"id": "c3", "type": "choice", "speaker": "沈若晴", "channel": "現實", "recapLabel": "聖誕夜的謝謝", "text": "主菜上來之前，她舉起杯子——", "choices": [{"text": "「謝謝你，回了第四次訊息」", "feedback": "如果他第四次也不回，今晚就不會有這張桌子。她想過這件事很多次。", "effects": {"bond": 2, "slip": 0, "clue": 0}, "next": "x3a", "recap": "謝謝他「回了第四次訊息」"}, {"text": "「謝謝你，半年來每次都第一個按加入」", "feedback": "一秒。半年。她從來沒問過他為什麼。今晚，她不用問了。", "effects": {"bond": 3, "slip": 0, "clue": 0}, "next": "x3b", "recap": "謝謝他「每次都第一個按加入」"}, {"text": "「謝謝你，副駕」", "feedback": "她叫了半年的「妹」，現在終於換了一個更準確的稱呼。", "effects": {"bond": 2, "slip": 0, "clue": 0}, "next": "x3c", "recap": "說「謝謝你，副駕」"}]},
+    {"id": "x3a", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「我差一點就不回了。」他說，「那天剛打贏影盟，心情好。」\n\n「所以我要感謝影盟？」\n\n「要感謝那三十九秒。」他碰了一下她的杯子。", "next": "x4"},
+    {"id": "x3b", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「我從八點五十就開著氏族頻道。」他說，「一直都是。」\n\n她愣了一下：「……半年都是？」\n\n「半年都是。」他碰了一下她的杯子。", "next": "x4"},
+    {"id": "x3c", "type": "narration", "speaker": "林致遠", "channel": "現實", "text": "「車長。」他說，碰了一下她的杯子。\n\n兩個字。可是她聽得出來，他說得比任何一句長篇大論都認真。", "next": "x4"},
+    {"id": "x4", "type": "narration", "speaker": "旁白", "channel": "現實", "text": "義大利麵吃到一半，他們聊到下週要去看的房子——內湖跟永和中間，捷運四十分鐘以內。聊到麻糬會不會跟他處得來。聊到骨夾之主的第三階段，到底該先救誰。\n\n然後，她突然看了一眼手機。"},
+    {"id": "x5", "type": "narration", "speaker": "沈若晴", "channel": "現實", "text": "八點五十八分。\n\n她把叉子放下，眼睛亮起來，聲音大到隔壁桌都轉過頭來：\n\n「時間到了！」\n\n今天是週四。骨夾重置的日子。", "note": "整間餐廳裡，只有一張桌子的兩個人知道，「時間到了」是什麼意思。"},
+    {"id": "c4", "type": "choice", "speaker": "林致遠", "channel": "現實", "recapLabel": "時間到了", "text": "他——", "choices": [{"text": "把早就開好的手機翻過來：「我登入了」", "feedback": "他從八點五十就開著了。聖誕夜也一樣。", "effects": {"bond": 2, "slip": 0, "clue": 0}, "next": "y1", "recap": "早就登入了"}, {"text": "「一、二、三」，跟她同時按下登入", "feedback": "兩支手機，同一秒亮起暗紅色的光。像他們半年來每一次重置。", "effects": {"bond": 3, "slip": 0, "clue": 0}, "next": "y1", "recap": "數到三，同時登入"}, {"text": "在桌子底下握住她的手，再按登入", "feedback": "單手也能操作。這款遊戲，他練得很熟了。", "effects": {"bond": 4, "slip": 1, "clue": 0}, "next": "y1", "recap": "牽著她的手登入"}]},
+    {"id": "y1", "type": "switch", "speaker": "沈若晴", "channel": "氏族", "text": "20:58・聖誕夜的骨夾", "pov": "qing", "mode": "game"},
+    {"id": "y2", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "骨夾開車 --煉獄14五個王", "time": "20:58:30", "pause": true},
+    {"id": "y3", "type": "chat", "speaker": "系統", "channel": "隊伍", "text": "薇歐拉 加入了隊伍", "time": "20:58:31"},
+    {"id": "y4", "type": "chat", "speaker": "小米粥", "channel": "氏族", "text": "老王平安夜還開車喔？沒人約？"},
+    {"id": "y5", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "薇歐拉也秒進　你們兩個是全氏族最邊緣的人"},
+    {"id": "y6", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "少廢話　走了"},
+    {"id": "y7", "type": "narration", "speaker": "沈若晴", "channel": "隊伍", "text": "她抬起頭。桌子對面，他也剛好抬起頭。\n\n兩個人隔著一盤吃到一半的義大利麵，笑得像兩個剛偷完東西的小孩。", "note": "全氏族最邊緣的兩個人，此刻坐在信義區同一張桌子的兩端。"},
+    {"id": "s4", "type": "switch", "speaker": "林致遠", "channel": "氏族", "text": "一年半後・2028 年 6 月", "pov": "both", "mode": "game"},
+    {"id": "z1", "type": "narration", "speaker": "旁白", "channel": "氏族", "text": "深淵燈火已經四歲半了。氏族從遊戲頻道，搬到了一個 Discord 群組，叫「深淵燈火・閒聊」。\n\n星期六下午，群組裡跳出一張照片。"},
+    {"id": "z2", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "［圖片］", "time": "2028/06/17 15:20"},
+    {"id": "z3", "type": "narration", "style": "photo", "speaker": "旁白", "channel": "氏族", "text": "救星，冷卻 75 秒。這輩子，換我們互相擋。", "photo": {"caption": "救星，冷卻 75 秒。這輩子，換我們互相擋。", "date": "2028.06.17"}},
+    {"id": "z4", "type": "chat", "speaker": "薇歐拉", "channel": "氏族", "text": "我們結婚了。"},
+    {"id": "z5", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "猜猜看：誰是薇歐拉，誰是老王？猜對的，骨夾我載一個月"},
+    {"id": "z6", "type": "chat", "speaker": "小米粥", "channel": "氏族", "text": "！！！！！！新娘是薇歐拉！！一定是！我早就說過長髮正妹！！"},
+    {"id": "z7", "type": "chat", "speaker": "阿肥", "channel": "氏族", "text": "新郎沒有鬍子啊……老王你剃掉了喔？一百塊我還是照付"},
+    {"id": "z8", "type": "chat", "speaker": "雨夜", "channel": "氏族", "text": "等等　新娘手上抱的那隻……是灰燼狐的娃娃？？"},
+    {"id": "z9", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "灰燼狐是老王的救星狐啊？？所以新娘是……？？？"},
+    {"id": "z10", "type": "chat", "speaker": "夜梟", "channel": "氏族", "text": "我三年前就說過了　夫妻同心　其利斷金"},
+    {"id": "z11", "type": "chat", "speaker": "老K", "channel": "氏族", "text": "我不說。"},
+    {"id": "z12", "type": "chat", "speaker": "布丁", "channel": "氏族", "text": "我也不說！！我守了一年半了！！"},
+    {"id": "c5", "type": "choice", "speaker": "旁白", "channel": "氏族", "recapLabel": "你的答案", "text": "群組吵成一團。\n\n那麼你呢？一路站在上帝視角的你——誰是薇歐拉，誰是老王？", "choices": [{"text": "新郎是薇歐拉，新娘是老王", "feedback": "上帝視角，滿分。骨夾載你一個月。", "effects": {"bond": 3, "slip": 0, "clue": 3}, "next": "z13", "recap": "新郎是薇歐拉，新娘是老王"}, {"text": "新娘是薇歐拉，新郎是老王", "feedback": "……你是小米粥吧。", "effects": {"bond": 1, "slip": 2, "clue": 0}, "next": "z13", "recap": "新娘是薇歐拉，新郎是老王"}, {"text": "兩個都是救星", "feedback": "這個答案不在選項表裡，但他們會收下的。", "effects": {"bond": 4, "slip": 0, "clue": 1}, "next": "z13", "recap": "兩個都是救星"}]},
+    {"id": "z13", "type": "chat", "speaker": "薇歐拉", "channel": "氏族", "text": "新郎是薇歐拉。"},
+    {"id": "z14", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "新娘是老王。"},
+    {"id": "z15", "type": "chat", "speaker": "小米粥", "channel": "氏族", "text": "？？？？？？？？？？"},
+    {"id": "z16", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "所以那兩支麥克風，是一起壞了兩年？？？"},
+    {"id": "z17", "type": "chat", "speaker": "阿肥", "channel": "氏族", "text": "……一百塊我照付。付給新娘。"},
+    {"id": "z18", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "今晚九點　骨夾開車　老時間", "nextIf": [{"when": {"var:bond": {"gte": 82}}, "next": "z18v"}], "next": "z19"},
+    {"id": "z18v", "type": "chat", "speaker": "鐵拳老王", "channel": "氏族", "text": "這次　開語音"},
+    {"id": "z18v2", "type": "chat", "speaker": "阿凱", "channel": "氏族", "text": "？？？麥克風修好了？？？"},
+    {"id": "z18v3", "type": "chat", "speaker": "薇歐拉", "channel": "氏族", "text": "修好了。同一家。", "note": "兩年前，兩支麥克風在同一秒「壞掉」。今晚，它們在同一秒亮起來。這一段，只有默契值夠高的讀者才看得到。", "next": "z19"},
+    {"id": "z19", "type": "chat", "speaker": "系統", "channel": "隊伍", "text": "薇歐拉 加入了隊伍", "time": "+1 秒"},
+    {"id": "final", "type": "chapterEnd", "scene": "photo", "speaker": "旁白", "channel": "氏族", "text": "九點整，上線。", "pov": "both", "mode": "game", "photo": {"caption": "救星，冷卻 75 秒。這輩子，換我們互相擋。", "date": "2028.06.17", "end": true}}
+  ]
+}
+</script>
+
 
 <script>
 "use strict";
 /* ===== 章節登記：新增章節時，把 <script type="application/json" id="chapter-N"> 的 id 加進來 ===== */
-const CHAPTER_IDS = ["chapter-1", "chapter-2", "chapter-3", "chapter-4", "chapter-5", "chapter-6"];
+const CHAPTER_IDS = ["chapter-1", "chapter-2", "chapter-3", "chapter-4", "chapter-5", "chapter-6", "chapter-7", "chapter-8", "chapter-9"];
 const SAVE_KEY = "abyss-lantern:save:v2";
 const CARRY_KEY = "abyss-lantern:carry:v1";
 const PREF_KEY = "abyss-lantern:prefs";
@@ -1650,7 +2194,8 @@ function raidEl(n){
   return el(`<div class="card raid block ${r.win ? "win" : ""}"><div class="raid-top"><h5>地獄骨夾・${esc(r.diff || "")}</h5><span>${r.cleared || 0} ／ ${bs.length}${r.time ? "・" + esc(r.time) : ""}</span></div><div class="track"><i style="width:${bs.length ? (r.cleared || 0) / bs.length * 100 : 0}%"></i></div><ul>${rows}</ul><div class="raid-foot">${esc(n.text)}<span>每週一、週四重置・8 人</span></div></div>`);
 }
 function eventEl(n){
-  return el(`<div class="card event block"><div class="ev-mark" aria-hidden="true">III</div><h5>${esc(n.text)}</h5>${(n.event || []).map(r => `<div class="ev-row"><span>${esc(r.k)}</span><b>${esc(r.v)}</b></div>`).join("")}<div class="ev-btn">報名</div></div>`);
+  const mark = n.mark == null ? "III" : n.mark, btn = n.btn == null ? "報名" : n.btn;
+  return el(`<div class="card event block ${n.stamp ? "stamped" : ""}">${mark ? `<div class="ev-mark" aria-hidden="true">${esc(mark)}</div>` : ""}<h5>${esc(n.text)}</h5>${(n.event || []).map(r => `<div class="ev-row"><span>${esc(r.k)}</span><b>${esc(r.v)}</b></div>`).join("")}${btn ? `<div class="ev-btn">${esc(btn)}</div>` : ""}${n.stamp ? `<div class="ev-stamp">${esc(n.stamp)}</div>` : ""}</div>`);
 }
 function petEl(p, target){
   const st = "★".repeat(p.star || 0);
@@ -1667,6 +2212,33 @@ function fusionEl(n){
 function skillEl(n){
   const k = n.skill || {};
   return el(`<div class="card skill block"><div class="sk-icon" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 32 32"><path d="M16 3 27 7v8c0 7-5 12-11 14C10 27 5 22 5 15V7z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 16h3l1.5-4 2.5 8 1.5-4H22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="sk-tier">${esc(k.tier || "")}</div><h5>${esc(n.text)}</h5><p>${esc(k.desc || "")}</p><div class="sk-cd">${esc(k.cd || "")}</div></div></div>`);
+}
+function seatsEl(n){
+  return el(`<div class="card seats block"><h5>${esc(n.text)}</h5><div class="table-top" aria-hidden="true"></div><div class="seat-grid">${(n.seats || []).map(x => `<div class="seat ${x.q ? "q" : ""} ${x.lead ? "lead lead-" + x.lead : ""}"><b>${esc(x.name)}</b><small>${esc(x.tag || "")}</small></div>`).join("")}</div><div class="card-foot">沒有名牌的人：${(n.seats || []).filter(x => x.q).length} 位</div></div>`);
+}
+const WEDDING_SVG = `<svg viewBox="0 0 320 230" role="img" aria-label="婚紗照插畫：穿西裝的新郎與抱著狐狸娃娃的新娘">
+<defs><linearGradient id="wbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7e9d7"/><stop offset="1" stop-color="#e9cdb4"/></linearGradient>
+<radialGradient id="wglow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#fff6e6" stop-opacity=".9"/><stop offset="1" stop-color="#fff6e6" stop-opacity="0"/></radialGradient></defs>
+<rect width="320" height="230" fill="url(#wbg)"/><rect width="320" height="230" fill="url(#wglow)"/>
+<path d="M70 230V110a90 90 0 0 1 180 0v120" fill="none" stroke="#c8a35a" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round"/>
+<g fill="#d98f8f" opacity=".7"><circle cx="58" cy="60" r="3"/><circle cx="270" cy="48" r="2.5"/><circle cx="240" cy="92" r="2"/><circle cx="88" cy="34" r="2"/><circle cx="292" cy="130" r="2.5"/><circle cx="30" cy="120" r="2"/></g>
+<g transform="translate(118 70)">
+ <circle cx="18" cy="16" r="15" fill="#e9c4a8"/><path d="M3 12c2-12 28-14 30 0-5-5-12-6-15-6S7 7 3 12z" fill="#2b231d"/>
+ <path d="M-4 160l4-112c1-10 9-16 22-16s21 6 22 16l4 112z" fill="#22283a"/>
+ <path d="M14 34l4 26 4-26z" fill="#f5efe6"/><path d="M17 38h2l1 16-2 3-2-3z" fill="#8a3a2c"/>
+ <rect x="2" y="158" width="14" height="6" rx="2" fill="#151821"/><rect x="24" y="158" width="14" height="6" rx="2" fill="#151821"/>
+</g>
+<g transform="translate(168 66)">
+ <path d="M8 6c4-14 34-14 34 6l2 70c-14 8-34 6-40-2z" fill="#fffaf2" opacity=".75"/>
+ <circle cx="25" cy="22" r="14" fill="#efcfb5"/><path d="M11 20c0-15 28-16 28 0-6-6-22-6-28 0z" fill="#3a2a22"/>
+ <path d="M37 14c9 2 11 14 6 22-2-7-4-12-6-14z" fill="#3a2a22"/>
+ <path d="M25 36c-14 0-18 10-18 22l-13 106h62L43 58c0-12-4-22-18-22z" fill="#fffdf8" stroke="#e7d9c4"/>
+ <g transform="translate(10 66)"><ellipse cx="14" cy="14" rx="13" ry="11" fill="#d9783f"/><path d="M4 6l2-9 6 7zM24 6l-2-9-6 7z" fill="#d9783f"/><path d="M26 18c12 2 16 12 10 18-2-8-8-10-12-12z" fill="#e8955c"/><circle cx="10" cy="13" r="1.6" fill="#2b231d"/><circle cx="18" cy="13" r="1.6" fill="#2b231d"/><ellipse cx="14" cy="19" rx="5" ry="3" fill="#fbe6d4"/></g>
+</g>
+</svg>`;
+function photoEl(n, big){
+  const ph = n.photo || {};
+  return el(`<figure class="wphoto block ${big ? "big" : ""}"><div class="wframe">${WEDDING_SVG}</div><figcaption><span>${esc(ph.caption || "")}</span><small>${esc(ph.date || "")}</small></figcaption></figure>`);
 }
 function carryEl(n){
   const c = CH.carryFrom ? (readJSON(CARRY_KEY) || {})[CH.carryFrom] : null;
@@ -1723,6 +2295,8 @@ async function show(n, animate){
     else if (st === "event") stage.appendChild(eventEl(n));
     else if (st === "fusion") stage.appendChild(fusionEl(n));
     else if (st === "skill") stage.appendChild(skillEl(n));
+    else if (st === "seats") stage.appendChild(seatsEl(n));
+    else if (st === "photo") stage.appendChild(photoEl(n, false));
     else { dimPast(); stage.appendChild(el(`<div class="narr block">${paras(textOf(n))}</div>`)); }
   }
   else if (t === "chat") {
@@ -1845,12 +2419,36 @@ async function endPresence(n, animate){
   if (animate) { await wait(1100); set("on", "在線"); await wait(3400); set("off", "離線・剛剛"); await wait(1400); }
   else set("off", "離線・剛剛");
 }
+async function endMeet(n, animate){
+  const m = n.meet || {};
+  stage.appendChild(el(`<div class="scene-head block">${esc(m.place || "")}</div>`));
+  const dual = dualPanes(); dual.classList.add("meet");
+  dual.querySelectorAll(".pane-head > span:last-child").forEach(e => e.textContent = m.area || "台北");
+  const slots = dual.querySelectorAll(".slot");
+  [["yuan", 0], ["qing", 1]].forEach(([who, k]) => {
+    const items = (m[who] || []).filter(x => cond(x.when));
+    slots[k].appendChild(el(`<div class="seen">${items.map((x, i) => `<p style="animation-delay:${animate ? .4 + i * .9 : 0}s">${esc(x.text)}</p>`).join("")}</div>`));
+  });
+  stage.appendChild(dual); scrollEnd();
+  const longest = Math.max(...["yuan", "qing"].map(w => (m[w] || []).filter(x => cond(x.when)).length));
+  if (animate) await wait(900 + longest * 900 + 800);
+  const lines = el(`<div class="meet-lines">${(m.lines || []).map((l, i) => `<span style="animation-delay:${animate ? i * .15 : 0}s">${esc(l)}</span>`).join("")}</div>`);
+  stage.appendChild(lines); scrollEnd();
+  if (animate) await wait(1800);
+}
+async function endPhoto(n, animate){
+  stage.appendChild(el(`<div class="scene-head block">深淵燈火・閒聊</div>`));
+  stage.appendChild(photoEl(n, true)); scrollEnd();
+  if (animate) await wait(2600);
+}
 async function showEnding(n, animate){
   if (animate) await veil(Object.assign({}, n, { text: "" })); else applyHeader(n.pov, n.mode);
   if (n.scene === "replay") await endReplay(n, animate);
   else if (n.scene === "calendar") await endCalendar(n, animate);
   else if (n.scene === "signup") await endSignup(n, animate);
   else if (n.scene === "presence") await endPresence(n, animate);
+  else if (n.scene === "meet") await endMeet(n, animate);
+  else if (n.scene === "photo") await endPhoto(n, animate);
   else await endDual(n, animate);
   stage.appendChild(el(`<div class="ending-line">${esc(n.text)}</div>`)); scrollEnd();
   if (animate) await wait(2200);
@@ -1882,7 +2480,8 @@ function openEnd(){
   const carry = (readJSON(CARRY_KEY) || {})[CH.id];
   $("#savedNote").textContent = carry ? "已記錄，" + teaser + "開頭將承接以上狀態與數值。" : "（此瀏覽器無法存檔，本次結果不會帶入下一章。）";
   const idx = CHAPTERS.findIndex(c => c.id === CH.id), nxt = CHAPTERS[idx + 1], prev = CHAPTERS[idx - 1];
-  const nb = $("#nextBtn"); nb.disabled = !nxt; nb.innerHTML = nxt ? `前往${esc(nxt.no)}<small>${esc(nxt.title)}</small>` : `${esc(teaser)}<small>即將推出</small>`;
+  const nb = $("#nextBtn"); nb.disabled = !nxt; nb.innerHTML = nxt ? `前往${esc(nxt.no)}<small>${esc(nxt.title)}</small>` : CH.final ? `全文完<small>謝謝你一路看著他們</small>` : `${esc(teaser)}<small>即將推出</small>`;
+  if (CH.final) { $("#recapTitle").textContent = "你替他們做的最後選擇"; $("#savedNote").textContent = carry ? "全九章完結。你的每一個選擇，都已經寫進他們的故事裡。" : ""; $("#endNo").textContent = CH.no + "・終章　完"; }
   const pb = $("#prevBtn"); pb.hidden = !prev; if (prev) pb.textContent = "回到" + prev.no + "重玩";
   $("#endOverlay").classList.add("show"); $("#endOverlay").scrollTop = 0;
   updateUI();
@@ -1983,7 +2582,7 @@ function renderToc(){
     });
     list.appendChild(b);
   });
-  if (CHAPTERS.length && CHAPTERS[CHAPTERS.length - 1].nextTeaser) list.appendChild(el(`<li><button class="toc-item" type="button" disabled><span class="no">${esc(CHAPTERS[CHAPTERS.length - 1].nextTeaser)}</span><b>即將推出</b><small></small></button></li>`));
+  if (CHAPTERS.length && CHAPTERS[CHAPTERS.length - 1].nextTeaser && !CHAPTERS[CHAPTERS.length - 1].final) list.appendChild(el(`<li><button class="toc-item" type="button" disabled><span class="no">${esc(CHAPTERS[CHAPTERS.length - 1].nextTeaser)}</span><b>即將推出</b><small></small></button></li>`));
 }
 $("#tocBtn").addEventListener("click", e => { e.stopPropagation(); renderToc(); $("#toc").classList.add("show"); });
 $("#tocBtn2").addEventListener("click", () => { renderToc(); $("#toc").classList.add("show"); });
